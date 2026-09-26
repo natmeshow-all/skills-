@@ -14,6 +14,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Google Identity Services -->
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
   
   <script>
     tailwind.config = {
@@ -88,7 +90,7 @@
           </button>
         </nav>
 
-        <!-- Right Tools -->
+        <!-- Right Tools & Auth Profile -->
         <div class="flex items-center space-x-2">
           <button onclick="openExportModal()" class="text-xs bg-slate-800 hover:bg-slate-700 text-slate-200 px-3 py-2 rounded-lg border border-slate-700 transition flex items-center gap-1.5" title="สำรอง / นำเข้า Excel">
             <i class="fa-solid fa-file-excel text-emerald-400"></i>
@@ -98,10 +100,24 @@
             <i class="fa-solid fa-user-plus"></i>
             <span>+ สมัครช่างใหม่</span>
           </button>
+
+          <!-- User Profile & Logout (แสดงเมื่อเข้าสู่ระบบด้วย Gmail แล้ว) -->
+          <div id="userProfileHeader" class="hidden items-center gap-2 pl-2 border-l border-slate-700">
+            <div class="w-8 h-8 rounded-full bg-emerald-500 text-slate-950 font-bold flex items-center justify-center text-xs shadow-sm ring-2 ring-emerald-400/40" id="userAvatar">
+              G
+            </div>
+            <div class="hidden lg:block text-left text-xs leading-tight">
+              <span class="font-bold text-white block truncate max-w-[120px]" id="userNameDisplay">natshow</span>
+              <span class="text-[10px] text-emerald-400 block truncate max-w-[120px]" id="userEmailDisplay">natmeshow@gmail.com</span>
+            </div>
+            <button onclick="logoutGoogle()" class="p-2 text-slate-400 hover:text-rose-400 hover:bg-slate-800 rounded-lg transition" title="ออกจากระบบ (Sign Out)">
+              <i class="fa-solid fa-arrow-right-from-bracket text-xs"></i>
+            </button>
+          </div>
         </div>
       </div>
       <!-- Mobile Tabs -->
-      <div class="flex md:hidden overflow-x-auto py-2 space-x-1 border-t border-slate-800 text-xs">
+      <div id="mobileTabs" class="flex md:hidden overflow-x-auto py-2 space-x-1 border-t border-slate-800 text-xs">
         <button onclick="switchTab('dashboard')" class="px-2.5 py-1.5 rounded text-white bg-slate-800 whitespace-nowrap">แดชบอร์ด</button>
         <button onclick="switchTab('technicians')" class="px-2.5 py-1.5 rounded text-slate-300 whitespace-nowrap">รายชื่อช่าง</button>
         <button onclick="switchTab('skillMatrix')" class="px-2.5 py-1.5 rounded text-slate-300 whitespace-nowrap">ตารางทักษะ</button>
@@ -112,8 +128,88 @@
     </div>
   </header>
 
-  <!-- Main Content Container -->
-  <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-5">
+  <!-- 🔒 LOGIN SCREEN (เข้าสู่ระบบด้วย GMAIL / GOOGLE ACCOUNT) 🔒 -->
+  <div id="loginScreen" class="flex-1 flex items-center justify-center p-4 sm:p-6 no-print my-auto">
+    <div class="max-w-md w-full bg-white rounded-3xl shadow-2xl border border-slate-200 overflow-hidden transform transition-all my-6">
+      <!-- Card Header -->
+      <div class="bg-gradient-to-br from-slate-900 via-slate-800 to-sky-950 p-6 sm:p-8 text-center text-white relative">
+        <div class="w-16 h-16 rounded-2xl bg-gradient-to-tr from-sky-500 to-emerald-400 flex items-center justify-center text-white text-3xl mx-auto mb-3 shadow-lg shadow-sky-500/20">
+          <i class="fa-solid fa-shield-halved"></i>
+        </div>
+        <h2 class="text-xl sm:text-2xl font-bold tracking-tight">เข้าสู่ระบบหัวหน้าช่าง</h2>
+        <p class="text-xs text-sky-200 mt-1">ระบบพัฒนาคนและบริหารทีมช่าง (Technician Portal)</p>
+      </div>
+
+      <!-- Card Body -->
+      <div class="p-6 sm:p-8 space-y-5">
+        <p class="text-xs text-slate-600 text-center leading-relaxed">
+          กรุณาเข้าสู่ระบบด้วยบัญชี <b>Google / Gmail</b> เพื่อเข้าจัดการข้อมูลทีมช่าง ประเมินทักษะ และติดตามการฝึกอบรม
+        </p>
+
+        <!-- 🌟 1-Tap Google Fast Login (บัญชี natmeshow@gmail.com) 🌟 -->
+        <div onclick="loginWithPresetGmail('natmeshow@gmail.com', 'natshow (หัวหน้าช่าง)')" 
+             class="group cursor-pointer p-4 rounded-2xl border-2 border-emerald-300 bg-emerald-50/70 hover:bg-emerald-100 hover:border-emerald-500 transition flex items-center justify-between shadow-xs">
+          <div class="flex items-center gap-3">
+            <div class="w-11 h-11 rounded-full bg-white flex items-center justify-center shadow-sm border border-emerald-200 flex-shrink-0">
+              <svg class="w-5 h-5" viewBox="0 0 24 24">
+                <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
+                <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
+              </svg>
+            </div>
+            <div class="text-left">
+              <div class="flex items-center gap-1.5">
+                <span class="font-bold text-slate-900 text-sm">natshow</span>
+                <span class="text-[10px] bg-emerald-200 text-emerald-900 font-bold px-1.5 py-0.5 rounded">หัวหน้าช่าง</span>
+              </div>
+              <span class="text-xs text-emerald-800 font-medium">natmeshow@gmail.com</span>
+            </div>
+          </div>
+          <span class="text-xs font-bold text-emerald-700 group-hover:translate-x-1 transition flex items-center gap-1">
+            เข้าสู่ระบบ <i class="fa-solid fa-chevron-right text-[10px]"></i>
+          </span>
+        </div>
+
+        <div class="relative flex items-center justify-center my-3">
+          <div class="border-t border-slate-200 w-full"></div>
+          <span class="bg-white px-3 text-xs text-slate-400 font-medium absolute">หรือพิมพ์อีเมล Gmail ของคุณ</span>
+        </div>
+
+        <!-- Custom Gmail Input Form -->
+        <form onsubmit="handleCustomGmailLogin(event)" class="space-y-3">
+          <div>
+            <label class="block text-xs font-bold text-slate-700 mb-1">
+              <i class="fa-solid fa-envelope text-sky-500 mr-1"></i> ระบุอีเมล Gmail บัญชีอื่น:
+            </label>
+            <div class="relative">
+              <input type="email" id="customGmailInput" required placeholder="example@gmail.com"
+                class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-sky-500 focus:border-sky-500 text-sm transition pl-10">
+              <i class="fa-solid fa-at absolute left-3.5 top-3.5 text-slate-400 text-xs"></i>
+            </div>
+          </div>
+
+          <button type="submit" class="w-full py-3 px-4 bg-slate-900 hover:bg-slate-800 active:bg-slate-950 text-white font-bold rounded-xl transition flex items-center justify-center gap-2 text-sm shadow-md">
+            <svg class="w-4 h-4" viewBox="0 0 24 24">
+              <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+              <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+              <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
+              <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
+            </svg>
+            <span>เข้าสู่ระบบด้วย Gmail บัญชีนี้</span>
+          </button>
+        </form>
+
+        <div class="pt-2 text-center text-[11px] text-slate-400 flex items-center justify-center gap-1.5">
+          <i class="fa-solid fa-lock text-emerald-500"></i>
+          <span>บันทึกสถานะการล็อกอินในเครื่องอัตโนมัติ เข้าใช้งานได้ทันที</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content Container (แสดงเมื่อล็อกอินแล้ว) -->
+  <main id="appMain" class="hidden flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-5">
 
     <!-- 🌟 TOP 4 BIG QUICK ACTION CARDS (เมนูลัด 4 ปุ่มใหญ่ ใช้งานง่ายสุดๆ) 🌟 -->
     <div class="grid grid-cols-2 lg:grid-cols-4 gap-3.5 mb-6 no-print">
@@ -808,6 +904,97 @@
   <!-- APPLICATION JAVASCRIPT -->
   <script>
     // -------------------------------------------------------------
+    // AUTHENTICATION (เข้าสู่ระบบด้วย GOOGLE / GMAIL)
+    // -------------------------------------------------------------
+    const AUTH_STORAGE_KEY = 'TECH_COMPETENCY_AUTH_USER_V1';
+    let currentAuthUser = null;
+
+    function checkAuth() {
+      const stored = localStorage.getItem(AUTH_STORAGE_KEY);
+      if (stored) {
+        try {
+          currentAuthUser = JSON.parse(stored);
+        } catch(e) {
+          currentAuthUser = null;
+        }
+      }
+
+      const loginScreen = document.getElementById('loginScreen');
+      const appMain = document.getElementById('appMain');
+      const userProfileHeader = document.getElementById('userProfileHeader');
+      const navTabs = document.getElementById('navTabs');
+      const mobileTabs = document.getElementById('mobileTabs');
+
+      if (currentAuthUser && currentAuthUser.email) {
+        // Logged in!
+        if (loginScreen) loginScreen.classList.add('hidden');
+        if (appMain) appMain.classList.remove('hidden');
+        if (userProfileHeader) {
+          userProfileHeader.classList.remove('hidden');
+          userProfileHeader.classList.add('flex');
+        }
+        if (navTabs) navTabs.classList.remove('hidden');
+        if (mobileTabs) mobileTabs.classList.remove('hidden');
+
+        // Update profile info
+        const avatar = document.getElementById('userAvatar');
+        if (avatar) avatar.innerText = (currentAuthUser.name || currentAuthUser.email).charAt(0).toUpperCase();
+        const nameDisplay = document.getElementById('userNameDisplay');
+        if (nameDisplay) nameDisplay.innerText = currentAuthUser.name || 'หัวหน้าช่าง';
+        const emailDisplay = document.getElementById('userEmailDisplay');
+        if (emailDisplay) emailDisplay.innerText = currentAuthUser.email;
+      } else {
+        // Not logged in!
+        if (loginScreen) loginScreen.classList.remove('hidden');
+        if (appMain) appMain.classList.add('hidden');
+        if (userProfileHeader) {
+          userProfileHeader.classList.add('hidden');
+          userProfileHeader.classList.remove('flex');
+        }
+        if (navTabs) navTabs.classList.add('hidden');
+        if (mobileTabs) mobileTabs.classList.add('hidden');
+      }
+    }
+
+    function loginWithPresetGmail(email, name) {
+      currentAuthUser = {
+        email: email,
+        name: name || 'หัวหน้าช่าง',
+        role: 'หัวหน้าช่างซ่อมบำรุง',
+        loginAt: new Date().toISOString()
+      };
+      localStorage.setItem(AUTH_STORAGE_KEY, JSON.stringify(currentAuthUser));
+      checkAuth();
+      renderDashboard();
+      renderTechList();
+      renderSkillMatrix();
+      populateOjtDropdown();
+      renderOjtChecklist();
+      populateQuizDropdown();
+      renderShiftBalance();
+    }
+
+    function handleCustomGmailLogin(e) {
+      e.preventDefault();
+      const input = document.getElementById('customGmailInput');
+      const email = (input ? input.value : '').trim();
+      if (!email || !email.includes('@')) {
+        alert('กรุณากรอกอีเมล Gmail ให้ถูกต้องครับ');
+        return;
+      }
+      const rawName = email.split('@')[0];
+      loginWithPresetGmail(email, rawName + ' (หัวหน้าช่าง)');
+    }
+
+    function logoutGoogle() {
+      if (confirm(`คุณต้องการออกจากระบบบัญชี ${currentAuthUser?.email || ''} ใช่หรือไม่?`)) {
+        localStorage.removeItem(AUTH_STORAGE_KEY);
+        currentAuthUser = null;
+        checkAuth();
+      }
+    }
+
+    // -------------------------------------------------------------
     // DATA STRUCTURE & SAMPLE DATA (พร้อมชื่อเล่น & ความถนัดช่าง)
     // -------------------------------------------------------------
     const STORAGE_KEY = 'TECH_COMPETENCY_SYSTEM_DATA_V5_CLEAN';
@@ -1461,7 +1648,6 @@
       }
 
       // Header Card
-      const headerCard = document.getElementById('ojtTechHeaderCard');
       headerCard.innerHTML = `
         <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <div class="flex items-center gap-3">
@@ -2226,13 +2412,16 @@
     // -------------------------------------------------------------
     window.addEventListener('DOMContentLoaded', () => {
       initData();
-      renderDashboard();
-      renderTechList();
-      renderSkillMatrix();
-      populateOjtDropdown();
-      renderOjtChecklist();
-      populateQuizDropdown();
-      renderShiftBalance();
+      checkAuth();
+      if (currentAuthUser) {
+        renderDashboard();
+        renderTechList();
+        renderSkillMatrix();
+        populateOjtDropdown();
+        renderOjtChecklist();
+        populateQuizDropdown();
+        renderShiftBalance();
+      }
     });
   </script>
 </body>
