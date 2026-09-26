@@ -86,13 +86,17 @@
 
         <!-- Right Tools -->
         <div class="flex items-center space-x-2">
+          <button onclick="openHowToRegisterModal()" class="text-xs bg-slate-800 hover:bg-slate-700 text-sky-300 hover:text-white px-3 py-2 rounded-lg border border-slate-700 transition flex items-center gap-1.5" title="คู่มือขั้นตอนการสมัครสมาชิกช่าง">
+            <i class="fa-solid fa-circle-question text-sky-400"></i>
+            <span class="hidden sm:inline">วิธีสมัครช่าง</span>
+          </button>
           <button onclick="openExportModal()" class="text-xs bg-slate-800 hover:bg-slate-700 text-slate-200 px-3 py-2 rounded-lg border border-slate-700 transition flex items-center gap-1.5" title="สำรอง / นำเข้าข้อมูล">
             <i class="fa-solid fa-database text-sky-400"></i>
             <span class="hidden sm:inline">จัดการข้อมูล</span>
           </button>
           <button onclick="openAddModal()" class="text-xs bg-sky-500 hover:bg-sky-600 text-white font-medium px-3.5 py-2 rounded-lg shadow-sm shadow-sky-500/40 transition flex items-center gap-1.5">
             <i class="fa-solid fa-user-plus"></i>
-            <span>เพิ่มช่าง</span>
+            <span>สมัครสมาชิกช่าง</span>
           </button>
         </div>
       </div>
@@ -112,6 +116,32 @@
 
     <!-- TAB 1: DASHBOARD -->
     <section id="tab-dashboard" class="space-y-6">
+      <!-- Onboarding Banner for Head Technician -->
+      <div class="bg-gradient-to-r from-sky-900 via-slate-900 to-indigo-950 text-white p-5 rounded-2xl shadow-sm border border-slate-800 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+        <div class="flex items-center gap-3.5">
+          <div class="w-12 h-12 rounded-xl bg-sky-500/20 text-sky-400 border border-sky-500/30 flex items-center justify-center text-2xl flex-shrink-0">
+            <i class="fa-solid fa-id-card-clip"></i>
+          </div>
+          <div>
+            <h3 class="font-bold text-base text-white flex items-center gap-2">
+              ขั้นตอนการรับสมัครและขึ้นทะเบียนช่างใหม่ (Technician Onboarding)
+              <span class="text-[11px] bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 px-2 py-0.5 rounded-full font-normal">พร้อมชื่อเล่นหน้างาน</span>
+            </h3>
+            <p class="text-xs text-slate-300 mt-0.5">
+              1. กดปุ่มสมัครช่าง ➔ 2. บันทึกชื่อ-ชื่อเล่นและกะทำงาน ➔ 3. มอบหมายพี่เลี้ยง ➔ 4. ระบบจะจัดเข้าสู่แผน OJT 30-60-90 วันและ Skill Matrix ทันที
+            </p>
+          </div>
+        </div>
+        <div class="flex items-center gap-2 w-full md:w-auto">
+          <button onclick="openHowToRegisterModal()" class="w-full md:w-auto px-3.5 py-2 text-xs bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-xl border border-slate-700 transition flex items-center justify-center gap-1.5">
+            <i class="fa-solid fa-book-open text-sky-400"></i> ดูวิธีรับช่าง
+          </button>
+          <button onclick="openAddModal()" class="w-full md:w-auto px-4 py-2 text-xs bg-sky-500 hover:bg-sky-400 text-white font-semibold rounded-xl shadow-md transition flex items-center justify-center gap-1.5 whitespace-nowrap">
+            <i class="fa-solid fa-user-plus"></i> สมัครช่างใหม่ตอนนี้
+          </button>
+        </div>
+      </div>
+
       <!-- Quick Metric Cards -->
       <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <!-- Card 1 -->
@@ -202,24 +232,6 @@
           </div>
         </div>
       </div>
-
-      <!-- Quick Action Recommendations for Head Tech -->
-      <div class="bg-gradient-to-r from-sky-900 to-slate-900 text-white p-6 rounded-2xl shadow-md">
-        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-          <div class="space-y-1">
-            <div class="inline-flex items-center gap-1.5 text-xs bg-sky-500/20 text-sky-300 px-2.5 py-0.5 rounded-full border border-sky-400/30">
-              <i class="fa-solid fa-lightbulb"></i> ข้อแนะนำสำหรับหัวหน้าช่างประจำสัปดาห์
-            </div>
-            <h4 class="text-lg font-bold">เน้นย้ำความปลอดภัยหน้างาน & ทบทวนเคส Troubleshooting</h4>
-            <p class="text-xs text-slate-300 max-w-2xl">
-              ใช้เวลา 5 นาทีก่อนเริ่มงาน (Toolbox Talk) ทบทวนจุดอันตราย และหลังงานซ่อมด่วน (Breakdown) ทำ AAR 5 นาทีเพื่อบันทึกสิ่งที่ได้เรียนรู้ ป้องกันไม่ให้เกิดปัญหาเดิมซ้ำ
-            </p>
-          </div>
-          <button onclick="switchTab('skillMatrix')" class="bg-sky-500 hover:bg-sky-400 text-white text-xs font-semibold px-4 py-2.5 rounded-xl shadow-md transition whitespace-nowrap">
-            ประเมินทักษะช่างตอนนี้ <i class="fa-solid fa-arrow-right ml-1"></i>
-          </button>
-        </div>
-      </div>
     </section>
 
     <!-- TAB 2: TECHNICIAN DIRECTORY (รายชื่อพนักงาน) -->
@@ -229,7 +241,7 @@
         <div class="flex flex-1 w-full md:w-auto items-center gap-2">
           <div class="relative flex-1 max-w-md">
             <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
-            <input type="text" id="searchTechInput" onkeyup="renderTechList()" placeholder="ค้นหาชื่อ, รหัสพนักงาน, แผนก, กะ..." 
+            <input type="text" id="searchTechInput" onkeyup="renderTechList()" placeholder="ค้นหาชื่อจริง, ชื่อเล่น, รหัส, แผนก, กะ..." 
               class="w-full pl-9 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-sky-500 focus:bg-white transition">
           </div>
           <!-- Filter by Level -->
@@ -253,7 +265,7 @@
         <div class="flex items-center gap-2 w-full md:w-auto justify-end">
           <span class="text-xs text-slate-500" id="techCountLabel">แสดง 0 รายการ</span>
           <button onclick="openAddModal()" class="text-xs bg-sky-600 hover:bg-sky-700 text-white font-medium px-3.5 py-2 rounded-xl transition flex items-center gap-1.5 shadow-sm">
-            <i class="fa-solid fa-plus"></i> เพิ่มข้อมูลช่างใหม่
+            <i class="fa-solid fa-user-plus"></i> สมัครสมาชิกช่างใหม่
           </button>
         </div>
       </div>
@@ -273,7 +285,7 @@
               <i class="fa-solid fa-table-cells text-sky-600"></i> ตารางเมทริกซ์ทักษะช่าง (Technician Competency Matrix)
             </h2>
             <p class="text-xs text-slate-500 mt-0.5">
-              คลิกที่ระดับทักษะของพนักงานเพื่อปรับเปลี่ยนคะแนน (L1 ถึง L4) ระบบจะบันทึกและคำนวณคะแนนเฉลี่ยอัตโนมัติ
+              แสดงชื่อ-ชื่อเล่น และระดับความสามารถ คลิกที่ระดับทักษะ (L1 - L4) เพื่อประเมินและปรับปรุงคะแนนได้ทันที
             </p>
           </div>
           <div class="flex items-center gap-2">
@@ -321,7 +333,7 @@
             <thead class="bg-slate-800 text-white text-[11px] sm:text-xs uppercase tracking-wider">
               <tr>
                 <th class="py-3 px-3 w-12 text-center">ลำดับ</th>
-                <th class="py-3 px-4 min-w-[160px]">ชื่อพนักงาน</th>
+                <th class="py-3 px-4 min-w-[180px]">ชื่อพนักงานช่าง</th>
                 <th class="py-3 px-3 text-center min-w-[110px]">1. ไฟฟ้า & วงจร</th>
                 <th class="py-3 px-3 text-center min-w-[110px]">2. เครื่องกล & ลม</th>
                 <th class="py-3 px-3 text-center min-w-[110px]">3. บำรุงรักษา (PM)</th>
@@ -470,44 +482,70 @@
     </div>
   </footer>
 
-  <!-- MODAL: ADD / EDIT TECHNICIAN -->
+  <!-- MODAL: ADD / EDIT / REGISTER TECHNICIAN -->
   <div id="techModal" class="fixed inset-0 bg-slate-950/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4 overflow-y-auto no-print">
-    <div class="bg-white rounded-2xl shadow-2xl max-w-lg w-full overflow-hidden border border-slate-200 transform transition-all my-8">
+    <div class="bg-white rounded-2xl shadow-2xl max-w-xl w-full overflow-hidden border border-slate-200 transform transition-all my-8">
       <div class="bg-slate-900 text-white px-6 py-4 flex items-center justify-between">
-        <h3 class="font-bold text-base flex items-center gap-2" id="modalTitle">
-          <i class="fa-solid fa-user-plus text-sky-400"></i> ข้อมูลพนักงานช่าง
-        </h3>
+        <div class="flex items-center gap-2.5">
+          <div class="w-8 h-8 rounded-lg bg-sky-500 flex items-center justify-center text-white text-sm font-bold">
+            <i class="fa-solid fa-id-card"></i>
+          </div>
+          <div>
+            <h3 class="font-bold text-base text-white" id="modalTitle">ลงทะเบียนสมัครสมาชิกช่างใหม่</h3>
+            <p class="text-[11px] text-slate-400">กรอกข้อมูลขึ้นทะเบียนช่างและชื่อเล่นสำหรับเรียกหน้างาน</p>
+          </div>
+        </div>
         <button onclick="closeModal()" class="text-slate-400 hover:text-white text-lg"><i class="fa-solid fa-xmark"></i></button>
       </div>
+
+      <!-- Quick Guidance Step Header -->
+      <div class="bg-sky-50 border-b border-sky-100 px-6 py-3 text-xs text-sky-900 flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <i class="fa-solid fa-circle-info text-sky-600"></i>
+          <span>ช่างใหม่จะได้รับรหัส, เข้าแผน OJT 30-60-90 วัน และตารางทักษะอัตโนมัติ</span>
+        </div>
+        <span class="text-[11px] font-semibold text-sky-700 bg-sky-100 px-2 py-0.5 rounded-full">บันทึกข้อมูลเรียลไทม์</span>
+      </div>
+
       <form id="techForm" onsubmit="saveTechnician(event)" class="p-6 space-y-4">
         <input type="hidden" id="techId">
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <!-- Code & Nickname & Fullname Row -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
           <div>
             <label class="block text-xs font-semibold text-slate-700 mb-1">รหัสพนักงาน *</label>
             <input type="text" id="techCode" required placeholder="เช่น TC-001"
               class="w-full px-3 py-2 border border-slate-300 rounded-xl text-xs sm:text-sm focus:ring-2 focus:ring-sky-500 focus:outline-none">
           </div>
           <div>
-            <label class="block text-xs font-semibold text-slate-700 mb-1">ชื่อ - นามสกุล *</label>
+            <label class="block text-xs font-semibold text-sky-700 mb-1">
+              <i class="fa-solid fa-tag mr-1 text-sky-500"></i>ชื่อเล่น (เรียกหน้างาน) *
+            </label>
+            <input type="text" id="techNickname" required placeholder="เช่น ช่างบอล, โต้ง, เอก"
+              class="w-full px-3 py-2 border-2 border-sky-300 bg-sky-50/30 rounded-xl text-xs sm:text-sm font-medium focus:ring-2 focus:ring-sky-500 focus:outline-none">
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-700 mb-1">ชื่อ - นามสกุลจริง *</label>
             <input type="text" id="techName" required placeholder="เช่น นายสมชาย สายฟ้า"
               class="w-full px-3 py-2 border border-slate-300 rounded-xl text-xs sm:text-sm focus:ring-2 focus:ring-sky-500 focus:outline-none">
           </div>
         </div>
 
+        <!-- Role & Department -->
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
             <label class="block text-xs font-semibold text-slate-700 mb-1">ตำแหน่งงาน *</label>
-            <input type="text" id="techRole" required placeholder="เช่น ช่างไฟฟ้าซ่อมบำรุง"
+            <input type="text" id="techRole" required placeholder="เช่น ช่างไฟฟ้าซ่อมบำรุง, ช่างเครื่องกล"
               class="w-full px-3 py-2 border border-slate-300 rounded-xl text-xs sm:text-sm focus:ring-2 focus:ring-sky-500 focus:outline-none">
           </div>
           <div>
             <label class="block text-xs font-semibold text-slate-700 mb-1">แผนก / โซนรับผิดชอบ</label>
-            <input type="text" id="techDept" placeholder="เช่น แผนกซ่อมบำรุง / ไลน์ A"
+            <input type="text" id="techDept" placeholder="เช่น แผนกซ่อมบำรุง / สายการผลิต A"
               class="w-full px-3 py-2 border border-slate-300 rounded-xl text-xs sm:text-sm focus:ring-2 focus:ring-sky-500 focus:outline-none">
           </div>
         </div>
 
+        <!-- Shift & Status -->
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
             <label class="block text-xs font-semibold text-slate-700 mb-1">กะการทำงาน (Shift) *</label>
@@ -519,28 +557,30 @@
             </select>
           </div>
           <div>
-            <label class="block text-xs font-semibold text-slate-700 mb-1">สถานะงาน *</label>
+            <label class="block text-xs font-semibold text-slate-700 mb-1">สถานะสมาชิกช่าง *</label>
             <select id="techStatus" required class="w-full px-3 py-2 border border-slate-300 rounded-xl text-xs sm:text-sm focus:ring-2 focus:ring-sky-500 focus:outline-none bg-white">
-              <option value="ประจำ (ผ่านโปร)">ประจำ (ผ่านโปร)</option>
               <option value="ฝึกงาน OJT (30-90 วัน)">ฝึกงาน OJT (30-90 วัน)</option>
+              <option value="ประจำ (ผ่านโปร)">ประจำ (ผ่านโปร)</option>
               <option value="ทดลองงาน">ทดลองงาน</option>
             </select>
           </div>
         </div>
 
+        <!-- Start Date & Mentor -->
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
-            <label class="block text-xs font-semibold text-slate-700 mb-1">วันที่เริ่มงาน</label>
+            <label class="block text-xs font-semibold text-slate-700 mb-1">วันที่เริ่มงาน / วันที่ขึ้นทะเบียน</label>
             <input type="date" id="techStartDate"
               class="w-full px-3 py-2 border border-slate-300 rounded-xl text-xs sm:text-sm focus:ring-2 focus:ring-sky-500 focus:outline-none">
           </div>
           <div>
             <label class="block text-xs font-semibold text-slate-700 mb-1">ช่างพี่เลี้ยง (Buddy/Mentor)</label>
-            <input type="text" id="techMentor" placeholder="เช่น ช่างสมชาย (L4)"
+            <input type="text" id="techMentor" placeholder="เช่น ช่างสมชาย (ช่างชาย L4)"
               class="w-full px-3 py-2 border border-slate-300 rounded-xl text-xs sm:text-sm focus:ring-2 focus:ring-sky-500 focus:outline-none">
           </div>
         </div>
 
+        <!-- Contact & Target -->
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
             <label class="block text-xs font-semibold text-slate-700 mb-1">เบอร์โทรศัพท์ติดต่อ</label>
@@ -549,7 +589,7 @@
           </div>
           <div>
             <label class="block text-xs font-semibold text-slate-700 mb-1">เป้าหมายพัฒนาถัดไป</label>
-            <input type="text" id="techTarget" placeholder="เช่น อบรม PLC, ซ่อมไฮดรอลิก"
+            <input type="text" id="techTarget" placeholder="เช่น อบรมระบบควบคุม, ซ่อมบำรุงปั๊ม"
               class="w-full px-3 py-2 border border-slate-300 rounded-xl text-xs sm:text-sm focus:ring-2 focus:ring-sky-500 focus:outline-none">
           </div>
         </div>
@@ -559,10 +599,74 @@
             ยกเลิก
           </button>
           <button type="submit" class="px-5 py-2 text-xs font-semibold text-white bg-sky-600 hover:bg-sky-700 rounded-xl shadow-md transition flex items-center gap-1.5">
-            <i class="fa-solid fa-floppy-disk"></i> บันทึกข้อมูล
+            <i class="fa-solid fa-floppy-disk"></i> บันทึกการสมัครสมาชิกช่าง
           </button>
         </div>
       </form>
+    </div>
+  </div>
+
+  <!-- MODAL: HOW TO REGISTER / GUIDE FOR HEAD TECH -->
+  <div id="howToRegisterModal" class="fixed inset-0 bg-slate-950/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4 overflow-y-auto no-print">
+    <div class="bg-white rounded-2xl shadow-2xl max-w-2xl w-full overflow-hidden border border-slate-200">
+      <div class="bg-slate-900 text-white px-6 py-4 flex items-center justify-between">
+        <h3 class="font-bold text-base flex items-center gap-2">
+          <i class="fa-solid fa-graduation-cap text-sky-400"></i> คู่มือขั้นตอนการรับสมัครและขึ้นทะเบียนช่าง
+        </h3>
+        <button onclick="closeHowToRegisterModal()" class="text-slate-400 hover:text-white text-lg"><i class="fa-solid fa-xmark"></i></button>
+      </div>
+      <div class="p-6 space-y-4 text-xs sm:text-sm text-slate-700">
+        <div class="p-3 bg-sky-50 border border-sky-200 rounded-xl">
+          <p class="font-bold text-sky-900 text-sm">💡 บทบาทของหัวหน้าช่างในการรับช่างใหม่เข้าทีม:</p>
+          <p class="text-xs text-sky-800 mt-1">
+            การขึ้นทะเบียนไม่ใช่แค่เก็บชื่อ แต่คือการ <strong>"ตั้งเป้าหมายและวางพี่เลี้ยงประกบตั้งแต่วันแรก"</strong> เพื่อให้ช่างใหม่ทำงานเป็นเร็ว ปลอดภัย และไม่เกิดอุบัติเหตุ
+          </p>
+        </div>
+
+        <div class="space-y-3">
+          <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl border border-slate-200">
+            <span class="w-6 h-6 rounded-full bg-sky-500 text-white flex items-center justify-center text-xs font-bold flex-shrink-0">1</span>
+            <div>
+              <p class="font-bold text-slate-900 text-xs">กรอกข้อมูลและระบุ "ชื่อเล่น" ประจำตัวช่าง</p>
+              <p class="text-xs text-slate-500 mt-0.5">หน้างานช่างไทยนิยมเรียกชื่อเล่น (เช่น ช่างบอล, ช่างเอก) ช่วยให้ทีมสื่อสารกระชับและส่งงานได้คล่องตัวขึ้น</p>
+            </div>
+          </div>
+
+          <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl border border-slate-200">
+            <span class="w-6 h-6 rounded-full bg-indigo-500 text-white flex items-center justify-center text-xs font-bold flex-shrink-0">2</span>
+            <div>
+              <p class="font-bold text-slate-900 text-xs">มอบหมาย "ช่างพี่เลี้ยง" (Buddy Mentor ระดับ L3-L4)</p>
+              <p class="text-xs text-slate-500 mt-0.5">จับคู่ช่างใหม่เข้ากับช่างเก่งในกะเดียวกัน ให้พี่เลี้ยงคอยดูแลเรื่องความปลอดภัย 5ส และแนะนำผังเครื่องจักร</p>
+            </div>
+          </div>
+
+          <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl border border-slate-200">
+            <span class="w-6 h-6 rounded-full bg-amber-500 text-white flex items-center justify-center text-xs font-bold flex-shrink-0">3</span>
+            <div>
+              <p class="font-bold text-slate-900 text-xs">เข้าสู่แผนพัฒนา OJT 30-60-90 วันโดยอัตโนมัติ</p>
+              <p class="text-xs text-slate-500 mt-0.5">
+                • <strong>30 วันแรก:</strong> ผ่านเรื่องความปลอดภัย LOTO และ PPE 100%<br>
+                • <strong>60 วัน:</strong> ทำ PM ประจำวันตาม WI ได้ด้วยตัวเอง<br>
+                • <strong>90 วัน:</strong> วิเคราะห์ปัญหาเบื้องต้น พร้อมขึ้นเวรเดี่ยว
+              </p>
+            </div>
+          </div>
+
+          <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl border border-slate-200">
+            <span class="w-6 h-6 rounded-full bg-emerald-500 text-white flex items-center justify-center text-xs font-bold flex-shrink-0">4</span>
+            <div>
+              <p class="font-bold text-slate-900 text-xs">อัปเดต Skill Matrix ต่อเนื่องทุกเดือน</p>
+              <p class="text-xs text-slate-500 mt-0.5">เมื่อช่างทำเคสใหม่สำเร็จ ให้หัวหน้าช่างมาคลิกปรับเลเวล L1 ➔ L2 ➔ L3 เพื่อเตรียมดันขึ้นเป็นช่างอาวุโสต่อไป</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="pt-3 border-t border-slate-200 flex justify-end">
+          <button onclick="closeHowToRegisterModal(); openAddModal();" class="px-4 py-2 bg-sky-600 hover:bg-sky-700 text-white text-xs font-semibold rounded-xl transition">
+            เริ่มสมัครช่างใหม่ทันที <i class="fa-solid fa-arrow-right ml-1"></i>
+          </button>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -577,7 +681,7 @@
       </div>
       <div class="p-6 space-y-4 text-xs sm:text-sm">
         <p class="text-slate-600 text-xs">
-          คุณสามารถดาวน์โหลดข้อมูลทั้งหมดเก็บไว้เป็นไฟล์สำรอง (JSON) หรือส่งออกเป็นไฟล์สำหรับเปิดใน Excel (CSV) ได้ตลอดเวลา
+          คุณสามารถดาวน์โหลดข้อมูลทั้งหมดเก็บไว้เป็นไฟล์สำรอง (JSON) หรือส่งออกเป็นไฟล์สำหรับเปิดใน Excel (CSV) พร้อมชื่อเล่นได้ตลอดเวลา
         </p>
         
         <div class="space-y-2">
@@ -603,15 +707,16 @@
   <!-- APPLICATION JAVASCRIPT -->
   <script>
     // -------------------------------------------------------------
-    // DATA STRUCTURE & SAMPLE DATA
+    // DATA STRUCTURE & SAMPLE DATA (พร้อมชื่อเล่นช่าง)
     // -------------------------------------------------------------
-    const STORAGE_KEY = 'TECH_COMPETENCY_SYSTEM_DATA_V1';
+    const STORAGE_KEY = 'TECH_COMPETENCY_SYSTEM_DATA_V2';
 
     const SAMPLE_DATA = [
       {
         id: '1',
         code: 'TC-001',
         name: 'นายสมชาย ชาญวิทย์',
+        nickname: 'ช่างชาย',
         role: 'หัวหน้าทีมช่างซ่อมบำรุง (Foreman)',
         department: 'ซ่อมบำรุงกลาง (Central Maint.)',
         shift: 'กะปกติ (Day)',
@@ -632,12 +737,13 @@
         id: '2',
         code: 'TC-002',
         name: 'นายประสิทธิ์ มั่นคง',
+        nickname: 'ช่างสิทธิ์',
         role: 'ช่างเครื่องกลอาวุโส',
         department: 'สายการผลิต A',
         shift: 'กะเช้า (A)',
         status: 'ประจำ (ผ่านโปร)',
         startDate: '2021-06-15',
-        mentor: 'นายสมชาย ชาญวิทย์',
+        mentor: 'นายสมชาย (ช่างชาย L4)',
         phone: '089-876-5432',
         target: 'เรียนรู้ระบบไฮดรอลิกแรงดันสูงและนิวแมติกส์วาล์วสัดส่วน',
         skills: { electrical: 3, mechanical: 4, pm: 4, rca: 3, safety: 4, comm: 3 },
@@ -652,12 +758,13 @@
         id: '3',
         code: 'TC-003',
         name: 'นายกิตติศักดิ์ ไฟแรง',
+        nickname: 'ช่างอาร์ท',
         role: 'ช่างไฟฟ้าและควบคุมอัตโนมัติ',
         department: 'สายการผลิต B',
         shift: 'กะบ่าย (B)',
         status: 'ประจำ (ผ่านโปร)',
         startDate: '2022-11-01',
-        mentor: 'นายสมชาย ชาญวิทย์',
+        mentor: 'นายสมชาย (ช่างชาย L4)',
         phone: '086-555-1234',
         target: 'เขียนโปรแกรม PLC Siemens และอินเวอร์เตอร์ VFD',
         skills: { electrical: 4, mechanical: 2, pm: 3, rca: 3, safety: 3, comm: 3 },
@@ -672,12 +779,13 @@
         id: '4',
         code: 'TC-004',
         name: 'นายธีรพงษ์ ใจสู้',
+        nickname: 'ช่างพงษ์',
         role: 'ช่างซ่อมบำรุงทั่วไป',
         department: 'ระบบสาธารณูปโภค (Utility)',
         shift: 'กะดึก (C)',
         status: 'ประจำ (ผ่านโปร)',
         startDate: '2023-08-20',
-        mentor: 'นายประสิทธิ์ มั่นคง',
+        mentor: 'นายประสิทธิ์ (ช่างสิทธิ์ L4)',
         phone: '084-111-2233',
         target: 'ฝึกวิเคราะห์การสั่นสะเทือนของปั๊มน้ำและชิลเลอร์',
         skills: { electrical: 2, mechanical: 3, pm: 3, rca: 2, safety: 3, comm: 2 },
@@ -692,12 +800,13 @@
         id: '5',
         code: 'TC-005',
         name: 'นายวรเมธ เริ่มต้นดี',
+        nickname: 'ช่างเมธ',
         role: 'ช่างฝึกหัด (Trainee)',
         department: 'สายการผลิต A',
         shift: 'กะเช้า (A)',
         status: 'ฝึกงาน OJT (30-90 วัน)',
         startDate: '2026-08-15',
-        mentor: 'นายประสิทธิ์ มั่นคง',
+        mentor: 'นายประสิทธิ์ (ช่างสิทธิ์ L4)',
         phone: '095-777-8899',
         target: 'ทำความคุ้นเคยเครื่องจักรและระบบตัดไฟ LOTO',
         skills: { electrical: 1, mechanical: 2, pm: 2, rca: 1, safety: 3, comm: 2 },
@@ -932,6 +1041,7 @@
         const matchShift = (shiftFilter === 'ALL' || t.shift === shiftFilter);
         const matchSearch = (
           (t.name || '').toLowerCase().includes(search) ||
+          (t.nickname || '').toLowerCase().includes(search) ||
           (t.code || '').toLowerCase().includes(search) ||
           (t.role || '').toLowerCase().includes(search) ||
           (t.department || '').toLowerCase().includes(search) ||
@@ -965,24 +1075,27 @@
         else if (cat.color === 'indigo') badgeColorClass = 'bg-indigo-50 text-indigo-700 border-indigo-200';
         else if (cat.color === 'sky') badgeColorClass = 'bg-sky-50 text-sky-700 border-sky-200';
 
+        const displayInitial = t.nickname ? t.nickname.replace('ช่าง', '').trim().charAt(0) : (t.name ? t.name.charAt(3) || t.name.charAt(0) : 'T');
+
         const card = document.createElement('div');
         card.className = 'bg-white rounded-2xl p-5 shadow-sm border border-slate-200/80 hover:shadow-md transition flex flex-col justify-between';
         card.innerHTML = `
           <div>
             <div class="flex items-start justify-between gap-2">
               <div class="flex items-center gap-3">
-                <div class="w-11 h-11 rounded-xl bg-slate-800 text-white font-bold flex items-center justify-center text-base shadow-sm">
-                  ${t.name ? t.name.charAt(3) || t.name.charAt(0) : 'T'}
+                <div class="w-12 h-12 rounded-xl bg-slate-800 text-sky-400 font-bold flex flex-col items-center justify-center text-sm shadow-sm border border-slate-700">
+                  <span class="text-base leading-none">${displayInitial}</span>
+                  <span class="text-[9px] text-slate-400 font-normal mt-0.5">${t.code}</span>
                 </div>
                 <div>
-                  <h4 class="font-bold text-slate-900 text-sm flex items-center gap-1.5">
-                    ${t.name}
-                    <span class="text-[10px] bg-slate-100 text-slate-600 px-1.5 py-0.5 rounded font-mono">${t.code}</span>
-                  </h4>
-                  <p class="text-xs text-sky-700 font-medium">${t.role}</p>
+                  <div class="flex items-center gap-1.5 flex-wrap">
+                    <h4 class="font-bold text-slate-900 text-sm">${t.name}</h4>
+                    ${t.nickname ? `<span class="text-xs bg-sky-100 text-sky-800 font-semibold px-2 py-0.5 rounded-full border border-sky-200 flex items-center gap-1"><i class="fa-solid fa-tag text-[10px]"></i>${t.nickname}</span>` : ''}
+                  </div>
+                  <p class="text-xs text-sky-700 font-medium mt-0.5">${t.role}</p>
                 </div>
               </div>
-              <span class="text-xs font-semibold px-2 py-0.5 rounded-full border ${badgeColorClass}">
+              <span class="text-xs font-semibold px-2 py-0.5 rounded-full border ${badgeColorClass} whitespace-nowrap">
                 ${avg} (${cat.label.split('(')[0].trim()})
               </span>
             </div>
@@ -1001,7 +1114,7 @@
                 <span class="font-medium text-slate-800 truncate block"><i class="fa-solid fa-handshake-angle text-indigo-500 mr-1"></i>${t.mentor || '-'}</span>
               </div>
               <div>
-                <span class="text-slate-400 block text-[10px]">สถานะงาน</span>
+                <span class="text-slate-400 block text-[10px]">สถานะสมาชิก</span>
                 <span class="font-medium text-slate-800"><i class="fa-solid fa-circle-info text-amber-500 mr-1"></i>${t.status}</span>
               </div>
             </div>
@@ -1017,10 +1130,10 @@
           <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-xs">
             <span class="text-slate-400 text-[11px]"><i class="fa-solid fa-phone mr-1"></i>${t.phone || '-'}</span>
             <div class="flex items-center gap-1">
-              <button onclick="editTechnician('${t.id}')" class="px-2.5 py-1 text-slate-600 hover:text-sky-600 hover:bg-sky-50 rounded-lg transition" title="แก้ไขข้อมูล">
+              <button onclick="editTechnician('${t.id}')" class="px-2.5 py-1 text-slate-600 hover:text-sky-600 hover:bg-sky-50 rounded-lg transition" title="แก้ไขข้อมูลช่าง">
                 <i class="fa-solid fa-pen-to-square"></i>
               </button>
-              <button onclick="deleteTechnician('${t.id}')" class="px-2.5 py-1 text-slate-600 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition" title="ลบข้อมูล">
+              <button onclick="deleteTechnician('${t.id}')" class="px-2.5 py-1 text-slate-600 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition" title="ลบข้อมูลช่าง">
                 <i class="fa-solid fa-trash-can"></i>
               </button>
             </div>
@@ -1039,7 +1152,7 @@
 
       if (technicians.length === 0) {
         tbody.innerHTML = `
-          <tr><td colspan="10" class="text-center py-8 text-slate-400">ยังไม่มีข้อมูลช่างในระบบ กรุณากด "เพิ่มช่าง"</td></tr>
+          <tr><td colspan="10" class="text-center py-8 text-slate-400">ยังไม่มีข้อมูลช่างในระบบ กรุณากด "สมัครสมาชิกช่าง"</td></tr>
         `;
         return;
       }
@@ -1053,7 +1166,10 @@
         tr.innerHTML = `
           <td class="py-3 px-3 text-center text-slate-400 font-mono text-xs">${index + 1}</td>
           <td class="py-3 px-4">
-            <div class="font-bold text-slate-900">${t.name}</div>
+            <div class="font-bold text-slate-900 flex items-center gap-1.5">
+              ${t.name}
+              ${t.nickname ? `<span class="text-[11px] bg-sky-50 text-sky-700 px-1.5 py-0.2 rounded border border-sky-200 font-medium">(${t.nickname})</span>` : ''}
+            </div>
             <div class="text-[11px] text-slate-500">${t.role} • <span class="text-sky-600 font-medium">${t.shift}</span></div>
           </td>
           ${renderSkillSelectorCell(t.id, 'electrical', t.skills?.electrical || 1)}
@@ -1115,7 +1231,8 @@
       technicians.forEach(t => {
         const opt = document.createElement('option');
         opt.value = t.id;
-        opt.innerText = `${t.name} (${t.status})`;
+        const nickDisplay = t.nickname ? ` (${t.nickname})` : '';
+        opt.innerText = `${t.name}${nickDisplay} - ${t.status}`;
         select.appendChild(opt);
       });
     }
@@ -1143,11 +1260,15 @@
         <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <div class="flex items-center gap-3">
             <div class="w-12 h-12 rounded-xl bg-amber-500 text-white font-bold flex items-center justify-center text-lg">
-              ${tech.name ? tech.name.charAt(3) || tech.name.charAt(0) : 'T'}
+              ${tech.nickname ? tech.nickname.replace('ช่าง', '').trim().charAt(0) : (tech.name ? tech.name.charAt(3) || tech.name.charAt(0) : 'T')}
             </div>
             <div>
-              <h3 class="text-base font-bold text-slate-900">${tech.name} <span class="text-xs font-normal text-slate-500">(${tech.code})</span></h3>
-              <p class="text-xs text-slate-600">${tech.role} • ประจำ: <span class="font-medium text-slate-800">${tech.shift}</span> • วันที่เริ่มงาน: <span class="font-medium text-slate-800">${tech.startDate || 'ไม่ระบุ'}</span></p>
+              <div class="flex items-center gap-2">
+                <h3 class="text-base font-bold text-slate-900">${tech.name}</h3>
+                ${tech.nickname ? `<span class="text-xs bg-amber-100 text-amber-900 font-bold px-2 py-0.5 rounded-full border border-amber-300">ชื่อเล่น: ${tech.nickname}</span>` : ''}
+                <span class="text-xs text-slate-400 font-mono">(${tech.code})</span>
+              </div>
+              <p class="text-xs text-slate-600 mt-0.5">${tech.role} • ประจำ: <span class="font-medium text-slate-800">${tech.shift}</span> • วันที่เริ่มงาน: <span class="font-medium text-slate-800">${tech.startDate || 'ไม่ระบุ'}</span></p>
             </div>
           </div>
           <div class="bg-amber-50 border border-amber-200 px-4 py-2 rounded-xl text-xs text-amber-800">
@@ -1157,7 +1278,7 @@
         </div>
       `;
 
-      // Render Phase 30
+      // Render Phase 30, 60, 90
       renderPhaseList('phase30Items', 'p30', OJT_PHASES.p30, tech.ojt.p30, tech.id);
       renderPhaseList('phase60Items', 'p60', OJT_PHASES.p60, tech.ojt.p60, tech.id);
       renderPhaseList('phase90Items', 'p90', OJT_PHASES.p90, tech.ojt.p90, tech.id);
@@ -1243,10 +1364,11 @@
 
         let membersListHtml = members.map(m => {
           const avg = calculateAvg(m.skills);
+          const nickDisplay = m.nickname ? ` (${m.nickname})` : '';
           return `
             <div class="flex items-center justify-between text-xs py-1 border-b border-slate-100 last:border-0">
-              <span class="font-medium text-slate-800">${m.name}</span>
-              <span class="text-[11px] font-mono text-slate-500">L${Math.round(avg)}</span>
+              <span class="font-medium text-slate-800 truncate">${m.name}${nickDisplay}</span>
+              <span class="text-[11px] font-mono text-slate-500 ml-2">L${Math.round(avg)}</span>
             </div>
           `;
         }).join('') || '<p class="text-xs text-slate-400 py-2">ยังไม่มีพนักงานในกะนี้</p>';
@@ -1286,9 +1408,10 @@
     // -------------------------------------------------------------
     function openAddModal() {
       document.getElementById('techId').value = '';
-      document.getElementById('modalTitle').innerHTML = '<i class="fa-solid fa-user-plus text-sky-400"></i> เพิ่มข้อมูลช่างใหม่';
+      document.getElementById('modalTitle').innerText = 'ลงทะเบียนสมัครสมาชิกช่างใหม่';
       document.getElementById('techForm').reset();
       document.getElementById('techCode').value = `TC-00${technicians.length + 1}`;
+      document.getElementById('techStartDate').value = new Date().toISOString().slice(0, 10);
       document.getElementById('techModal').classList.remove('hidden');
     }
 
@@ -1296,9 +1419,10 @@
       const tech = technicians.find(t => t.id === id);
       if (!tech) return;
       document.getElementById('techId').value = tech.id;
-      document.getElementById('modalTitle').innerHTML = '<i class="fa-solid fa-pen-to-square text-sky-400"></i> แก้ไขข้อมูลพนักงาน';
+      document.getElementById('modalTitle').innerText = 'แก้ไขข้อมูลสมาชิกช่าง';
       document.getElementById('techCode').value = tech.code || '';
       document.getElementById('techName').value = tech.name || '';
+      document.getElementById('techNickname').value = tech.nickname || '';
       document.getElementById('techRole').value = tech.role || '';
       document.getElementById('techDept').value = tech.department || '';
       document.getElementById('techShift').value = tech.shift || 'กะเช้า (A)';
@@ -1314,11 +1438,20 @@
       document.getElementById('techModal').classList.add('hidden');
     }
 
+    function openHowToRegisterModal() {
+      document.getElementById('howToRegisterModal').classList.remove('hidden');
+    }
+
+    function closeHowToRegisterModal() {
+      document.getElementById('howToRegisterModal').classList.add('hidden');
+    }
+
     function saveTechnician(e) {
       e.preventDefault();
       const id = document.getElementById('techId').value;
       const code = document.getElementById('techCode').value;
       const name = document.getElementById('techName').value;
+      const nickname = document.getElementById('techNickname').value;
       const role = document.getElementById('techRole').value;
       const dept = document.getElementById('techDept').value;
       const shift = document.getElementById('techShift').value;
@@ -1334,6 +1467,7 @@
         if (tech) {
           tech.code = code;
           tech.name = name;
+          tech.nickname = nickname;
           tech.role = role;
           tech.department = dept;
           tech.shift = shift;
@@ -1349,6 +1483,7 @@
           id: Date.now().toString(),
           code: code,
           name: name,
+          nickname: nickname,
           role: role,
           department: dept,
           shift: shift,
@@ -1409,7 +1544,7 @@
     }
 
     function exportToCSV() {
-      let csvContent = "\uFEFFลำดับ,รหัสพนักงาน,ชื่อ-นามสกุล,ตำแหน่ง,แผนก,กะทำงาน,สถานะ,ไฟฟ้า&คอนโทรล,เครื่องกล&ลม,งานPM,วิเคราะห์ปัญหา,ความปลอดภัย,การส่งกะ,คะแนนเฉลี่ย,พี่เลี้ยง,เบอร์โทร\n";
+      let csvContent = "\uFEFFลำดับ,รหัสพนักงาน,ชื่อ-นามสกุล,ชื่อเล่น,ตำแหน่ง,แผนก,กะทำงาน,สถานะ,ไฟฟ้า&คอนโทรล,เครื่องกล&ลม,งานPM,วิเคราะห์ปัญหา,ความปลอดภัย,การส่งกะ,คะแนนเฉลี่ย,พี่เลี้ยง,เบอร์โทร\n";
 
       technicians.forEach((t, i) => {
         const avg = calculateAvg(t.skills);
@@ -1417,6 +1552,7 @@
           i + 1,
           `"${t.code || ''}"`,
           `"${t.name || ''}"`,
+          `"${t.nickname || ''}"`,
           `"${t.role || ''}"`,
           `"${t.department || ''}"`,
           `"${t.shift || ''}"`,
