@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ระบบบริหารและพัฒนาทักษะช่าง | Technician Competency & People Management</title>
+  <title>ระบบบริหารและพัฒนาทักษะช่าง (ใช้งานง่าย) | Technician Portal</title>
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- FontAwesome Icons -->
@@ -53,148 +53,165 @@
   <header class="bg-slate-900 text-white shadow-lg sticky top-0 z-40 no-print">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex items-center justify-between h-16">
-        <div class="flex items-center space-x-3">
+        <div class="flex items-center space-x-3 cursor-pointer" onclick="switchTab('dashboard')">
           <div class="w-10 h-10 rounded-xl bg-sky-500 flex items-center justify-center text-white shadow-md shadow-sky-500/30">
             <i class="fa-solid fa-screwdriver-wrench text-xl"></i>
           </div>
           <div>
             <h1 class="text-lg font-bold tracking-tight text-white flex items-center gap-2">
               ระบบพัฒนาคนและทีมช่าง
-              <span class="text-xs bg-sky-600/60 text-sky-200 px-2 py-0.5 rounded-full font-medium border border-sky-400/30">สำหรับหัวหน้าช่าง</span>
+              <span class="text-xs bg-emerald-500 text-slate-950 font-bold px-2 py-0.5 rounded-full">ใช้งานง่าย</span>
             </h1>
-            <p class="text-xs text-slate-400">Technician Competency & Development Portal</p>
+            <p class="text-xs text-slate-400">สำหรับหัวหน้าช่าง • เก็บประวัติ • ชื่อเล่น • ทักษะ • ทดสอบความถนัด</p>
           </div>
         </div>
 
-        <!-- Navigation Tabs -->
+        <!-- Navigation Tabs (Desktop) -->
         <nav class="hidden md:flex space-x-1" id="navTabs">
           <button onclick="switchTab('dashboard')" id="btn-dashboard" class="tab-btn px-3 py-2 rounded-lg text-sm font-medium transition-all text-white bg-slate-800 border-b-2 border-sky-400">
-            <i class="fa-solid fa-chart-pie mr-1.5 text-sky-400"></i> แดชบอร์ดภาพรวม
+            <i class="fa-solid fa-chart-pie mr-1.5 text-sky-400"></i> แดชบอร์ด
           </button>
           <button onclick="switchTab('technicians')" id="btn-technicians" class="tab-btn px-3 py-2 rounded-lg text-sm font-medium transition-all text-slate-300 hover:text-white hover:bg-slate-800">
-            <i class="fa-solid fa-users-gear mr-1.5 text-slate-400"></i> รายชื่อพนักงานช่าง
+            <i class="fa-solid fa-users-gear mr-1.5 text-slate-400"></i> รายชื่อทีมช่าง
           </button>
           <button onclick="switchTab('skillMatrix')" id="btn-skillMatrix" class="tab-btn px-3 py-2 rounded-lg text-sm font-medium transition-all text-slate-300 hover:text-white hover:bg-slate-800">
-            <i class="fa-solid fa-table-cells mr-1.5 text-slate-400"></i> ตาราง Skill Matrix
+            <i class="fa-solid fa-table-cells mr-1.5 text-slate-400"></i> ตารางทักษะ L1-L4
           </button>
           <button onclick="switchTab('ojtTracking')" id="btn-ojtTracking" class="tab-btn px-3 py-2 rounded-lg text-sm font-medium transition-all text-slate-300 hover:text-white hover:bg-slate-800">
-            <i class="fa-solid fa-clipboard-check mr-1.5 text-slate-400"></i> แผน OJT 30-60-90
-          </button>
-          <button onclick="switchTab('shiftBalance')" id="btn-shiftBalance" class="tab-btn px-3 py-2 rounded-lg text-sm font-medium transition-all text-slate-300 hover:text-white hover:bg-slate-800">
-            <i class="fa-solid fa-shield-halved mr-1.5 text-slate-400"></i> สมดุลกะทำงาน
+            <i class="fa-solid fa-clipboard-check mr-1.5 text-slate-400"></i> ช่างใหม่ 30-60-90
           </button>
           <button onclick="switchTab('quiz')" id="btn-quiz" class="tab-btn px-3 py-2 rounded-lg text-sm font-medium transition-all text-slate-300 hover:text-white hover:bg-slate-800">
-            <i class="fa-solid fa-compass-drafting mr-1.5 text-amber-400"></i> แบบทดสอบความถนัด
+            <i class="fa-solid fa-compass-drafting mr-1.5 text-amber-400"></i> ทดสอบความถนัด
+          </button>
+          <button onclick="switchTab('shiftBalance')" id="btn-shiftBalance" class="tab-btn px-3 py-2 rounded-lg text-sm font-medium transition-all text-slate-300 hover:text-white hover:bg-slate-800">
+            <i class="fa-solid fa-shield-halved mr-1.5 text-slate-400"></i> จัดกะทำงาน
           </button>
         </nav>
 
         <!-- Right Tools -->
         <div class="flex items-center space-x-2">
-          <button onclick="openHowToRegisterModal()" class="text-xs bg-slate-800 hover:bg-slate-700 text-sky-300 hover:text-white px-3 py-2 rounded-lg border border-slate-700 transition flex items-center gap-1.5" title="คู่มือขั้นตอนการสมัครสมาชิกช่าง">
-            <i class="fa-solid fa-circle-question text-sky-400"></i>
-            <span class="hidden sm:inline">วิธีสมัครช่าง</span>
+          <button onclick="openExportModal()" class="text-xs bg-slate-800 hover:bg-slate-700 text-slate-200 px-3 py-2 rounded-lg border border-slate-700 transition flex items-center gap-1.5" title="สำรอง / นำเข้า Excel">
+            <i class="fa-solid fa-file-excel text-emerald-400"></i>
+            <span class="hidden sm:inline">Excel/สำรอง</span>
           </button>
-          <button onclick="openExportModal()" class="text-xs bg-slate-800 hover:bg-slate-700 text-slate-200 px-3 py-2 rounded-lg border border-slate-700 transition flex items-center gap-1.5" title="สำรอง / นำเข้าข้อมูล">
-            <i class="fa-solid fa-database text-sky-400"></i>
-            <span class="hidden sm:inline">จัดการข้อมูล</span>
-          </button>
-          <button onclick="openAddModal()" class="text-xs bg-sky-500 hover:bg-sky-600 text-white font-medium px-3.5 py-2 rounded-lg shadow-sm shadow-sky-500/40 transition flex items-center gap-1.5">
+          <button onclick="openAddModal()" class="text-xs bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-bold px-3.5 py-2 rounded-lg shadow-md transition flex items-center gap-1.5">
             <i class="fa-solid fa-user-plus"></i>
-            <span>สมัครสมาชิกช่าง</span>
+            <span>+ สมัครช่างใหม่</span>
           </button>
         </div>
       </div>
       <!-- Mobile Tabs -->
       <div class="flex md:hidden overflow-x-auto py-2 space-x-1 border-t border-slate-800 text-xs">
-        <button onclick="switchTab('dashboard')" class="px-2.5 py-1.5 rounded text-white bg-slate-800 whitespace-nowrap">ภาพรวม</button>
+        <button onclick="switchTab('dashboard')" class="px-2.5 py-1.5 rounded text-white bg-slate-800 whitespace-nowrap">แดชบอร์ด</button>
         <button onclick="switchTab('technicians')" class="px-2.5 py-1.5 rounded text-slate-300 whitespace-nowrap">รายชื่อช่าง</button>
-        <button onclick="switchTab('skillMatrix')" class="px-2.5 py-1.5 rounded text-slate-300 whitespace-nowrap">Skill Matrix</button>
-        <button onclick="switchTab('ojtTracking')" class="px-2.5 py-1.5 rounded text-slate-300 whitespace-nowrap">OJT 30-60-90</button>
-        <button onclick="switchTab('shiftBalance')" class="px-2.5 py-1.5 rounded text-slate-300 whitespace-nowrap">สมดุลกะ</button>
+        <button onclick="switchTab('skillMatrix')" class="px-2.5 py-1.5 rounded text-slate-300 whitespace-nowrap">ตารางทักษะ</button>
+        <button onclick="switchTab('ojtTracking')" class="px-2.5 py-1.5 rounded text-slate-300 whitespace-nowrap">ช่างใหม่ OJT</button>
         <button onclick="switchTab('quiz')" class="px-2.5 py-1.5 rounded text-amber-300 whitespace-nowrap">ทดสอบความถนัด</button>
+        <button onclick="switchTab('shiftBalance')" class="px-2.5 py-1.5 rounded text-slate-300 whitespace-nowrap">จัดกะ</button>
       </div>
     </div>
   </header>
 
   <!-- Main Content Container -->
-  <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
+  <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-5">
+
+    <!-- 🌟 TOP 4 BIG QUICK ACTION CARDS (เมนูลัด 4 ปุ่มใหญ่ ใช้งานง่ายสุดๆ) 🌟 -->
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-3.5 mb-6 no-print">
+      <!-- Action 1: สมัครช่างใหม่ -->
+      <button onclick="openAddModal()" class="p-4 rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-600 text-white shadow-md shadow-emerald-500/20 hover:scale-[1.02] active:scale-[0.98] transition flex items-center gap-3.5 text-left border border-emerald-400">
+        <div class="w-12 h-12 rounded-xl bg-white/20 flex items-center justify-center text-2xl flex-shrink-0">
+          <i class="fa-solid fa-user-plus"></i>
+        </div>
+        <div>
+          <span class="text-xs text-emerald-100 font-medium block">คลิกเดียวเพื่อ</span>
+          <h4 class="font-bold text-sm sm:text-base leading-tight">สมัครช่างใหม่</h4>
+        </div>
+      </button>
+
+      <!-- Action 2: รายชื่อทีมช่าง & เบอร์โทร -->
+      <button onclick="switchTab('technicians')" class="p-4 rounded-2xl bg-white border border-slate-200 shadow-sm hover:border-sky-400 hover:shadow-md hover:scale-[1.02] active:scale-[0.98] transition flex items-center gap-3.5 text-left">
+        <div class="w-12 h-12 rounded-xl bg-sky-50 text-sky-600 flex items-center justify-center text-2xl flex-shrink-0">
+          <i class="fa-solid fa-address-book"></i>
+        </div>
+        <div>
+          <span class="text-xs text-slate-400 font-medium block">ดูชื่อเล่น & โทรหา</span>
+          <h4 class="font-bold text-slate-800 text-sm sm:text-base leading-tight">รายชื่อทีมช่าง</h4>
+        </div>
+      </button>
+
+      <!-- Action 3: ประเมินทักษะช่าง L1-L4 -->
+      <button onclick="switchTab('skillMatrix')" class="p-4 rounded-2xl bg-white border border-slate-200 shadow-sm hover:border-indigo-400 hover:shadow-md hover:scale-[1.02] active:scale-[0.98] transition flex items-center gap-3.5 text-left">
+        <div class="w-12 h-12 rounded-xl bg-indigo-50 text-indigo-600 flex items-center justify-center text-2xl flex-shrink-0">
+          <i class="fa-solid fa-table-cells"></i>
+        </div>
+        <div>
+          <span class="text-xs text-slate-400 font-medium block">คลิกปรับระดับคะแนน</span>
+          <h4 class="font-bold text-slate-800 text-sm sm:text-base leading-tight">ตารางทักษะ</h4>
+        </div>
+      </button>
+
+      <!-- Action 4: ทดสอบความถนัด -->
+      <button onclick="switchTab('quiz')" class="p-4 rounded-2xl bg-white border border-slate-200 shadow-sm hover:border-amber-400 hover:shadow-md hover:scale-[1.02] active:scale-[0.98] transition flex items-center gap-3.5 text-left">
+        <div class="w-12 h-12 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center text-2xl flex-shrink-0">
+          <i class="fa-solid fa-brain"></i>
+        </div>
+        <div>
+          <span class="text-xs text-slate-400 font-medium block">12 ข้อค้นหาจุดเด่น</span>
+          <h4 class="font-bold text-slate-800 text-sm sm:text-base leading-tight">ทดสอบความถนัด</h4>
+        </div>
+      </button>
+    </div>
 
     <!-- TAB 1: DASHBOARD -->
     <section id="tab-dashboard" class="space-y-6">
-      <!-- Onboarding Banner for Head Technician -->
-      <div class="bg-gradient-to-r from-sky-900 via-slate-900 to-indigo-950 text-white p-5 rounded-2xl shadow-sm border border-slate-800 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-        <div class="flex items-center gap-3.5">
-          <div class="w-12 h-12 rounded-xl bg-sky-500/20 text-sky-400 border border-sky-500/30 flex items-center justify-center text-2xl flex-shrink-0">
-            <i class="fa-solid fa-id-card-clip"></i>
-          </div>
-          <div>
-            <h3 class="font-bold text-base text-white flex items-center gap-2">
-              ขั้นตอนการรับสมัครและขึ้นทะเบียนช่างใหม่ (Technician Onboarding)
-              <span class="text-[11px] bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 px-2 py-0.5 rounded-full font-normal">พร้อมชื่อเล่นหน้างาน</span>
-            </h3>
-            <p class="text-xs text-slate-300 mt-0.5">
-              1. กดปุ่มสมัครช่าง ➔ 2. บันทึกชื่อ-ชื่อเล่นและกะทำงาน ➔ 3. มอบหมายพี่เลี้ยง ➔ 4. ระบบจะจัดเข้าสู่แผน OJT 30-60-90 วันและ Skill Matrix ทันที
-            </p>
-          </div>
-        </div>
-        <div class="flex items-center gap-2 w-full md:w-auto">
-          <button onclick="openHowToRegisterModal()" class="w-full md:w-auto px-3.5 py-2 text-xs bg-slate-800 hover:bg-slate-700 text-slate-200 rounded-xl border border-slate-700 transition flex items-center justify-center gap-1.5">
-            <i class="fa-solid fa-book-open text-sky-400"></i> ดูวิธีรับช่าง
-          </button>
-          <button onclick="openAddModal()" class="w-full md:w-auto px-4 py-2 text-xs bg-sky-500 hover:bg-sky-400 text-white font-semibold rounded-xl shadow-md transition flex items-center justify-center gap-1.5 whitespace-nowrap">
-            <i class="fa-solid fa-user-plus"></i> สมัครช่างใหม่ตอนนี้
-          </button>
-        </div>
-      </div>
-
       <!-- Quick Metric Cards -->
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
         <!-- Card 1 -->
-        <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200/80 flex items-center justify-between">
+        <div class="bg-white p-4 sm:p-5 rounded-2xl shadow-sm border border-slate-200 flex items-center justify-between">
           <div>
-            <p class="text-xs font-medium text-slate-500 uppercase tracking-wider">ช่างทั้งหมดในทีม</p>
+            <p class="text-xs font-semibold text-slate-500 uppercase">ช่างทั้งหมดในทีม</p>
             <h3 class="text-2xl font-bold text-slate-800 mt-1" id="dashTotalTech">0 คน</h3>
-            <p class="text-xs text-sky-600 mt-1 flex items-center gap-1">
+            <p class="text-xs text-sky-600 mt-1 flex items-center gap-1 font-medium">
               <i class="fa-solid fa-circle-check"></i> พร้อมปฏิบัติงาน
             </p>
           </div>
-          <div class="w-12 h-12 rounded-xl bg-sky-50 text-sky-600 flex items-center justify-center text-xl font-bold">
+          <div class="w-11 h-11 rounded-xl bg-sky-50 text-sky-600 flex items-center justify-center text-xl font-bold">
             <i class="fa-solid fa-users"></i>
           </div>
         </div>
 
         <!-- Card 2 -->
-        <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200/80 flex items-center justify-between">
+        <div class="bg-white p-4 sm:p-5 rounded-2xl shadow-sm border border-slate-200 flex items-center justify-between">
           <div>
-            <p class="text-xs font-medium text-slate-500 uppercase tracking-wider">ช่างระดับชำนาญการ (L3-L4)</p>
+            <p class="text-xs font-semibold text-slate-500 uppercase">ช่างชำนาญการ (L3-L4)</p>
             <h3 class="text-2xl font-bold text-emerald-600 mt-1" id="dashSkilledTech">0 คน</h3>
-            <p class="text-xs text-slate-500 mt-1">เสาหลักแก้ Breakdown & พี่เลี้ยง</p>
+            <p class="text-xs text-slate-500 mt-1">เสาหลักแก้ Breakdown</p>
           </div>
-          <div class="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-xl font-bold">
+          <div class="w-11 h-11 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-xl font-bold">
             <i class="fa-solid fa-award"></i>
           </div>
         </div>
 
         <!-- Card 3 -->
-        <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200/80 flex items-center justify-between">
+        <div class="bg-white p-4 sm:p-5 rounded-2xl shadow-sm border border-slate-200 flex items-center justify-between">
           <div>
-            <p class="text-xs font-medium text-slate-500 uppercase tracking-wider">ช่างใหม่ในแผน OJT</p>
+            <p class="text-xs font-semibold text-slate-500 uppercase">ช่างใหม่ OJT</p>
             <h3 class="text-2xl font-bold text-amber-600 mt-1" id="dashOjtTech">0 คน</h3>
-            <p class="text-xs text-slate-500 mt-1">ช่วงประเมิน 30-60-90 วัน</p>
+            <p class="text-xs text-slate-500 mt-1">ช่วง 30-60-90 วัน</p>
           </div>
-          <div class="w-12 h-12 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center text-xl font-bold">
+          <div class="w-11 h-11 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center text-xl font-bold">
             <i class="fa-solid fa-user-clock"></i>
           </div>
         </div>
 
         <!-- Card 4 -->
-        <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200/80 flex items-center justify-between">
+        <div class="bg-white p-4 sm:p-5 rounded-2xl shadow-sm border border-slate-200 flex items-center justify-between">
           <div>
-            <p class="text-xs font-medium text-slate-500 uppercase tracking-wider">คะแนนทักษะเฉลี่ยทีม</p>
+            <p class="text-xs font-semibold text-slate-500 uppercase">คะแนนเฉลี่ยทีม</p>
             <h3 class="text-2xl font-bold text-purple-600 mt-1" id="dashAvgSkill">0.0 / 4.0</h3>
-            <p class="text-xs text-purple-600 mt-1" id="dashAvgLabel">ระดับเฉลี่ย: ปฏิบัติการ (L2)</p>
+            <p class="text-xs text-purple-600 mt-1 font-medium" id="dashAvgLabel">เฉลี่ย: ปฏิบัติการ (L2)</p>
           </div>
-          <div class="w-12 h-12 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center text-xl font-bold">
+          <div class="w-11 h-11 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center text-xl font-bold">
             <i class="fa-solid fa-bolt"></i>
           </div>
         </div>
@@ -203,7 +220,7 @@
       <!-- Charts & Insights Row -->
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <!-- Radar Chart: Team Competency Balance -->
-        <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200/80 lg:col-span-2">
+        <div class="bg-white p-5 sm:p-6 rounded-2xl shadow-sm border border-slate-200 lg:col-span-2">
           <div class="flex items-center justify-between mb-4">
             <div>
               <h3 class="text-base font-bold text-slate-800 flex items-center gap-2">
@@ -211,22 +228,22 @@
               </h3>
               <p class="text-xs text-slate-500">ค่าเฉลี่ยความสามารถทั้ง 6 ด้านของทีมงานปัจจุบัน</p>
             </div>
-            <span class="text-xs bg-slate-100 text-slate-600 px-2.5 py-1 rounded-full font-medium">เป้าหมาย: Level 3+</span>
+            <span class="text-xs bg-slate-100 text-slate-700 px-2.5 py-1 rounded-full font-bold">เป้าหมาย: Level 3+</span>
           </div>
-          <div class="h-72 flex items-center justify-center">
+          <div class="h-64 sm:h-72 flex items-center justify-center">
             <canvas id="radarChart"></canvas>
           </div>
         </div>
 
         <!-- Level Distribution Chart -->
-        <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200/80">
+        <div class="bg-white p-5 sm:p-6 rounded-2xl shadow-sm border border-slate-200">
           <div class="mb-4">
             <h3 class="text-base font-bold text-slate-800 flex items-center gap-2">
               <i class="fa-solid fa-layer-group text-sky-500"></i> สัดส่วนระดับช่าง (L1 - L4)
             </h3>
-            <p class="text-xs text-slate-500">การกระจายตัวของโครงสร้างทีม</p>
+            <p class="text-xs text-slate-500">โครงสร้างระดับฝีมือในทีม</p>
           </div>
-          <div class="h-56 flex items-center justify-center">
+          <div class="h-48 sm:h-56 flex items-center justify-center">
             <canvas id="levelDoughnut"></canvas>
           </div>
           <div class="mt-4 pt-3 border-t border-slate-100 grid grid-cols-2 gap-2 text-xs">
@@ -241,16 +258,16 @@
 
     <!-- TAB 2: TECHNICIAN DIRECTORY (รายชื่อพนักงาน) -->
     <section id="tab-technicians" class="space-y-4 hidden">
-      <!-- Toolbar -->
-      <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200/80 flex flex-col md:flex-row items-center justify-between gap-3">
+      <!-- Search & Filters Toolbar -->
+      <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200 flex flex-col md:flex-row items-center justify-between gap-3">
         <div class="flex flex-1 w-full md:w-auto items-center gap-2">
           <div class="relative flex-1 max-w-md">
             <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
-            <input type="text" id="searchTechInput" onkeyup="renderTechList()" placeholder="ค้นหาชื่อจริง, ชื่อเล่น, รหัส, แผนก, กะ..." 
-              class="w-full pl-9 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-sky-500 focus:bg-white transition">
+            <input type="text" id="searchTechInput" onkeyup="renderTechList()" placeholder="🔍 พิมพ์ชื่อเล่น เช่น บอล, สิทธิ์ หรือชื่อจริง..." 
+              class="w-full pl-9 pr-4 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-sky-500 focus:bg-white transition">
           </div>
           <!-- Filter by Level -->
-          <select id="filterLevel" onchange="renderTechList()" class="bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-sky-500">
+          <select id="filterLevel" onchange="renderTechList()" class="bg-slate-50 border border-slate-300 rounded-xl px-3 py-2.5 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-sky-500">
             <option value="ALL">ทุกระดับทักษะ</option>
             <option value="L4">Level 4 (ผู้เชี่ยวชาญ)</option>
             <option value="L3">Level 3 (ชำนาญการ)</option>
@@ -258,7 +275,7 @@
             <option value="L1">Level 1 (ฝึกหัด)</option>
           </select>
           <!-- Filter by Shift -->
-          <select id="filterShift" onchange="renderTechList()" class="bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-sky-500">
+          <select id="filterShift" onchange="renderTechList()" class="bg-slate-50 border border-slate-300 rounded-xl px-3 py-2.5 text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-sky-500">
             <option value="ALL">ทุกกะทำงาน</option>
             <option value="กะเช้า (A)">กะเช้า (A)</option>
             <option value="กะบ่าย (B)">กะบ่าย (B)</option>
@@ -268,9 +285,9 @@
         </div>
 
         <div class="flex items-center gap-2 w-full md:w-auto justify-end">
-          <span class="text-xs text-slate-500" id="techCountLabel">แสดง 0 รายการ</span>
-          <button onclick="openAddModal()" class="text-xs bg-sky-600 hover:bg-sky-700 text-white font-medium px-3.5 py-2 rounded-xl transition flex items-center gap-1.5 shadow-sm">
-            <i class="fa-solid fa-user-plus"></i> สมัครสมาชิกช่างใหม่
+          <span class="text-xs text-slate-500 font-medium" id="techCountLabel">แสดง 0 รายการ</span>
+          <button onclick="openAddModal()" class="text-xs bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-bold px-4 py-2.5 rounded-xl transition flex items-center gap-1.5 shadow-sm">
+            <i class="fa-solid fa-plus"></i> สมัครช่างใหม่
           </button>
         </div>
       </div>
@@ -283,51 +300,51 @@
 
     <!-- TAB 3: SKILL MATRIX (ตารางเมทริกซ์ทักษะ) -->
     <section id="tab-skillMatrix" class="space-y-4 hidden">
-      <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200/80">
+      <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200">
         <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between pb-4 border-b border-slate-200 gap-3">
           <div>
             <h2 class="text-base font-bold text-slate-800 flex items-center gap-2">
-              <i class="fa-solid fa-table-cells text-sky-600"></i> ตารางเมทริกซ์ทักษะช่าง (Technician Competency Matrix)
+              <i class="fa-solid fa-table-cells text-sky-600"></i> ตารางประเมินทักษะช่าง (Skill Matrix)
             </h2>
             <p class="text-xs text-slate-500 mt-0.5">
-              แสดงชื่อ-ชื่อเล่น และระดับความสามารถ คลิกที่ระดับทักษะ (L1 - L4) เพื่อประเมินและปรับปรุงคะแนนได้ทันที
+              💡 <strong>วิธีใช้:</strong> คลิกที่ปุ่ม L1, L2, L3, L4 เพื่อปรับเปลี่ยนคะแนนทักษะ ระบบจะคำนวณคะแนนเฉลี่ยให้อัตโนมัติทันที
             </p>
           </div>
           <div class="flex items-center gap-2">
-            <button onclick="exportToCSV()" class="text-xs bg-slate-100 hover:bg-slate-200 text-slate-700 font-medium px-3 py-1.5 rounded-lg border border-slate-200 transition flex items-center gap-1">
-              <i class="fa-solid fa-file-excel text-emerald-600"></i> ส่งออก Excel (CSV)
+            <button onclick="exportToCSV()" class="text-xs bg-emerald-50 hover:bg-emerald-100 text-emerald-800 font-bold px-3.5 py-2 rounded-xl border border-emerald-300 transition flex items-center gap-1.5">
+              <i class="fa-solid fa-file-excel text-emerald-600"></i> ดาวน์โหลดลง Excel
             </button>
           </div>
         </div>
 
-        <!-- Legend -->
+        <!-- Legend (คำอธิบายระดับ L1-L4 แบบง่าย) -->
         <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 my-4 text-xs">
           <div class="p-2.5 rounded-xl bg-slate-50 border border-slate-200 flex items-center gap-2">
             <span class="w-6 h-6 rounded-lg bg-slate-300 text-slate-700 flex items-center justify-center font-bold text-xs">L1</span>
             <div>
-              <p class="font-semibold text-slate-800">Beginner (ฝึกหัด)</p>
-              <p class="text-[10px] text-slate-500">ต้องมีคนคุมตลอด</p>
+              <p class="font-bold text-slate-800">L1: ฝึกหัด</p>
+              <p class="text-[10px] text-slate-500">ต้องมีพี่เลี้ยงคุม</p>
             </div>
           </div>
           <div class="p-2.5 rounded-xl bg-sky-50 border border-sky-200 flex items-center gap-2">
             <span class="w-6 h-6 rounded-lg bg-sky-500 text-white flex items-center justify-center font-bold text-xs">L2</span>
             <div>
-              <p class="font-semibold text-sky-900">Capable (ปฏิบัติการ)</p>
-              <p class="text-[10px] text-sky-700">ทำตาม WI ได้ด้วยตัวเอง</p>
+              <p class="font-bold text-sky-900">L2: ปฏิบัติการ</p>
+              <p class="text-[10px] text-sky-700">ทำตาม WI ได้เอง</p>
             </div>
           </div>
           <div class="p-2.5 rounded-xl bg-indigo-50 border border-indigo-200 flex items-center gap-2">
             <span class="w-6 h-6 rounded-lg bg-indigo-500 text-white flex items-center justify-center font-bold text-xs">L3</span>
             <div>
-              <p class="font-semibold text-indigo-900">Skilled (ชำนาญการ)</p>
-              <p class="text-[10px] text-indigo-700">วิเคราะห์เคสยากได้ ขึ้นเวรเดี่ยว</p>
+              <p class="font-bold text-indigo-900">L3: ชำนาญการ</p>
+              <p class="text-[10px] text-indigo-700">แก้เคสยาก ขึ้นเวรเดี่ยว</p>
             </div>
           </div>
           <div class="p-2.5 rounded-xl bg-emerald-50 border border-emerald-200 flex items-center gap-2">
             <span class="w-6 h-6 rounded-lg bg-emerald-500 text-white flex items-center justify-center font-bold text-xs">L4</span>
             <div>
-              <p class="font-semibold text-emerald-900">Master (เชี่ยวชาญ)</p>
-              <p class="text-[10px] text-emerald-700">สอนงานได้ ออกแบบมาตรฐาน</p>
+              <p class="font-bold text-emerald-900">L4: เชี่ยวชาญ</p>
+              <p class="text-[10px] text-emerald-700">สอนงานได้ วางมาตรฐาน</p>
             </div>
           </div>
         </div>
@@ -343,8 +360,8 @@
                 <th class="py-3 px-3 text-center min-w-[110px]">2. เครื่องกล & ลม</th>
                 <th class="py-3 px-3 text-center min-w-[110px]">3. บำรุงรักษา (PM)</th>
                 <th class="py-3 px-3 text-center min-w-[110px]">4. วิเคราะห์ปัญหา</th>
-                <th class="py-3 px-3 text-center min-w-[110px]">5. ความปลอดภัย & 5ส</th>
-                <th class="py-3 px-3 text-center min-w-[110px]">6. การสื่อสาร & ส่งกะ</th>
+                <th class="py-3 px-3 text-center min-w-[110px]">5. ความปลอดภัย</th>
+                <th class="py-3 px-3 text-center min-w-[110px]">6. การส่งกะ</th>
                 <th class="py-3 px-3 text-center min-w-[100px]">คะแนนเฉลี่ย</th>
                 <th class="py-3 px-3 text-center min-w-[80px]">จัดการ</th>
               </tr>
@@ -360,43 +377,43 @@
     <!-- TAB 4: OJT TRACKING (แผน 30-60-90 วัน) -->
     <section id="tab-ojtTracking" class="space-y-5 hidden">
       <!-- Selector bar -->
-      <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200/80 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+      <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div class="flex items-center gap-3">
-          <div class="w-10 h-10 rounded-xl bg-amber-100 text-amber-600 flex items-center justify-center text-lg">
+          <div class="w-11 h-11 rounded-xl bg-amber-100 text-amber-600 flex items-center justify-center text-xl">
             <i class="fa-solid fa-user-graduate"></i>
           </div>
           <div>
-            <h2 class="text-base font-bold text-slate-800">แผนติดตามการสอนงานช่างใหม่ (OJT 30-60-90 Days Roadmap)</h2>
-            <p class="text-xs text-slate-500">ประเมินความพร้อมและปลดล็อกทักษะทีละขั้นก่อนขึ้นเวรเดี่ยว</p>
+            <h2 class="text-base font-bold text-slate-800">แผนติดตามช่างใหม่ 30-60-90 วัน</h2>
+            <p class="text-xs text-slate-500">ติ๊กถูกบันทึกการสอนงาน ปลดล็อกทีละขั้นก่อนขึ้นเวรเดี่ยว</p>
           </div>
         </div>
 
         <div class="flex items-center gap-2 w-full sm:w-auto">
-          <label class="text-xs text-slate-500 whitespace-nowrap">เลือกพนักงาน:</label>
-          <select id="ojtSelectTech" onchange="renderOjtChecklist()" class="bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs sm:text-sm font-medium focus:outline-none focus:ring-2 focus:ring-amber-500 flex-1 sm:flex-none">
+          <label class="text-xs font-semibold text-slate-700 whitespace-nowrap">เลือกลูกน้อง:</label>
+          <select id="ojtSelectTech" onchange="renderOjtChecklist()" class="bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-xs sm:text-sm font-medium focus:ring-2 focus:ring-amber-500 flex-1 sm:flex-none">
             <!-- Populated by JS -->
           </select>
         </div>
       </div>
 
       <!-- OJT Selected Tech Details Card -->
-      <div id="ojtTechHeaderCard" class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200/80">
+      <div id="ojtTechHeaderCard" class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200">
         <!-- Rendered by JS -->
       </div>
 
       <!-- 3-Phase Accordions / Tabs -->
       <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
         <!-- Phase 1: 30 Days -->
-        <div class="bg-white rounded-2xl shadow-sm border border-slate-200/80 overflow-hidden flex flex-col">
+        <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden flex flex-col">
           <div class="bg-slate-800 text-white p-4 flex items-center justify-between">
             <div class="flex items-center gap-2">
               <span class="w-7 h-7 rounded-lg bg-sky-500 text-white flex items-center justify-center font-bold text-xs">30</span>
               <div>
                 <h3 class="font-bold text-sm">ระยะที่ 1: 30 วันแรก</h3>
-                <p class="text-[11px] text-sky-200">ความปลอดภัย 100% & พื้นฐาน</p>
+                <p class="text-[11px] text-sky-200">ความปลอดภัย & พื้นฐาน</p>
               </div>
             </div>
-            <span id="p30ProgressBadge" class="text-xs px-2 py-0.5 rounded-full bg-slate-700 text-slate-300">0/5</span>
+            <span id="p30ProgressBadge" class="text-xs px-2 py-0.5 rounded-full bg-slate-700 text-slate-300 font-bold">0/5</span>
           </div>
           <div class="p-4 space-y-3 flex-1" id="phase30Items">
             <!-- Items rendered by JS -->
@@ -408,16 +425,16 @@
         </div>
 
         <!-- Phase 2: 60 Days -->
-        <div class="bg-white rounded-2xl shadow-sm border border-slate-200/80 overflow-hidden flex flex-col">
+        <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden flex flex-col">
           <div class="bg-slate-800 text-white p-4 flex items-center justify-between">
             <div class="flex items-center gap-2">
               <span class="w-7 h-7 rounded-lg bg-amber-500 text-white flex items-center justify-center font-bold text-xs">60</span>
               <div>
                 <h3 class="font-bold text-sm">ระยะที่ 2: 60 วัน</h3>
-                <p class="text-[11px] text-amber-200">งานบำรุงรักษา PM & ทำตาม WI</p>
+                <p class="text-[11px] text-amber-200">งาน PM & ทำตามคู่มือ WI</p>
               </div>
             </div>
-            <span id="p60ProgressBadge" class="text-xs px-2 py-0.5 rounded-full bg-slate-700 text-slate-300">0/4</span>
+            <span id="p60ProgressBadge" class="text-xs px-2 py-0.5 rounded-full bg-slate-700 text-slate-300 font-bold">0/4</span>
           </div>
           <div class="p-4 space-y-3 flex-1" id="phase60Items">
             <!-- Items rendered by JS -->
@@ -429,7 +446,7 @@
         </div>
 
         <!-- Phase 3: 90 Days -->
-        <div class="bg-white rounded-2xl shadow-sm border border-slate-200/80 overflow-hidden flex flex-col">
+        <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden flex flex-col">
           <div class="bg-slate-800 text-white p-4 flex items-center justify-between">
             <div class="flex items-center gap-2">
               <span class="w-7 h-7 rounded-lg bg-emerald-500 text-white flex items-center justify-center font-bold text-xs">90</span>
@@ -438,7 +455,7 @@
                 <p class="text-[11px] text-emerald-200">แก้ปัญหาเบื้องต้น & พร้อมขึ้นเวร</p>
               </div>
             </div>
-            <span id="p90ProgressBadge" class="text-xs px-2 py-0.5 rounded-full bg-slate-700 text-slate-300">0/4</span>
+            <span id="p90ProgressBadge" class="text-xs px-2 py-0.5 rounded-full bg-slate-700 text-slate-300 font-bold">0/4</span>
           </div>
           <div class="p-4 space-y-3 flex-1" id="phase90Items">
             <!-- Items rendered by JS -->
@@ -451,108 +468,88 @@
       </div>
     </section>
 
-    <!-- TAB 5: SHIFT BALANCE (สมดุลกะทำงาน) -->
-    <section id="tab-shiftBalance" class="space-y-5 hidden">
-      <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200/80">
-        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between pb-4 border-b border-slate-200 gap-3">
-          <div>
-            <h2 class="text-base font-bold text-slate-800 flex items-center gap-2">
-              <i class="fa-solid fa-shield-halved text-sky-600"></i> ตรวจสอบสมดุลทักษะประจำกะ (Shift Redundancy Analysis)
-            </h2>
-            <p class="text-xs text-slate-500 mt-0.5">
-              กฎความปลอดภัยและการผลิต: ทุกกะต้องมีช่างระดับ L3 หรือ L4 (ด้านไฟฟ้าหรือเครื่องกล) อย่างน้อย 1 คน เพื่อแก้ปัญหาหน้างาน
-            </p>
-          </div>
-        </div>
-
-        <div id="shiftCardsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mt-4">
-          <!-- Rendered by JS -->
-        </div>
-      </div>
-    </section>
-
-    <!-- TAB 6: SKILL APTITUDE QUIZ (แบบทดสอบค้นหาความถนัดของลูกน้อง) -->
+    <!-- TAB 5: SKILL APTITUDE QUIZ (แบบทดสอบความถนัด 12 ข้อ) -->
     <section id="tab-quiz" class="space-y-6 hidden">
       <!-- Selector & Intro Banner -->
-      <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200/80 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+      <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
         <div class="flex items-center gap-3.5">
           <div class="w-12 h-12 rounded-xl bg-amber-500/10 text-amber-600 border border-amber-300 flex items-center justify-center text-2xl flex-shrink-0">
             <i class="fa-solid fa-brain"></i>
           </div>
           <div>
             <h2 class="text-base font-bold text-slate-900 flex items-center gap-2">
-              แบบทดสอบค้นหาความถนัดเฉพาะตัวช่าง (Technician Aptitude Assessment)
-              <span class="text-xs bg-amber-100 text-amber-800 px-2 py-0.5 rounded-full font-medium">12 ข้อสถานการณ์จริง</span>
+              แบบทดสอบค้นหาความถนัดของลูกน้อง
+              <span class="text-xs bg-amber-100 text-amber-800 px-2.5 py-0.5 rounded-full font-bold">12 ข้อเข้าใจง่าย</span>
             </h2>
             <p class="text-xs text-slate-500 mt-0.5">
-              ช่วยให้หัวหน้าช่างรู้ว่าลูกน้องแต่ละคนเด่นด้านไหน ส่งงานถูกคน และวางแผนพัฒนาได้ตรงจุด
+              แตะเลือกคำตอบที่ตรงกับตัวลูกน้องมากที่สุด เพื่อหาว่าเขาเด่นด้านไหน (ไฟฟ้า, เครื่องกล, PM, กู้ภัย)
             </p>
           </div>
         </div>
 
         <div class="flex items-center gap-2 w-full md:w-auto">
-          <label class="text-xs font-semibold text-slate-700 whitespace-nowrap">เลือกลูกน้องที่ทำแบบทดสอบ:</label>
+          <label class="text-xs font-semibold text-slate-700 whitespace-nowrap">เลือกลูกน้อง:</label>
           <select id="quizSelectTech" onchange="onQuizTechChanged()" class="bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-xs sm:text-sm font-medium focus:ring-2 focus:ring-amber-500 flex-1 md:flex-none">
             <!-- Populated by JS -->
           </select>
         </div>
       </div>
 
-      <!-- Archetypes Legend -->
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-xs">
-        <div class="p-3.5 rounded-2xl bg-white border border-sky-200 shadow-sm flex items-start gap-3">
+      <!-- Archetypes Legend Cards -->
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 text-xs">
+        <div class="p-3.5 rounded-2xl bg-white border border-sky-200 shadow-sm flex items-start gap-2.5">
           <div class="w-8 h-8 rounded-lg bg-sky-500 text-white flex items-center justify-center text-sm font-bold flex-shrink-0">⚡</div>
           <div>
             <h4 class="font-bold text-sky-900">สายไฟ & สมองกล [A]</h4>
-            <p class="text-[11px] text-slate-500 mt-0.5">ถนัดวงจรไฟ, ตู้คอนโทรล, PLC, เซนเซอร์ และระบบอัตโนมัติ</p>
+            <p class="text-[11px] text-slate-500 mt-0.5">วงจรไฟ, ตู้คอนโทรล, PLC, เซนเซอร์</p>
           </div>
         </div>
 
-        <div class="p-3.5 rounded-2xl bg-white border border-amber-200 shadow-sm flex items-start gap-3">
+        <div class="p-3.5 rounded-2xl bg-white border border-amber-200 shadow-sm flex items-start gap-2.5">
           <div class="w-8 h-8 rounded-lg bg-amber-500 text-white flex items-center justify-center text-sm font-bold flex-shrink-0">⚙️</div>
           <div>
-            <h4 class="font-bold text-amber-900">สายพลังกล & ไฮดรอลิก [B]</h4>
-            <p class="text-[11px] text-slate-500 mt-0.5">ถนัดรื้อประกอบเครื่องกล, ปั๊ม, Alignment, สายพาน และระบบลม</p>
+            <h4 class="font-bold text-amber-900">สายพลังกล & ลม [B]</h4>
+            <p class="text-[11px] text-slate-500 mt-0.5">รื้อประกอบเครื่อง, ปั๊ม, ไฮดรอลิก</p>
           </div>
         </div>
 
-        <div class="p-3.5 rounded-2xl bg-white border border-emerald-200 shadow-sm flex items-start gap-3">
+        <div class="p-3.5 rounded-2xl bg-white border border-emerald-200 shadow-sm flex items-start gap-2.5">
           <div class="w-8 h-8 rounded-lg bg-emerald-500 text-white flex items-center justify-center text-sm font-bold flex-shrink-0">📋</div>
           <div>
             <h4 class="font-bold text-emerald-900">สายตรวจเช็ก & PM [C]</h4>
-            <p class="text-[11px] text-slate-500 mt-0.5">ละเอียด รอบคอบ งานบำรุงรักษาเชิงป้องกัน ตรวจความสั่น/ความร้อน</p>
+            <p class="text-[11px] text-slate-500 mt-0.5">ละเอียด รอบคอบ บำรุงรักษาป้องกัน</p>
           </div>
         </div>
 
-        <div class="p-3.5 rounded-2xl bg-white border border-rose-200 shadow-sm flex items-start gap-3">
+        <div class="p-3.5 rounded-2xl bg-white border border-rose-200 shadow-sm flex items-start gap-2.5">
           <div class="w-8 h-8 rounded-lg bg-rose-500 text-white flex items-center justify-center text-sm font-bold flex-shrink-0">🚨</div>
           <div>
-            <h4 class="font-bold text-rose-900">สายกู้ภัย & นักสืบสาเหตุ [D]</h4>
-            <p class="text-[11px] text-slate-500 mt-0.5">ไหวพริบดี งานด่วนเครื่องดับ นิ่งใต้แรงกดดัน และหาสาเหตุรากเหง้า (RCA)</p>
+            <h4 class="font-bold text-rose-900">สายกู้ภัยเครื่องดับ [D]</h4>
+            <p class="text-[11px] text-slate-500 mt-0.5">ไหวพริบดี งานด่วน นิ่งใต้ความกดดัน</p>
           </div>
         </div>
       </div>
 
       <!-- Quiz Form Container -->
-      <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200/80 space-y-6">
+      <div class="bg-white p-5 sm:p-6 rounded-2xl shadow-sm border border-slate-200 space-y-6">
         <div class="border-b border-slate-200 pb-3 flex items-center justify-between">
-          <h3 class="font-bold text-slate-900 text-sm">คำถามสถานการณ์จำลอง (เลือกข้อที่ตรงกับตัวลูกน้องมากที่สุด)</h3>
-          <span class="text-xs text-slate-500 font-medium" id="quizAnsweredCount">ตอบแล้ว 0/12 ข้อ</span>
+          <h3 class="font-bold text-slate-900 text-sm">แตะเลือกข้อที่ตรงกับตัวลูกน้องที่สุด:</h3>
+          <span class="text-xs text-slate-500 font-bold" id="quizAnsweredCount">ตอบแล้ว 0/12 ข้อ</span>
         </div>
 
-        <form id="quizForm" onsubmit="evaluateQuiz(event)" class="space-y-6">
-          <div id="quizQuestionsContainer" class="space-y-6">
+        <form id="quizForm" onsubmit="evaluateQuiz(event)" class="space-y-5">
+          <div id="quizQuestionsContainer" class="space-y-4">
             <!-- Questions rendered by JS -->
           </div>
 
           <div class="pt-4 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-3">
-            <span class="text-xs text-slate-500">ตอบให้ครบทุกข้อเพื่อให้การประเมินมีความแม่นยำสูงสุด</span>
+            <span class="text-xs text-slate-500">ตอบให้ครบ 12 ข้อ เพื่อให้ระบบประเมินได้แม่นยำ</span>
             <div class="flex items-center gap-2 w-full sm:w-auto">
-              <button type="button" onclick="autoFillRandomQuiz()" class="px-3 py-2 text-xs bg-slate-100 hover:bg-slate-200 text-slate-600 rounded-xl transition">
-                <i class="fa-solid fa-dice mr-1"></i> สุ่มตัวอย่าง
+              <button type="button" onclick="autoFillRandomQuiz()" class="px-3.5 py-2.5 text-xs bg-slate-100 hover:bg-slate-200 text-slate-700 font-medium rounded-xl transition">
+                <i class="fa-solid fa-dice mr-1 text-slate-500"></i> สุ่มตัวอย่างทดสอบ
               </button>
               <button type="submit" class="flex-1 sm:flex-none px-6 py-2.5 text-xs font-bold text-white bg-amber-500 hover:bg-amber-600 rounded-xl shadow-md transition flex items-center justify-center gap-2">
-                <i class="fa-solid fa-magnifying-glass-chart"></i> ตรวจคำตอบ & วิเคราะห์ผลความถนัด
+                <i class="fa-solid fa-magnifying-glass-chart"></i> วิเคราะห์ผลความถนัดทันที
               </button>
             </div>
           </div>
@@ -565,82 +562,89 @@
       </div>
     </section>
 
+    <!-- TAB 6: SHIFT BALANCE (สมดุลกะทำงาน) -->
+    <section id="tab-shiftBalance" class="space-y-5 hidden">
+      <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200">
+        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between pb-4 border-b border-slate-200 gap-3">
+          <div>
+            <h2 class="text-base font-bold text-slate-800 flex items-center gap-2">
+              <i class="fa-solid fa-shield-halved text-sky-600"></i> ตรวจสอบสมดุลช่างประจำกะ
+            </h2>
+            <p class="text-xs text-slate-500 mt-0.5">
+              กฎความปลอดภัย: ทุกกะต้องมีช่างระดับ L3 หรือ L4 อย่างน้อย 1 คน เพื่อแก้เหตุฉุกเฉิน
+            </p>
+          </div>
+        </div>
+
+        <div id="shiftCardsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mt-4">
+          <!-- Rendered by JS -->
+        </div>
+      </div>
+    </section>
+
   </main>
 
   <!-- Footer -->
   <footer class="bg-slate-900 border-t border-slate-800 text-slate-400 text-xs py-5 no-print mt-auto">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-3">
       <div class="flex items-center gap-2">
-        <i class="fa-solid fa-gears text-sky-400"></i>
-        <span>ระบบบริหารและพัฒนาทักษะช่าง (Technician Competency Framework) • ฐานะหัวหน้าช่าง</span>
+        <i class="fa-solid fa-screwdriver-wrench text-emerald-400"></i>
+        <span>ระบบบริหารและพัฒนาทักษะช่าง (ใช้งานง่าย) • ฐานะหัวหน้าช่าง</span>
       </div>
       <div class="flex items-center gap-4 text-[11px] text-slate-500">
-        <span>ข้อมูลบันทึกในเครื่องอัตโนมัติ (Local Storage)</span>
+        <span>ข้อมูลเซฟในเครื่องอัตโนมัติ</span>
         <button onclick="resetToSampleData()" class="hover:text-amber-400 underline">โหลดข้อมูลตัวอย่างเริ่มต้น</button>
       </div>
     </div>
   </footer>
 
-  <!-- MODAL: ADD / EDIT / REGISTER TECHNICIAN -->
+  <!-- MODAL: ADD / EDIT / REGISTER TECHNICIAN (ฟอร์มสมัครช่างแบบง่ายสุดๆ) -->
   <div id="techModal" class="fixed inset-0 bg-slate-950/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4 overflow-y-auto no-print">
     <div class="bg-white rounded-2xl shadow-2xl max-w-xl w-full overflow-hidden border border-slate-200 transform transition-all my-8">
       <div class="bg-slate-900 text-white px-6 py-4 flex items-center justify-between">
         <div class="flex items-center gap-2.5">
-          <div class="w-8 h-8 rounded-lg bg-sky-500 flex items-center justify-center text-white text-sm font-bold">
+          <div class="w-8 h-8 rounded-lg bg-emerald-500 flex items-center justify-center text-slate-950 text-sm font-bold">
             <i class="fa-solid fa-id-card"></i>
           </div>
           <div>
-            <h3 class="font-bold text-base text-white" id="modalTitle">ลงทะเบียนสมัครสมาชิกช่างใหม่</h3>
-            <p class="text-[11px] text-slate-400">กรอกข้อมูลขึ้นทะเบียนช่างและชื่อเล่นสำหรับเรียกหน้างาน</p>
+            <h3 class="font-bold text-base text-white" id="modalTitle">สมัครสมาชิกช่างใหม่</h3>
+            <p class="text-[11px] text-slate-400">กรอกข้อมูลง่ายๆ เพียงไม่กี่ช่อง</p>
           </div>
         </div>
         <button onclick="closeModal()" class="text-slate-400 hover:text-white text-lg"><i class="fa-solid fa-xmark"></i></button>
       </div>
 
-      <!-- Quick Guidance Step Header -->
-      <div class="bg-sky-50 border-b border-sky-100 px-6 py-3 text-xs text-sky-900 flex items-center justify-between">
-        <div class="flex items-center gap-2">
-          <i class="fa-solid fa-circle-info text-sky-600"></i>
-          <span>ช่างใหม่จะได้รับรหัส, เข้าแผน OJT 30-60-90 วัน และตารางทักษะอัตโนมัติ</span>
-        </div>
-        <span class="text-[11px] font-semibold text-sky-700 bg-sky-100 px-2 py-0.5 rounded-full">บันทึกข้อมูลเรียลไทม์</span>
-      </div>
-
       <form id="techForm" onsubmit="saveTechnician(event)" class="p-6 space-y-4">
         <input type="hidden" id="techId">
 
-        <!-- Code & Nickname & Fullname Row -->
+        <!-- Nickname & Fullname Row (ชื่อเล่นเด่นสุด) -->
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-          <div>
-            <label class="block text-xs font-semibold text-slate-700 mb-1">รหัสพนักงาน *</label>
-            <input type="text" id="techCode" required placeholder="เช่น TC-001"
-              class="w-full px-3 py-2 border border-slate-300 rounded-xl text-xs sm:text-sm focus:ring-2 focus:ring-sky-500 focus:outline-none">
-          </div>
-          <div>
-            <label class="block text-xs font-semibold text-sky-700 mb-1">
-              <i class="fa-solid fa-tag mr-1 text-sky-500"></i>ชื่อเล่น (เรียกหน้างาน) *
+          <div class="sm:col-span-1">
+            <label class="block text-xs font-bold text-sky-800 mb-1">
+              🏷️ ชื่อเล่น (เรียกหน้างาน) *
             </label>
             <input type="text" id="techNickname" required placeholder="เช่น ช่างบอล, โต้ง, เอก"
-              class="w-full px-3 py-2 border-2 border-sky-300 bg-sky-50/30 rounded-xl text-xs sm:text-sm font-medium focus:ring-2 focus:ring-sky-500 focus:outline-none">
+              class="w-full px-3 py-2.5 border-2 border-sky-400 bg-sky-50/40 rounded-xl text-xs sm:text-sm font-bold focus:ring-2 focus:ring-sky-500 focus:outline-none">
           </div>
-          <div>
+          <div class="sm:col-span-2">
             <label class="block text-xs font-semibold text-slate-700 mb-1">ชื่อ - นามสกุลจริง *</label>
             <input type="text" id="techName" required placeholder="เช่น นายสมชาย สายฟ้า"
-              class="w-full px-3 py-2 border border-slate-300 rounded-xl text-xs sm:text-sm focus:ring-2 focus:ring-sky-500 focus:outline-none">
+              class="w-full px-3 py-2.5 border border-slate-300 rounded-xl text-xs sm:text-sm focus:ring-2 focus:ring-sky-500 focus:outline-none">
           </div>
         </div>
 
-        <!-- Role & Department -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div>
-            <label class="block text-xs font-semibold text-slate-700 mb-1">ตำแหน่งงาน *</label>
-            <input type="text" id="techRole" required placeholder="เช่น ช่างไฟฟ้าซ่อมบำรุง, ช่างเครื่องกล"
-              class="w-full px-3 py-2 border border-slate-300 rounded-xl text-xs sm:text-sm focus:ring-2 focus:ring-sky-500 focus:outline-none">
-          </div>
-          <div>
-            <label class="block text-xs font-semibold text-slate-700 mb-1">แผนก / โซนรับผิดชอบ</label>
-            <input type="text" id="techDept" placeholder="เช่น แผนกซ่อมบำรุง / สายการผลิต A"
-              class="w-full px-3 py-2 border border-slate-300 rounded-xl text-xs sm:text-sm focus:ring-2 focus:ring-sky-500 focus:outline-none">
+        <!-- Role with Quick Preset Chips (กดเลือกได้เลย ไม่ต้องพิมพ์) -->
+        <div>
+          <label class="block text-xs font-semibold text-slate-700 mb-1">ตำแหน่งงาน * (พิมพ์เอง หรือกดเลือกด้านล่าง)</label>
+          <input type="text" id="techRole" required placeholder="เช่น ช่างไฟฟ้าซ่อมบำรุง, ช่างเครื่องกล"
+            class="w-full px-3 py-2 border border-slate-300 rounded-xl text-xs sm:text-sm focus:ring-2 focus:ring-sky-500 focus:outline-none">
+          <!-- Preset Chips -->
+          <div class="flex flex-wrap gap-1.5 mt-2">
+            <button type="button" onclick="setPresetRole('ช่างไฟฟ้าซ่อมบำรุง')" class="px-2.5 py-1 text-[11px] bg-slate-100 hover:bg-sky-100 hover:text-sky-800 text-slate-700 rounded-lg border border-slate-200 transition font-medium">⚡ ช่างไฟฟ้า</button>
+            <button type="button" onclick="setPresetRole('ช่างเครื่องกล')" class="px-2.5 py-1 text-[11px] bg-slate-100 hover:bg-amber-100 hover:text-amber-800 text-slate-700 rounded-lg border border-slate-200 transition font-medium">⚙️ ช่างเครื่องกล</button>
+            <button type="button" onclick="setPresetRole('ช่างบำรุงรักษา (PM)')" class="px-2.5 py-1 text-[11px] bg-slate-100 hover:bg-emerald-100 hover:text-emerald-800 text-slate-700 rounded-lg border border-slate-200 transition font-medium">📋 ช่าง PM</button>
+            <button type="button" onclick="setPresetRole('ช่างแอร์และระบบอาคาร')" class="px-2.5 py-1 text-[11px] bg-slate-100 hover:bg-indigo-100 hover:text-indigo-800 text-slate-700 rounded-lg border border-slate-200 transition font-medium">❄️ ช่างแอร์/อาคาร</button>
+            <button type="button" onclick="setPresetRole('ช่างซ่อมบำรุงทั่วไป')" class="px-2.5 py-1 text-[11px] bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg border border-slate-200 transition font-medium">🛠️ ช่างทั่วไป</button>
           </div>
         </div>
 
@@ -648,7 +652,7 @@
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
             <label class="block text-xs font-semibold text-slate-700 mb-1">กะการทำงาน (Shift) *</label>
-            <select id="techShift" required class="w-full px-3 py-2 border border-slate-300 rounded-xl text-xs sm:text-sm focus:ring-2 focus:ring-sky-500 focus:outline-none bg-white">
+            <select id="techShift" required class="w-full px-3 py-2.5 border border-slate-300 rounded-xl text-xs sm:text-sm focus:ring-2 focus:ring-sky-500 focus:outline-none bg-white font-medium">
               <option value="กะเช้า (A)">กะเช้า (A)</option>
               <option value="กะบ่าย (B)">กะบ่าย (B)</option>
               <option value="กะดึก (C)">กะดึก (C)</option>
@@ -657,7 +661,7 @@
           </div>
           <div>
             <label class="block text-xs font-semibold text-slate-700 mb-1">สถานะสมาชิกช่าง *</label>
-            <select id="techStatus" required class="w-full px-3 py-2 border border-slate-300 rounded-xl text-xs sm:text-sm focus:ring-2 focus:ring-sky-500 focus:outline-none bg-white">
+            <select id="techStatus" required class="w-full px-3 py-2.5 border border-slate-300 rounded-xl text-xs sm:text-sm focus:ring-2 focus:ring-sky-500 focus:outline-none bg-white font-medium">
               <option value="ฝึกงาน OJT (30-90 วัน)">ฝึกงาน OJT (30-90 วัน)</option>
               <option value="ประจำ (ผ่านโปร)">ประจำ (ผ่านโปร)</option>
               <option value="ทดลองงาน">ทดลองงาน</option>
@@ -665,11 +669,25 @@
           </div>
         </div>
 
-        <!-- Start Date & Mentor -->
+        <!-- Code & Phone -->
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
-            <label class="block text-xs font-semibold text-slate-700 mb-1">วันที่เริ่มงาน / วันที่ขึ้นทะเบียน</label>
-            <input type="date" id="techStartDate"
+            <label class="block text-xs font-semibold text-slate-700 mb-1">รหัสพนักงาน (ระบบสร้างให้อัตโนมัติ)</label>
+            <input type="text" id="techCode" required placeholder="เช่น TC-001"
+              class="w-full px-3 py-2 bg-slate-50 border border-slate-300 rounded-xl text-xs sm:text-sm font-mono focus:outline-none">
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-700 mb-1">เบอร์โทรศัพท์ (สำหรับโทรตามหน้างาน)</label>
+            <input type="tel" id="techPhone" placeholder="08x-xxx-xxxx"
+              class="w-full px-3 py-2 border border-slate-300 rounded-xl text-xs sm:text-sm focus:ring-2 focus:ring-sky-500 focus:outline-none">
+          </div>
+        </div>
+
+        <!-- Department & Mentor -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-xs font-semibold text-slate-700 mb-1">แผนก / โซนรับผิดชอบ</label>
+            <input type="text" id="techDept" placeholder="เช่น ซ่อมบำรุง / ไลน์ A"
               class="w-full px-3 py-2 border border-slate-300 rounded-xl text-xs sm:text-sm focus:ring-2 focus:ring-sky-500 focus:outline-none">
           </div>
           <div>
@@ -679,93 +697,29 @@
           </div>
         </div>
 
-        <!-- Contact & Target -->
+        <!-- Start Date & Target -->
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
-            <label class="block text-xs font-semibold text-slate-700 mb-1">เบอร์โทรศัพท์ติดต่อ</label>
-            <input type="tel" id="techPhone" placeholder="08x-xxx-xxxx"
+            <label class="block text-xs font-semibold text-slate-700 mb-1">วันที่เริ่มงาน</label>
+            <input type="date" id="techStartDate"
               class="w-full px-3 py-2 border border-slate-300 rounded-xl text-xs sm:text-sm focus:ring-2 focus:ring-sky-500 focus:outline-none">
           </div>
           <div>
             <label class="block text-xs font-semibold text-slate-700 mb-1">เป้าหมายพัฒนาถัดไป</label>
-            <input type="text" id="techTarget" placeholder="เช่น อบรมระบบควบคุม, ซ่อมบำรุงปั๊ม"
+            <input type="text" id="techTarget" placeholder="เช่น อบรม PLC, ซ่อมไฮดรอลิก"
               class="w-full px-3 py-2 border border-slate-300 rounded-xl text-xs sm:text-sm focus:ring-2 focus:ring-sky-500 focus:outline-none">
           </div>
         </div>
 
         <div class="pt-4 border-t border-slate-200 flex items-center justify-end gap-3">
-          <button type="button" onclick="closeModal()" class="px-4 py-2 text-xs font-medium text-slate-600 hover:bg-slate-100 rounded-xl transition">
+          <button type="button" onclick="closeModal()" class="px-4 py-2.5 text-xs font-semibold text-slate-600 hover:bg-slate-100 rounded-xl transition">
             ยกเลิก
           </button>
-          <button type="submit" class="px-5 py-2 text-xs font-semibold text-white bg-sky-600 hover:bg-sky-700 rounded-xl shadow-md transition flex items-center gap-1.5">
-            <i class="fa-solid fa-floppy-disk"></i> บันทึกการสมัครสมาชิกช่าง
+          <button type="submit" class="px-6 py-2.5 text-xs font-bold text-slate-950 bg-emerald-500 hover:bg-emerald-400 rounded-xl shadow-md transition flex items-center gap-1.5">
+            <i class="fa-solid fa-floppy-disk"></i> บันทึกข้อมูลช่างทันที
           </button>
         </div>
       </form>
-    </div>
-  </div>
-
-  <!-- MODAL: HOW TO REGISTER / GUIDE FOR HEAD TECH -->
-  <div id="howToRegisterModal" class="fixed inset-0 bg-slate-950/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4 overflow-y-auto no-print">
-    <div class="bg-white rounded-2xl shadow-2xl max-w-2xl w-full overflow-hidden border border-slate-200">
-      <div class="bg-slate-900 text-white px-6 py-4 flex items-center justify-between">
-        <h3 class="font-bold text-base flex items-center gap-2">
-          <i class="fa-solid fa-graduation-cap text-sky-400"></i> คู่มือขั้นตอนการรับสมัครและขึ้นทะเบียนช่าง
-        </h3>
-        <button onclick="closeHowToRegisterModal()" class="text-slate-400 hover:text-white text-lg"><i class="fa-solid fa-xmark"></i></button>
-      </div>
-      <div class="p-6 space-y-4 text-xs sm:text-sm text-slate-700">
-        <div class="p-3 bg-sky-50 border border-sky-200 rounded-xl">
-          <p class="font-bold text-sky-900 text-sm">💡 บทบาทของหัวหน้าช่างในการรับช่างใหม่เข้าทีม:</p>
-          <p class="text-xs text-sky-800 mt-1">
-            การขึ้นทะเบียนไม่ใช่แค่เก็บชื่อ แต่คือการ <strong>"ตั้งเป้าหมายและวางพี่เลี้ยงประกบตั้งแต่วันแรก"</strong> เพื่อให้ช่างใหม่ทำงานเป็นเร็ว ปลอดภัย และไม่เกิดอุบัติเหตุ
-          </p>
-        </div>
-
-        <div class="space-y-3">
-          <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl border border-slate-200">
-            <span class="w-6 h-6 rounded-full bg-sky-500 text-white flex items-center justify-center text-xs font-bold flex-shrink-0">1</span>
-            <div>
-              <p class="font-bold text-slate-900 text-xs">กรอกข้อมูลและระบุ "ชื่อเล่น" ประจำตัวช่าง</p>
-              <p class="text-xs text-slate-500 mt-0.5">หน้างานช่างไทยนิยมเรียกชื่อเล่น (เช่น ช่างบอล, ช่างเอก) ช่วยให้ทีมสื่อสารกระชับและส่งงานได้คล่องตัวขึ้น</p>
-            </div>
-          </div>
-
-          <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl border border-slate-200">
-            <span class="w-6 h-6 rounded-full bg-indigo-500 text-white flex items-center justify-center text-xs font-bold flex-shrink-0">2</span>
-            <div>
-              <p class="font-bold text-slate-900 text-xs">มอบหมาย "ช่างพี่เลี้ยง" (Buddy Mentor ระดับ L3-L4)</p>
-              <p class="text-xs text-slate-500 mt-0.5">จับคู่ช่างใหม่เข้ากับช่างเก่งในกะเดียวกัน ให้พี่เลี้ยงคอยดูแลเรื่องความปลอดภัย 5ส และแนะนำผังเครื่องจักร</p>
-            </div>
-          </div>
-
-          <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl border border-slate-200">
-            <span class="w-6 h-6 rounded-full bg-amber-500 text-white flex items-center justify-center text-xs font-bold flex-shrink-0">3</span>
-            <div>
-              <p class="font-bold text-slate-900 text-xs">เข้าสู่แผนพัฒนา OJT 30-60-90 วันโดยอัตโนมัติ</p>
-              <p class="text-xs text-slate-500 mt-0.5">
-                • <strong>30 วันแรก:</strong> ผ่านเรื่องความปลอดภัย LOTO และ PPE 100%<br>
-                • <strong>60 วัน:</strong> ทำ PM ประจำวันตาม WI ได้ด้วยตัวเอง<br>
-                • <strong>90 วัน:</strong> วิเคราะห์ปัญหาเบื้องต้น พร้อมขึ้นเวรเดี่ยว
-              </p>
-            </div>
-          </div>
-
-          <div class="flex items-start gap-3 p-3 bg-slate-50 rounded-xl border border-slate-200">
-            <span class="w-6 h-6 rounded-full bg-emerald-500 text-white flex items-center justify-center text-xs font-bold flex-shrink-0">4</span>
-            <div>
-              <p class="font-bold text-slate-900 text-xs">อัปเดต Skill Matrix ต่อเนื่องทุกเดือน</p>
-              <p class="text-xs text-slate-500 mt-0.5">เมื่อช่างทำเคสใหม่สำเร็จ ให้หัวหน้าช่างมาคลิกปรับเลเวล L1 ➔ L2 ➔ L3 เพื่อเตรียมดันขึ้นเป็นช่างอาวุโสต่อไป</p>
-            </div>
-          </div>
-        </div>
-
-        <div class="pt-3 border-t border-slate-200 flex justify-end">
-          <button onclick="closeHowToRegisterModal(); openAddModal();" class="px-4 py-2 bg-sky-600 hover:bg-sky-700 text-white text-xs font-semibold rounded-xl transition">
-            เริ่มสมัครช่างใหม่ทันที <i class="fa-solid fa-arrow-right ml-1"></i>
-          </button>
-        </div>
-      </div>
     </div>
   </div>
 
@@ -774,26 +728,26 @@
     <div class="bg-white rounded-2xl shadow-2xl max-w-md w-full overflow-hidden border border-slate-200">
       <div class="bg-slate-900 text-white px-6 py-4 flex items-center justify-between">
         <h3 class="font-bold text-base flex items-center gap-2">
-          <i class="fa-solid fa-database text-sky-400"></i> สำรอง & นำเข้าข้อมูล
+          <i class="fa-solid fa-database text-sky-400"></i> จัดการข้อมูล & Excel
         </h3>
         <button onclick="closeExportModal()" class="text-slate-400 hover:text-white text-lg"><i class="fa-solid fa-xmark"></i></button>
       </div>
       <div class="p-6 space-y-4 text-xs sm:text-sm">
         <p class="text-slate-600 text-xs">
-          คุณสามารถดาวน์โหลดข้อมูลทั้งหมดเก็บไว้เป็นไฟล์สำรอง (JSON) หรือส่งออกเป็นไฟล์สำหรับเปิดใน Excel (CSV) พร้อมชื่อเล่นและความถนัดได้ตลอดเวลา
+          ดาวน์โหลดข้อมูลช่างทั้งหมดเก็บไว้ในเครื่อง หรือเปิดใช้งานใน Microsoft Excel (CSV)
         </p>
         
         <div class="space-y-2">
-          <button onclick="downloadBackupJSON()" class="w-full py-2.5 px-4 bg-sky-50 hover:bg-sky-100 text-sky-700 rounded-xl border border-sky-200 font-medium flex items-center justify-center gap-2 transition">
-            <i class="fa-solid fa-download"></i> สำรองข้อมูลไฟล์ระบบ (Backup JSON)
+          <button onclick="exportToCSV()" class="w-full py-3 px-4 bg-emerald-50 hover:bg-emerald-100 text-emerald-800 rounded-xl border border-emerald-300 font-bold flex items-center justify-center gap-2 transition">
+            <i class="fa-solid fa-file-excel text-emerald-600 text-lg"></i> ส่งออกตาราง Excel (CSV พร้อมชื่อเล่น)
           </button>
-          <button onclick="exportToCSV()" class="w-full py-2.5 px-4 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 rounded-xl border border-emerald-200 font-medium flex items-center justify-center gap-2 transition">
-            <i class="fa-solid fa-file-excel"></i> ส่งออกตารางสำหรับ Excel (CSV)
+          <button onclick="downloadBackupJSON()" class="w-full py-2.5 px-4 bg-sky-50 hover:bg-sky-100 text-sky-700 rounded-xl border border-sky-200 font-medium flex items-center justify-center gap-2 transition">
+            <i class="fa-solid fa-download"></i> สำรองไฟล์ระบบ (Backup JSON)
           </button>
         </div>
 
         <div class="pt-3 border-t border-slate-200">
-          <label class="block text-xs font-semibold text-slate-700 mb-1">กู้คืนข้อมูลจากไฟล์ JSON:</label>
+          <label class="block text-xs font-semibold text-slate-700 mb-1">กู้คืนข้อมูลจากไฟล์ JSON สำรอง:</label>
           <input type="file" id="importFileInput" accept=".json" class="text-xs text-slate-500 file:mr-2 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-slate-100 file:text-slate-700 hover:file:bg-slate-200">
           <button onclick="importBackupJSON()" class="mt-2 w-full py-2 bg-slate-800 hover:bg-slate-700 text-white rounded-xl text-xs font-medium transition">
             กู้คืนข้อมูล (Restore)
@@ -808,7 +762,7 @@
     // -------------------------------------------------------------
     // DATA STRUCTURE & SAMPLE DATA (พร้อมชื่อเล่น & ความถนัดช่าง)
     // -------------------------------------------------------------
-    const STORAGE_KEY = 'TECH_COMPETENCY_SYSTEM_DATA_V3';
+    const STORAGE_KEY = 'TECH_COMPETENCY_SYSTEM_DATA_V4';
 
     const SAMPLE_DATA = [
       {
@@ -817,17 +771,17 @@
         name: 'นายสมชาย ชาญวิทย์',
         nickname: 'ช่างชาย',
         role: 'หัวหน้าทีมช่างซ่อมบำรุง (Foreman)',
-        department: 'ซ่อมบำรุงกลาง (Central Maint.)',
+        department: 'ซ่อมบำรุงกลาง',
         shift: 'กะปกติ (Day)',
         status: 'ประจำ (ผ่านโปร)',
         startDate: '2019-03-01',
         mentor: 'ผู้จัดการฝ่ายวิศวกรรม',
         phone: '081-234-5678',
-        target: 'การบริหารงานซ่อมบำรุง TPM & Autonomous Maint.',
+        target: 'การบริหารงานซ่อมบำรุง TPM',
         skills: { electrical: 4, mechanical: 4, pm: 4, rca: 4, safety: 4, comm: 4 },
         aptitude: {
           type: 'A',
-          title: 'ช่างสายไฟ & สมองกล (Electrical & Automation)',
+          title: 'ช่างสายไฟ & สมองกล (Electrical)',
           icon: 'fa-solid fa-bolt text-sky-500',
           badgeClass: 'bg-sky-50 text-sky-800 border border-sky-300'
         },
@@ -835,7 +789,7 @@
           p30: [true, true, true, true, true],
           p60: [true, true, true, true],
           p90: [true, true, true, true],
-          notes: 'ผ่านการทดสอบเป็นช่างผู้เชี่ยวชาญระดับ 4 สามารถเป็นพี่เลี้ยงได้'
+          notes: 'ระดับ 4 พร้อมเป็นพี่เลี้ยง'
         }
       },
       {
@@ -850,11 +804,11 @@
         startDate: '2021-06-15',
         mentor: 'นายสมชาย (ช่างชาย L4)',
         phone: '089-876-5432',
-        target: 'เรียนรู้ระบบไฮดรอลิกแรงดันสูงและนิวแมติกส์วาล์วสัดส่วน',
+        target: 'ระบบไฮดรอลิกแรงดันสูง',
         skills: { electrical: 3, mechanical: 4, pm: 4, rca: 3, safety: 4, comm: 3 },
         aptitude: {
           type: 'B',
-          title: 'ช่างสายพลังกล & ไฮดรอลิก (Mechanical & Power)',
+          title: 'ช่างสายพลังกล & ลม (Mechanical)',
           icon: 'fa-solid fa-gears text-amber-500',
           badgeClass: 'bg-amber-50 text-amber-800 border border-amber-300'
         },
@@ -862,7 +816,7 @@
           p30: [true, true, true, true, true],
           p60: [true, true, true, true],
           p90: [true, true, true, true],
-          notes: 'ฝีมือเครื่องกลยอดเยี่ยม เป็นหัวใจของกะเช้า'
+          notes: 'ฝีมือช่างกลยอดเยี่ยม'
         }
       },
       {
@@ -877,11 +831,11 @@
         startDate: '2022-11-01',
         mentor: 'นายสมชาย (ช่างชาย L4)',
         phone: '086-555-1234',
-        target: 'เขียนโปรแกรม PLC Siemens และอินเวอร์เตอร์ VFD',
+        target: 'เขียนโปรแกรม PLC Siemens',
         skills: { electrical: 4, mechanical: 2, pm: 3, rca: 3, safety: 3, comm: 3 },
         aptitude: {
           type: 'A',
-          title: 'ช่างสายไฟ & สมองกล (Electrical & Automation)',
+          title: 'ช่างสายไฟ & สมองกล (Electrical)',
           icon: 'fa-solid fa-bolt text-sky-500',
           badgeClass: 'bg-sky-50 text-sky-800 border border-sky-300'
         },
@@ -897,18 +851,18 @@
         code: 'TC-004',
         name: 'นายธีรพงษ์ ใจสู้',
         nickname: 'ช่างพงษ์',
-        role: 'ช่างซ่อมบำรุงทั่วไป',
-        department: 'ระบบสาธารณูปโภค (Utility)',
+        role: 'ช่างบำรุงรักษา (PM)',
+        department: 'ระบบสาธารณูปโภค',
         shift: 'กะดึก (C)',
         status: 'ประจำ (ผ่านโปร)',
         startDate: '2023-08-20',
         mentor: 'นายประสิทธิ์ (ช่างสิทธิ์ L4)',
         phone: '084-111-2233',
-        target: 'ฝึกวิเคราะห์การสั่นสะเทือนของปั๊มน้ำและชิลเลอร์',
+        target: 'วิเคราะห์การสั่นสะเทือนปั๊มน้ำ',
         skills: { electrical: 2, mechanical: 3, pm: 3, rca: 2, safety: 3, comm: 2 },
         aptitude: {
           type: 'C',
-          title: 'ช่างสายตรวจเช็ก & PM (Reliability & PM)',
+          title: 'ช่างสายตรวจเช็ก & PM (Reliability)',
           icon: 'fa-solid fa-clipboard-check text-emerald-500',
           badgeClass: 'bg-emerald-50 text-emerald-800 border border-emerald-300'
         },
@@ -916,7 +870,7 @@
           p30: [true, true, true, true, true],
           p60: [true, true, true, true],
           p90: [true, true, true, true],
-          notes: 'ทำงาน PM ได้อย่างมีวินัย'
+          notes: 'ทำงาน PM ละเอียด รอบคอบ'
         }
       },
       {
@@ -931,11 +885,11 @@
         startDate: '2026-08-15',
         mentor: 'นายประสิทธิ์ (ช่างสิทธิ์ L4)',
         phone: '095-777-8899',
-        target: 'ทำความคุ้นเคยเครื่องจักรและระบบตัดไฟ LOTO',
+        target: 'คุ้นเคยเครื่องจักร & ระบบตัดไฟ LOTO',
         skills: { electrical: 1, mechanical: 2, pm: 2, rca: 1, safety: 3, comm: 2 },
         aptitude: {
           type: 'D',
-          title: 'ช่างสายกู้ภัย & นักสืบสาเหตุ (Breakdown Hunter)',
+          title: 'ช่างสายกู้ภัยเครื่องดับ (Troubleshooter)',
           icon: 'fa-solid fa-fire-extinguisher text-rose-500',
           badgeClass: 'bg-rose-50 text-rose-800 border border-rose-300'
         },
@@ -943,7 +897,7 @@
           p30: [true, true, true, true, true],
           p60: [true, true, false, false],
           p90: [false, false, false, false],
-          notes: 'ผ่านเกณฑ์ 30 วันแรกเรียบร้อย กำลังฝึกทำ PM สัปดาห์ละ 2 เครื่อง'
+          notes: 'ผ่าน 30 วันแรกเรียบร้อย'
         }
       }
     ];
@@ -1124,7 +1078,7 @@
     // NAVIGATION
     // -------------------------------------------------------------
     function switchTab(tabId) {
-      const tabs = ['dashboard', 'technicians', 'skillMatrix', 'ojtTracking', 'shiftBalance', 'quiz'];
+      const tabs = ['dashboard', 'technicians', 'skillMatrix', 'ojtTracking', 'quiz', 'shiftBalance'];
       tabs.forEach(t => {
         const section = document.getElementById(`tab-${t}`);
         const btn = document.getElementById(`btn-${t}`);
@@ -1138,7 +1092,7 @@
         }
       });
 
-      // Refresh corresponding tab views
+      // Refresh views
       if (tabId === 'dashboard') renderDashboard();
       if (tabId === 'technicians') renderTechList();
       if (tabId === 'skillMatrix') renderSkillMatrix();
@@ -1146,15 +1100,18 @@
         populateOjtDropdown();
         renderOjtChecklist();
       }
-      if (tabId === 'shiftBalance') renderShiftBalance();
       if (tabId === 'quiz') {
         populateQuizDropdown();
         renderQuizQuestions();
       }
+      if (tabId === 'shiftBalance') renderShiftBalance();
+
+      // Scroll smoothly to main area on mobile
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
     // -------------------------------------------------------------
-    // TAB 1: DASHBOARD LOGIC
+    // TAB 1: DASHBOARD
     // -------------------------------------------------------------
     function calculateAvg(skills) {
       if (!skills) return 0;
@@ -1206,12 +1163,11 @@
       document.getElementById('dashAvgSkill').innerText = `${overallAvg} / 4.0`;
       document.getElementById('dashAvgLabel').innerText = `เฉลี่ย: ${cat.label.split('(')[0]}`;
 
-      // Calculate averages for radar
+      // Radar
       const radarLabels = ['ไฟฟ้า & คอนโทรล', 'เครื่องกล & ลม', 'งานบำรุงรักษา (PM)', 'วิเคราะห์ปัญหา', 'ความปลอดภัย', 'การส่งกะ'];
       const radarKeys = ['electrical', 'mechanical', 'pm', 'rca', 'safety', 'comm'];
       const radarValues = radarKeys.map(k => total > 0 ? (skillCategoryTotals[k] / total).toFixed(2) : 0);
 
-      // Render Radar Chart
       const radarCtx = document.getElementById('radarChart').getContext('2d');
       if (radarChartInstance) radarChartInstance.destroy();
       radarChartInstance = new Chart(radarCtx, {
@@ -1229,7 +1185,7 @@
             pointHoverBackgroundColor: '#fff',
             pointHoverBorderColor: '#0369a1'
           }, {
-            label: 'เกณฑ์มาตรฐาน (Level 3)',
+            label: 'เกณฑ์มาตรฐาน (L3)',
             data: [3, 3, 3, 3, 3, 3],
             fill: false,
             borderColor: '#10b981',
@@ -1242,8 +1198,6 @@
           maintainAspectRatio: false,
           scales: {
             r: {
-              angleLines: { color: '#e2e8f0' },
-              grid: { color: '#e2e8f0' },
               suggestedMin: 0,
               suggestedMax: 4,
               ticks: { stepSize: 1, font: { family: 'Prompt' } },
@@ -1256,7 +1210,7 @@
         }
       });
 
-      // Render Level Doughnut Chart
+      // Doughnut
       const doughnutCtx = document.getElementById('levelDoughnut').getContext('2d');
       if (doughnutChartInstance) doughnutChartInstance.destroy();
       doughnutChartInstance = new Chart(doughnutCtx, {
@@ -1273,16 +1227,14 @@
         options: {
           responsive: true,
           maintainAspectRatio: false,
-          plugins: {
-            legend: { display: false }
-          },
+          plugins: { legend: { display: false } },
           cutout: '65%'
         }
       });
     }
 
     // -------------------------------------------------------------
-    // TAB 2: TECHNICIAN LIST & SEARCH
+    // TAB 2: TECHNICIANS DIRECTORY
     // -------------------------------------------------------------
     function renderTechList() {
       const search = (document.getElementById('searchTechInput').value || '').toLowerCase();
@@ -1320,7 +1272,7 @@
         grid.innerHTML = `
           <div class="col-span-full py-12 text-center text-slate-400 bg-white rounded-2xl border border-slate-200">
             <i class="fa-solid fa-user-slash text-4xl mb-2 text-slate-300"></i>
-            <p class="font-medium text-sm">ไม่พบข้อมูลช่างที่ตรงกับเงื่อนไขการค้นหา</p>
+            <p class="font-medium text-sm">ไม่พบข้อมูลช่างที่ค้นหา</p>
           </div>
         `;
         return;
@@ -1338,7 +1290,7 @@
         const displayInitial = t.nickname ? t.nickname.replace('ช่าง', '').trim().charAt(0) : (t.name ? t.name.charAt(3) || t.name.charAt(0) : 'T');
 
         const card = document.createElement('div');
-        card.className = 'bg-white rounded-2xl p-5 shadow-sm border border-slate-200/80 hover:shadow-md transition flex flex-col justify-between';
+        card.className = 'bg-white rounded-2xl p-5 shadow-sm border border-slate-200 hover:shadow-md hover:border-slate-300 transition flex flex-col justify-between';
         card.innerHTML = `
           <div>
             <div class="flex items-start justify-between gap-2">
@@ -1349,26 +1301,26 @@
                 </div>
                 <div>
                   <div class="flex items-center gap-1.5 flex-wrap">
-                    <h4 class="font-bold text-slate-900 text-sm">${t.name}</h4>
-                    ${t.nickname ? `<span class="text-xs bg-sky-100 text-sky-800 font-semibold px-2 py-0.5 rounded-full border border-sky-200 flex items-center gap-1"><i class="fa-solid fa-tag text-[10px]"></i>${t.nickname}</span>` : ''}
+                    <h4 class="font-bold text-slate-900 text-base">${t.name}</h4>
+                    ${t.nickname ? `<span class="text-xs bg-sky-100 text-sky-800 font-bold px-2 py-0.5 rounded-full border border-sky-300 flex items-center gap-1">🏷️ ${t.nickname}</span>` : ''}
                   </div>
                   <p class="text-xs text-sky-700 font-medium mt-0.5">${t.role}</p>
                 </div>
               </div>
-              <span class="text-xs font-semibold px-2 py-0.5 rounded-full border ${badgeColorClass} whitespace-nowrap">
-                ${avg} (${cat.label.split('(')[0].trim()})
+              <span class="text-xs font-bold px-2.5 py-1 rounded-full border ${badgeColorClass} whitespace-nowrap">
+                L${Math.round(avg)} (${avg})
               </span>
             </div>
 
             ${t.aptitude ? `
-              <div class="mt-3 flex items-center gap-1.5 px-2.5 py-1 rounded-xl text-xs font-semibold ${t.aptitude.badgeClass}">
+              <div class="mt-3 flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-bold ${t.aptitude.badgeClass}">
                 <i class="${t.aptitude.icon}"></i>
-                <span class="truncate">${t.aptitude.title}</span>
+                <span class="truncate">ความถนัด: ${t.aptitude.title.split('(')[0].trim()}</span>
               </div>
             ` : `
               <div class="mt-3">
-                <button onclick="takeQuizForTech('${t.id}')" class="text-[11px] text-amber-700 bg-amber-50 hover:bg-amber-100 border border-amber-200 px-2 py-1 rounded-lg transition flex items-center gap-1">
-                  <i class="fa-solid fa-brain text-amber-500"></i> ยังไม่ได้ทำแบบทดสอบความถนัด (กดทำเลย)
+                <button onclick="takeQuizForTech('${t.id}')" class="text-xs text-amber-800 bg-amber-50 hover:bg-amber-100 border border-amber-300 font-semibold px-2.5 py-1.5 rounded-xl transition flex items-center gap-1.5">
+                  <i class="fa-solid fa-brain text-amber-500"></i> ยังไม่ได้ทดสอบความถนัด (กดเพื่อทดสอบ)
                 </button>
               </div>
             `}
@@ -1376,7 +1328,7 @@
             <div class="mt-4 pt-3 border-t border-slate-100 grid grid-cols-2 gap-2 text-xs text-slate-600">
               <div>
                 <span class="text-slate-400 block text-[10px]">กะทำงาน</span>
-                <span class="font-medium text-slate-800"><i class="fa-regular fa-clock text-sky-500 mr-1"></i>${t.shift}</span>
+                <span class="font-bold text-slate-800"><i class="fa-regular fa-clock text-sky-500 mr-1"></i>${t.shift}</span>
               </div>
               <div>
                 <span class="text-slate-400 block text-[10px]">แผนก / โซน</span>
@@ -1401,12 +1353,17 @@
           </div>
 
           <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-xs">
-            <span class="text-slate-400 text-[11px]"><i class="fa-solid fa-phone mr-1"></i>${t.phone || '-'}</span>
+            ${t.phone ? `
+              <a href="tel:${t.phone}" class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-emerald-50 text-emerald-800 hover:bg-emerald-100 rounded-xl font-bold transition border border-emerald-200">
+                <i class="fa-solid fa-phone text-emerald-600"></i> ${t.phone}
+              </a>
+            ` : `<span class="text-slate-400 text-xs">ไม่มีเบอร์โทร</span>`}
+
             <div class="flex items-center gap-1">
-              <button onclick="editTechnician('${t.id}')" class="px-2.5 py-1 text-slate-600 hover:text-sky-600 hover:bg-sky-50 rounded-lg transition" title="แก้ไขข้อมูลช่าง">
-                <i class="fa-solid fa-pen-to-square"></i>
+              <button onclick="editTechnician('${t.id}')" class="px-2.5 py-1.5 text-slate-600 hover:text-sky-600 hover:bg-sky-50 rounded-xl transition" title="แก้ไขข้อมูลช่าง">
+                <i class="fa-solid fa-pen-to-square"></i> แก้ไข
               </button>
-              <button onclick="deleteTechnician('${t.id}')" class="px-2.5 py-1 text-slate-600 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition" title="ลบข้อมูลช่าง">
+              <button onclick="deleteTechnician('${t.id}')" class="px-2 py-1.5 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-xl transition" title="ลบข้อมูลช่าง">
                 <i class="fa-solid fa-trash-can"></i>
               </button>
             </div>
@@ -1417,7 +1374,7 @@
     }
 
     // -------------------------------------------------------------
-    // TAB 3: SKILL MATRIX INTERACTIVE TABLE
+    // TAB 3: SKILL MATRIX
     // -------------------------------------------------------------
     function renderSkillMatrix() {
       const tbody = document.getElementById('skillMatrixTableBody');
@@ -1425,25 +1382,24 @@
 
       if (technicians.length === 0) {
         tbody.innerHTML = `
-          <tr><td colspan="10" class="text-center py-8 text-slate-400">ยังไม่มีข้อมูลช่างในระบบ กรุณากด "สมัครสมาชิกช่าง"</td></tr>
+          <tr><td colspan="10" class="text-center py-8 text-slate-400">ยังไม่มีข้อมูลช่างในระบบ</td></tr>
         `;
         return;
       }
 
       technicians.forEach((t, index) => {
         const avg = calculateAvg(t.skills);
-        const cat = getLevelCategory(parseFloat(avg));
         const tr = document.createElement('tr');
         tr.className = 'hover:bg-slate-50 transition border-b border-slate-200';
 
         tr.innerHTML = `
           <td class="py-3 px-3 text-center text-slate-400 font-mono text-xs">${index + 1}</td>
           <td class="py-3 px-4">
-            <div class="font-bold text-slate-900 flex items-center gap-1.5">
+            <div class="font-bold text-slate-900 flex items-center gap-1.5 text-sm">
               ${t.name}
-              ${t.nickname ? `<span class="text-[11px] bg-sky-50 text-sky-700 px-1.5 py-0.2 rounded border border-sky-200 font-medium">(${t.nickname})</span>` : ''}
+              ${t.nickname ? `<span class="text-xs bg-sky-100 text-sky-800 px-2 py-0.5 rounded-full border border-sky-200 font-bold">🏷️ ${t.nickname}</span>` : ''}
             </div>
-            <div class="text-[11px] text-slate-500">${t.role} • <span class="text-sky-600 font-medium">${t.shift}</span></div>
+            <div class="text-[11px] text-slate-500">${t.role} • <span class="text-sky-600 font-semibold">${t.shift}</span></div>
           </td>
           ${renderSkillSelectorCell(t.id, 'electrical', t.skills?.electrical || 1)}
           ${renderSkillSelectorCell(t.id, 'mechanical', t.skills?.mechanical || 1)}
@@ -1452,7 +1408,7 @@
           ${renderSkillSelectorCell(t.id, 'safety', t.skills?.safety || 1)}
           ${renderSkillSelectorCell(t.id, 'comm', t.skills?.comm || 1)}
           <td class="py-3 px-3 text-center">
-            <span class="inline-block px-2.5 py-1 rounded-full text-xs font-bold bg-slate-100 text-slate-800">
+            <span class="inline-block px-3 py-1 rounded-full text-xs font-bold bg-slate-100 text-slate-800 border">
               ${avg}
             </span>
           </td>
@@ -1467,15 +1423,15 @@
     }
 
     function renderSkillSelectorCell(techId, skillKey, currentLevel) {
-      let bg = 'bg-slate-100 text-slate-700 hover:bg-slate-200';
-      if (currentLevel == 2) bg = 'bg-sky-100 text-sky-800 hover:bg-sky-200';
-      if (currentLevel == 3) bg = 'bg-indigo-100 text-indigo-800 hover:bg-indigo-200';
-      if (currentLevel == 4) bg = 'bg-emerald-100 text-emerald-800 hover:bg-emerald-200';
+      let bg = 'bg-slate-100 text-slate-700 hover:bg-slate-200 border-slate-300';
+      if (currentLevel == 2) bg = 'bg-sky-100 text-sky-800 hover:bg-sky-200 border-sky-300';
+      if (currentLevel == 3) bg = 'bg-indigo-100 text-indigo-800 hover:bg-indigo-200 border-indigo-300';
+      if (currentLevel == 4) bg = 'bg-emerald-100 text-emerald-800 hover:bg-emerald-200 border-emerald-300';
 
       return `
         <td class="py-2 px-2 text-center">
           <button onclick="cycleSkillLevel('${techId}', '${skillKey}', ${currentLevel})" 
-            class="px-3 py-1.5 rounded-lg font-bold text-xs transition shadow-sm ${bg}" 
+            class="px-3.5 py-1.5 rounded-xl font-bold text-xs transition shadow-sm border ${bg}" 
             title="คลิกเพื่อปรับระดับ L1-L4">
             L${currentLevel}
           </button>
@@ -1496,7 +1452,7 @@
     }
 
     // -------------------------------------------------------------
-    // TAB 4: OJT 30-60-90 DAYS TRACKING
+    // TAB 4: OJT 30-60-90 DAYS
     // -------------------------------------------------------------
     function populateOjtDropdown() {
       const select = document.getElementById('ojtSelectTech');
@@ -1538,25 +1494,23 @@
             <div>
               <div class="flex items-center gap-2">
                 <h3 class="text-base font-bold text-slate-900">${tech.name}</h3>
-                ${tech.nickname ? `<span class="text-xs bg-amber-100 text-amber-900 font-bold px-2 py-0.5 rounded-full border border-amber-300">ชื่อเล่น: ${tech.nickname}</span>` : ''}
+                ${tech.nickname ? `<span class="text-xs bg-amber-100 text-amber-900 font-bold px-2 py-0.5 rounded-full border border-amber-300">🏷️ ${tech.nickname}</span>` : ''}
                 <span class="text-xs text-slate-400 font-mono">(${tech.code})</span>
               </div>
-              <p class="text-xs text-slate-600 mt-0.5">${tech.role} • ประจำ: <span class="font-medium text-slate-800">${tech.shift}</span> • วันที่เริ่มงาน: <span class="font-medium text-slate-800">${tech.startDate || 'ไม่ระบุ'}</span></p>
+              <p class="text-xs text-slate-600 mt-0.5">${tech.role} • ประจำ: <span class="font-bold text-slate-800">${tech.shift}</span> • วันที่เริ่มงาน: <span class="font-medium text-slate-800">${tech.startDate || 'ไม่ระบุ'}</span></p>
             </div>
           </div>
-          <div class="bg-amber-50 border border-amber-200 px-4 py-2 rounded-xl text-xs text-amber-800">
-            <span class="block text-[10px] text-amber-600 font-semibold uppercase">ช่างพี่เลี้ยงประจำตัว:</span>
+          <div class="bg-amber-50 border border-amber-300 px-4 py-2.5 rounded-xl text-xs text-amber-900">
+            <span class="block text-[10px] text-amber-700 font-bold uppercase">ช่างพี่เลี้ยงประจำตัว:</span>
             <span class="font-bold text-sm">${tech.mentor || 'ยังไม่ได้มอบหมาย'}</span>
           </div>
         </div>
       `;
 
-      // Render Phase 30, 60, 90
       renderPhaseList('phase30Items', 'p30', OJT_PHASES.p30, tech.ojt.p30, tech.id);
       renderPhaseList('phase60Items', 'p60', OJT_PHASES.p60, tech.ojt.p60, tech.id);
       renderPhaseList('phase90Items', 'p90', OJT_PHASES.p90, tech.ojt.p90, tech.id);
 
-      // Progress calculation
       updatePhaseBadges(tech);
     }
 
@@ -1567,11 +1521,11 @@
       labels.forEach((label, idx) => {
         const isChecked = checkArray && checkArray[idx] === true;
         const row = document.createElement('label');
-        row.className = `flex items-start gap-2.5 p-2 rounded-xl border text-xs cursor-pointer transition ${isChecked ? 'bg-sky-50/60 border-sky-200 text-slate-800' : 'bg-slate-50 border-slate-200 text-slate-600 hover:bg-slate-100'}`;
+        row.className = `flex items-start gap-2.5 p-2.5 rounded-xl border text-xs cursor-pointer transition ${isChecked ? 'bg-sky-50 border-sky-300 text-slate-900 font-medium' : 'bg-slate-50 border-slate-200 text-slate-600 hover:bg-slate-100'}`;
         row.innerHTML = `
           <input type="checkbox" ${isChecked ? 'checked' : ''} onchange="toggleOjtCheck('${techId}', '${phaseKey}', ${idx})" 
             class="mt-0.5 rounded text-sky-600 focus:ring-sky-500 h-4 w-4">
-          <span class="leading-relaxed select-none ${isChecked ? 'font-medium' : ''}">${label}</span>
+          <span class="leading-relaxed select-none">${label}</span>
         `;
         container.appendChild(row);
       });
@@ -1610,7 +1564,310 @@
     }
 
     // -------------------------------------------------------------
-    // TAB 5: SHIFT BALANCE & REDUNDANCY
+    // TAB 5: SKILL APTITUDE QUIZ (12 ข้อ)
+    // -------------------------------------------------------------
+    function populateQuizDropdown() {
+      const select = document.getElementById('quizSelectTech');
+      select.innerHTML = '';
+      technicians.forEach(t => {
+        const opt = document.createElement('option');
+        opt.value = t.id;
+        const nickDisplay = t.nickname ? ` (${t.nickname})` : '';
+        const aptDisplay = t.aptitude ? ` • [${t.aptitude.title.split('(')[0].trim()}]` : ' • [ยังไม่ทดสอบ]';
+        opt.innerText = `${t.name}${nickDisplay}${aptDisplay}`;
+        select.appendChild(opt);
+      });
+    }
+
+    function onQuizTechChanged() {
+      currentQuizAnswers = {};
+      document.getElementById('quizForm').reset();
+      updateQuizProgress();
+      document.getElementById('quizResultCard').classList.add('hidden');
+    }
+
+    function takeQuizForTech(techId) {
+      switchTab('quiz');
+      const select = document.getElementById('quizSelectTech');
+      select.value = techId;
+      onQuizTechChanged();
+    }
+
+    function renderQuizQuestions() {
+      const container = document.getElementById('quizQuestionsContainer');
+      container.innerHTML = '';
+
+      QUIZ_QUESTIONS.forEach(item => {
+        const qCard = document.createElement('div');
+        qCard.className = 'p-4 rounded-xl border border-slate-200 bg-slate-50/60 hover:bg-slate-50 transition space-y-2.5';
+        
+        let optionsHtml = item.options.map(opt => `
+          <label class="flex items-start gap-3 p-3 rounded-xl border border-slate-200 bg-white hover:border-amber-400 hover:bg-amber-50/40 cursor-pointer transition text-xs sm:text-sm">
+            <input type="radio" name="q_${item.id}" value="${opt.type}" onchange="recordQuizAnswer(${item.id}, '${opt.type}')" 
+              class="mt-0.5 text-amber-500 focus:ring-amber-400 h-4 w-4">
+            <div class="leading-relaxed">
+              <span class="font-bold text-amber-800 mr-1">[ข้อ ${opt.type}]</span>
+              <span class="text-slate-800">${opt.text}</span>
+            </div>
+          </label>
+        `).join('');
+
+        qCard.innerHTML = `
+          <h4 class="font-bold text-slate-900 text-xs sm:text-sm">${item.q}</h4>
+          <div class="space-y-2 mt-2">
+            ${optionsHtml}
+          </div>
+        `;
+        container.appendChild(qCard);
+      });
+
+      updateQuizProgress();
+    }
+
+    function recordQuizAnswer(questionId, choiceType) {
+      currentQuizAnswers[questionId] = choiceType;
+      updateQuizProgress();
+    }
+
+    function updateQuizProgress() {
+      const answered = Object.keys(currentQuizAnswers).length;
+      document.getElementById('quizAnsweredCount').innerText = `ตอบแล้ว ${answered}/12 ข้อ`;
+      if (answered === 12) {
+        document.getElementById('quizAnsweredCount').className = 'text-xs text-emerald-600 font-bold';
+      } else {
+        document.getElementById('quizAnsweredCount').className = 'text-xs text-slate-500 font-bold';
+      }
+    }
+
+    function autoFillRandomQuiz() {
+      const types = ['A', 'B', 'C', 'D'];
+      QUIZ_QUESTIONS.forEach(item => {
+        const chosen = types[Math.floor(Math.random() * types.length)];
+        const input = document.querySelector(`input[name="q_${item.id}"][value="${chosen}"]`);
+        if (input) {
+          input.checked = true;
+          currentQuizAnswers[item.id] = chosen;
+        }
+      });
+      updateQuizProgress();
+    }
+
+    function evaluateQuiz(e) {
+      e.preventDefault();
+      const answered = Object.keys(currentQuizAnswers).length;
+      if (answered < 12) {
+        alert(`คุณตอบไปแล้ว ${answered}/12 ข้อ กรุณาตอบให้ครบทั้ง 12 ข้อเพื่อความแม่นยำครับ`);
+        return;
+      }
+
+      let counts = { A: 0, B: 0, C: 0, D: 0 };
+      Object.values(currentQuizAnswers).forEach(val => {
+        if (counts[val] !== undefined) counts[val]++;
+      });
+
+      let topType = 'A';
+      let maxScore = counts.A;
+      ['B', 'C', 'D'].forEach(t => {
+        if (counts[t] > maxScore) {
+          maxScore = counts[t];
+          topType = t;
+        }
+      });
+
+      const archetypes = {
+        A: {
+          title: 'ช่างสายไฟ & สมองกล (Electrical & Automation)',
+          badgeClass: 'bg-sky-100 text-sky-900 border-2 border-sky-300',
+          icon: 'fa-solid fa-bolt text-sky-600',
+          bannerBg: 'from-sky-900 to-indigo-950',
+          roleFit: 'ช่างไฟฟ้าประจำกะ, ผู้รับผิดชอบตู้คอนโทรล MDB/MCC, ซ่อมบำรุงระบบอัตโนมัติ และงานเครื่องมือวัด',
+          training: 'การโปรแกรม PLC Siemens/Mitsubishi, ระบบ Servo Drive, SCADA และมาตรฐานความปลอดภัยทางไฟฟ้า NFPA 70E',
+          buddyFit: 'ประกบคู่กับช่างสายพลังกล (Type B) เพื่อให้กะมีความสมบูรณ์แบบทั้งกลและไฟฟ้า'
+        },
+        B: {
+          title: 'ช่างสายพลังกล & ลม (Mechanical & Power)',
+          badgeClass: 'bg-amber-100 text-amber-900 border-2 border-amber-300',
+          icon: 'fa-solid fa-gears text-amber-600',
+          bannerBg: 'from-amber-900 to-slate-950',
+          roleFit: 'ช่าง Overhaul เครื่องจักร, ซ่อมโครงสร้างกลไก, ซ่อมบำรุงระบบขับเคลื่อน, ปั๊ม วาล์ว และการติดตั้งเครื่องจักรใหม่',
+          training: 'ระบบไฮดรอลิกเชิงลึก (Electro-Hydraulics), การตั้งศูนย์เพลาด้วยเลเซอร์ (Laser Alignment), งานเชื่อมซ่อมบำรุงเฉพาะทาง',
+          buddyFit: 'ประกบคู่กับช่างสายไฟ (Type A) หรือช่างสายตรวจเช็ก (Type C)'
+        },
+        C: {
+          title: 'ช่างสายตรวจเช็ก & PM (Reliability & PM)',
+          badgeClass: 'bg-emerald-100 text-emerald-900 border-2 border-emerald-300',
+          icon: 'fa-solid fa-clipboard-check text-emerald-600',
+          bannerBg: 'from-emerald-950 to-slate-950',
+          roleFit: 'หัวหน้ารับผิดชอบงาน Preventive Maintenance, ทำเอกสาร WI, คุมระบบ 5ส, สต๊อกอะไหล่ และงาน Condition Monitoring',
+          training: 'การวิเคราะห์การสั่นสะเทือน (Vibration Analysis), การถ่ายภาพความร้อนอินฟราเรด (Thermography), TPM',
+          buddyFit: 'ทำงานได้ดีกับทุกสาย คอยช่วยเตรียมความพร้อมให้อะไหล่และเครื่องมือไม่ขาด'
+        },
+        D: {
+          title: 'ช่างสายกู้ภัยเครื่องดับ (Breakdown Hunter)',
+          badgeClass: 'bg-rose-100 text-rose-900 border-2 border-rose-300',
+          icon: 'fa-solid fa-fire-extinguisher text-rose-600',
+          bannerBg: 'from-rose-950 to-slate-950',
+          roleFit: 'มือหนึ่งรับแจ้งเหตุ Breakdown ฉุกเฉิน, สแตนด์บายกะดึก, เป็นคนนำการประชุมสรุปบทเรียนหลังซ่อม (AAR)',
+          training: 'เทคนิค Root Cause Failure Analysis (RCFA), Why-Why Analysis, การบริหารความกดดันและการสื่อสารหน้างาน',
+          buddyFit: 'ประกบคู่กับช่างใหม่เพื่อถ่ายทอดเทคนิค หรือประกบกับช่างสายไฟเพื่อให้ตัดสินใจได้เฉียบคม'
+        }
+      };
+
+      const result = archetypes[topType];
+      const selectedId = document.getElementById('quizSelectTech').value;
+      const tech = technicians.find(t => t.id === selectedId);
+
+      const resultCard = document.getElementById('quizResultCard');
+      resultCard.classList.remove('hidden');
+
+      resultCard.innerHTML = `
+        <div class="bg-gradient-to-r ${result.bannerBg} text-white p-6 rounded-2xl flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+          <div>
+            <span class="text-xs uppercase tracking-wider text-amber-300 font-bold flex items-center gap-1.5">
+              <i class="fa-solid fa-award"></i> สรุปผลความถนัดเด่นของพนักงาน
+            </span>
+            <h3 class="text-xl sm:text-2xl font-bold mt-1 text-white flex items-center gap-2">
+              ${tech ? tech.name : 'พนักงานช่าง'}
+              ${tech?.nickname ? `<span class="text-sm bg-white/20 text-white px-2.5 py-0.5 rounded-full font-bold">🏷️ ${tech.nickname}</span>` : ''}
+            </h3>
+            <p class="text-base text-amber-300 font-bold mt-1">
+              <i class="${result.icon}"></i> ${result.title}
+            </p>
+          </div>
+          <div class="flex items-center gap-2">
+            <button onclick="window.print()" class="px-3.5 py-2 text-xs bg-white/10 hover:bg-white/20 text-white rounded-xl border border-white/20 transition flex items-center gap-1.5 no-print">
+              <i class="fa-solid fa-print"></i> พิมพ์ผล
+            </button>
+            <button onclick="saveAptitudeToTech('${tech?.id}', '${topType}')" class="px-5 py-2.5 text-xs bg-emerald-400 hover:bg-emerald-300 text-slate-950 font-bold rounded-xl shadow-md transition flex items-center gap-1.5 no-print">
+              <i class="fa-solid fa-floppy-disk"></i> บันทึกลงโปรไฟล์ช่าง
+            </button>
+          </div>
+        </div>
+
+        <!-- Scores Breakdown & Chart -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200">
+            <h4 class="font-bold text-slate-800 text-sm mb-3 flex items-center gap-2">
+              <i class="fa-solid fa-chart-column text-amber-500"></i> สัดส่วนคะแนน 4 ด้าน
+            </h4>
+            <div class="h-56">
+              <canvas id="quizBarChart"></canvas>
+            </div>
+          </div>
+
+          <div class="space-y-2.5 text-xs">
+            <h4 class="font-bold text-slate-800 text-sm mb-1">ผลคะแนน (เต็ม 12 คะแนน):</h4>
+            <div class="p-3 rounded-xl border bg-white flex items-center justify-between">
+              <span class="font-bold text-slate-800">⚡ สายไฟ & สมองกล [A]:</span>
+              <span class="font-bold text-sky-700 bg-sky-50 px-2.5 py-1 rounded-full border border-sky-200">${counts.A} คะแนน (${Math.round((counts.A/12)*100)}%)</span>
+            </div>
+            <div class="p-3 rounded-xl border bg-white flex items-center justify-between">
+              <span class="font-bold text-slate-800">⚙️ สายพลังกล & ลม [B]:</span>
+              <span class="font-bold text-amber-700 bg-amber-50 px-2.5 py-1 rounded-full border border-amber-200">${counts.B} คะแนน (${Math.round((counts.B/12)*100)}%)</span>
+            </div>
+            <div class="p-3 rounded-xl border bg-white flex items-center justify-between">
+              <span class="font-bold text-slate-800">📋 สายตรวจเช็ก & PM [C]:</span>
+              <span class="font-bold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald-200">${counts.C} คะแนน (${Math.round((counts.C/12)*100)}%)</span>
+            </div>
+            <div class="p-3 rounded-xl border bg-white flex items-center justify-between">
+              <span class="font-bold text-slate-800">🚨 สายกู้ภัยเครื่องดับ [D]:</span>
+              <span class="font-bold text-rose-700 bg-rose-50 px-2.5 py-1 rounded-full border border-rose-200">${counts.D} คะแนน (${Math.round((counts.D/12)*100)}%)</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recommendations for Supervisor -->
+        <div class="p-5 rounded-2xl bg-amber-50/60 border border-amber-200 space-y-3 text-xs">
+          <h4 class="font-bold text-amber-900 text-sm flex items-center gap-2">
+            <i class="fa-solid fa-lightbulb text-amber-500"></i> ข้อแนะนำสำหรับหัวหน้าช่าง:
+          </h4>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-3 pt-2">
+            <div class="bg-white p-3.5 rounded-xl border border-amber-200">
+              <span class="font-bold text-slate-900 block mb-1">🎯 งานที่ควรมอบหมาย:</span>
+              <p class="text-slate-600">${result.roleFit}</p>
+            </div>
+            <div class="bg-white p-3.5 rounded-xl border border-amber-200">
+              <span class="font-bold text-slate-900 block mb-1">📚 คอร์สที่ควรส่งเรียน:</span>
+              <p class="text-slate-600">${result.training}</p>
+            </div>
+            <div class="bg-white p-3.5 rounded-xl border border-amber-200">
+              <span class="font-bold text-slate-900 block mb-1">🤝 คู่บัดดี้ที่เหมาะสม:</span>
+              <p class="text-slate-600">${result.buddyFit}</p>
+            </div>
+          </div>
+        </div>
+      `;
+
+      setTimeout(() => {
+        const barCtx = document.getElementById('quizBarChart')?.getContext('2d');
+        if (barCtx) {
+          if (quizChartInstance) quizChartInstance.destroy();
+          quizChartInstance = new Chart(barCtx, {
+            type: 'bar',
+            data: {
+              labels: ['สายไฟ (A)', 'สายกล (B)', 'ตรวจเช็ก (C)', 'กู้ภัย (D)'],
+              datasets: [{
+                label: 'คะแนนที่ได้',
+                data: [counts.A, counts.B, counts.C, counts.D],
+                backgroundColor: ['#0284c7', '#f59e0b', '#10b981', '#f43f5e'],
+                borderRadius: 8
+              }]
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              scales: {
+                y: { beginAtZero: true, max: 12, ticks: { stepSize: 2 } }
+              },
+              plugins: { legend: { display: false } }
+            }
+          });
+        }
+      }, 100);
+
+      resultCard.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function saveAptitudeToTech(techId, topType) {
+      const tech = technicians.find(t => t.id === techId);
+      if (!tech) return;
+
+      const archetypes = {
+        A: {
+          type: 'A',
+          title: 'ช่างสายไฟ & สมองกล (Electrical)',
+          icon: 'fa-solid fa-bolt text-sky-500',
+          badgeClass: 'bg-sky-50 text-sky-800 border border-sky-300'
+        },
+        B: {
+          type: 'B',
+          title: 'ช่างสายพลังกล & ลม (Mechanical)',
+          icon: 'fa-solid fa-gears text-amber-500',
+          badgeClass: 'bg-amber-50 text-amber-800 border border-amber-300'
+        },
+        C: {
+          type: 'C',
+          title: 'ช่างสายตรวจเช็ก & PM (Reliability)',
+          icon: 'fa-solid fa-clipboard-check text-emerald-500',
+          badgeClass: 'bg-emerald-50 text-emerald-800 border border-emerald-300'
+        },
+        D: {
+          type: 'D',
+          title: 'ช่างสายกู้ภัยเครื่องดับ (Troubleshooter)',
+          icon: 'fa-solid fa-fire-extinguisher text-rose-500',
+          badgeClass: 'bg-rose-50 text-rose-800 border border-rose-300'
+        }
+      };
+
+      tech.aptitude = archetypes[topType];
+      saveData();
+      renderTechList();
+      populateQuizDropdown();
+      alert(`บันทึกผลความถนัดของ ${tech.name} เรียบร้อยแล้ว!`);
+    }
+
+    // -------------------------------------------------------------
+    // TAB 6: SHIFT BALANCE
     // -------------------------------------------------------------
     function renderShiftBalance() {
       const shifts = ['กะเช้า (A)', 'กะบ่าย (B)', 'กะดึก (C)', 'กะปกติ (Day)'];
@@ -1632,8 +1889,8 @@
         card.className = `p-4 rounded-2xl border ${isSafe ? 'bg-white border-slate-200' : 'bg-rose-50/40 border-rose-200'} shadow-sm flex flex-col justify-between`;
 
         let statusBadge = isSafe 
-          ? `<span class="text-[10px] bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded-full"><i class="fa-solid fa-shield-check"></i> สมดุลพร้อม</span>`
-          : `<span class="text-[10px] bg-rose-100 text-rose-800 font-bold px-2 py-0.5 rounded-full"><i class="fa-solid fa-triangle-exclamation"></i> เสี่ยงขาดช่างชำนาญ</span>`;
+          ? `<span class="text-[10px] bg-emerald-100 text-emerald-800 font-bold px-2 py-0.5 rounded-full"><i class="fa-solid fa-shield-check"></i> พร้อม</span>`
+          : `<span class="text-[10px] bg-rose-100 text-rose-800 font-bold px-2 py-0.5 rounded-full"><i class="fa-solid fa-triangle-exclamation"></i> เสี่ยงขาดคน</span>`;
 
         let membersListHtml = members.map(m => {
           const avg = calculateAvg(m.skills);
@@ -1677,327 +1934,20 @@
     }
 
     // -------------------------------------------------------------
-    // TAB 6: SKILL APTITUDE QUIZ (แบบทดสอบความถนัด)
-    // -------------------------------------------------------------
-    function populateQuizDropdown() {
-      const select = document.getElementById('quizSelectTech');
-      select.innerHTML = '';
-      technicians.forEach(t => {
-        const opt = document.createElement('option');
-        opt.value = t.id;
-        const nickDisplay = t.nickname ? ` (${t.nickname})` : '';
-        const aptDisplay = t.aptitude ? ` • [${t.aptitude.title.split('(')[0].trim()}]` : ' • [ยังไม่ทดสอบ]';
-        opt.innerText = `${t.name}${nickDisplay}${aptDisplay}`;
-        select.appendChild(opt);
-      });
-    }
-
-    function onQuizTechChanged() {
-      currentQuizAnswers = {};
-      document.getElementById('quizForm').reset();
-      updateQuizProgress();
-      document.getElementById('quizResultCard').classList.add('hidden');
-    }
-
-    function takeQuizForTech(techId) {
-      switchTab('quiz');
-      const select = document.getElementById('quizSelectTech');
-      select.value = techId;
-      onQuizTechChanged();
-    }
-
-    function renderQuizQuestions() {
-      const container = document.getElementById('quizQuestionsContainer');
-      container.innerHTML = '';
-
-      QUIZ_QUESTIONS.forEach(item => {
-        const qCard = document.createElement('div');
-        qCard.className = 'p-4 rounded-xl border border-slate-200 bg-slate-50/50 hover:bg-slate-50 transition space-y-3';
-        
-        let optionsHtml = item.options.map(opt => `
-          <label class="flex items-start gap-3 p-3 rounded-xl border border-slate-200 bg-white hover:border-amber-400 hover:bg-amber-50/30 cursor-pointer transition text-xs sm:text-sm">
-            <input type="radio" name="q_${item.id}" value="${opt.type}" onchange="recordQuizAnswer(${item.id}, '${opt.type}')" 
-              class="mt-0.5 text-amber-500 focus:ring-amber-400 h-4 w-4">
-            <div class="leading-relaxed">
-              <span class="font-bold text-amber-700 mr-1">[ข้อ ${opt.type}]</span>
-              <span class="text-slate-700">${opt.text}</span>
-            </div>
-          </label>
-        `).join('');
-
-        qCard.innerHTML = `
-          <h4 class="font-bold text-slate-900 text-xs sm:text-sm">${item.q}</h4>
-          <div class="space-y-2 mt-2">
-            ${optionsHtml}
-          </div>
-        `;
-        container.appendChild(qCard);
-      });
-
-      updateQuizProgress();
-    }
-
-    function recordQuizAnswer(questionId, choiceType) {
-      currentQuizAnswers[questionId] = choiceType;
-      updateQuizProgress();
-    }
-
-    function updateQuizProgress() {
-      const answered = Object.keys(currentQuizAnswers).length;
-      document.getElementById('quizAnsweredCount').innerText = `ตอบแล้ว ${answered}/12 ข้อ`;
-      if (answered === 12) {
-        document.getElementById('quizAnsweredCount').className = 'text-xs text-emerald-600 font-bold';
-      } else {
-        document.getElementById('quizAnsweredCount').className = 'text-xs text-slate-500 font-medium';
-      }
-    }
-
-    function autoFillRandomQuiz() {
-      const types = ['A', 'B', 'C', 'D'];
-      QUIZ_QUESTIONS.forEach(item => {
-        const chosen = types[Math.floor(Math.random() * types.length)];
-        const input = document.querySelector(`input[name="q_${item.id}"][value="${chosen}"]`);
-        if (input) {
-          input.checked = true;
-          currentQuizAnswers[item.id] = chosen;
-        }
-      });
-      updateQuizProgress();
-    }
-
-    function evaluateQuiz(e) {
-      e.preventDefault();
-      const answered = Object.keys(currentQuizAnswers).length;
-      if (answered < 12) {
-        alert(`คุณตอบไปแล้ว ${answered}/12 ข้อ กรุณาตอบให้ครบทั้ง 12 ข้อเพื่อความแม่นยำครับ`);
-        return;
-      }
-
-      // Count scores
-      let counts = { A: 0, B: 0, C: 0, D: 0 };
-      Object.values(currentQuizAnswers).forEach(val => {
-        if (counts[val] !== undefined) counts[val]++;
-      });
-
-      // Find highest archetype
-      let topType = 'A';
-      let maxScore = counts.A;
-      ['B', 'C', 'D'].forEach(t => {
-        if (counts[t] > maxScore) {
-          maxScore = counts[t];
-          topType = t;
-        }
-      });
-
-      // Archetype definitions
-      const archetypes = {
-        A: {
-          title: 'ช่างสายไฟ & สมองกล (Electrical & Automation)',
-          badgeClass: 'bg-sky-100 text-sky-900 border-2 border-sky-300',
-          icon: 'fa-solid fa-bolt text-sky-600',
-          bannerBg: 'from-sky-900 to-indigo-950',
-          desc: 'มีจุดเด่นด้านตรรกะและการควบคุม เข้าใจวงจรไฟฟ้า อ่านแบบ Wiring Diagram ได้แม่นยำ วิเคราะห์ระบบเซนเซอร์ อินเวอร์เตอร์ และ PLC ได้รวดเร็ว',
-          roleFit: 'ช่างไฟฟ้าประจำกะ, ผู้รับผิดชอบตู้คอนโทรล MDB/MCC, ซ่อมบำรุงระบบอัตโนมัติ และงานเครื่องมือวัด',
-          training: 'การโปรแกรม PLC Siemens/Mitsubishi, ระบบ Servo Drive, SCADA และมาตรฐานความปลอดภัยทางไฟฟ้า NFPA 70E',
-          buddyFit: 'ประกบคู่กับช่างสายพลังกล (Type B) เพื่อให้กะมีความสมบูรณ์แบบทั้งกลและไฟฟ้า'
-        },
-        B: {
-          title: 'ช่างสายพลังกล & ไฮดรอลิก (Mechanical & Power)',
-          badgeClass: 'bg-amber-100 text-amber-900 border-2 border-amber-300',
-          icon: 'fa-solid fa-gears text-amber-600',
-          bannerBg: 'from-amber-900 to-slate-950',
-          desc: 'มีทักษะช่างกลสูง งานรื้อ-ประกอบแม่นยำ มีความรู้สึกสัมผัสเรื่องระยะหลวมคลอน (Tolerance) เชี่ยวชาญระบบส่งกำลัง เกียร์ ปั๊ม สายพาน และระบบไฮดรอลิก/นิวแมติกส์',
-          roleFit: 'ช่าง Overhaul เครื่องจักร, ซ่อมโครงสร้างกลไก, ซ่อมบำรุงระบบขับเคลื่อน, ปั๊ม วาล์ว และการติดตั้งเครื่องจักรใหม่',
-          training: 'ระบบไฮดรอลิกเชิงลึก (Electro-Hydraulics), การตั้งศูนย์เพลาด้วยเลเซอร์ (Laser Alignment), งานเชื่อมซ่อมบำรุงเฉพาะทาง',
-          buddyFit: 'ประกบคู่กับช่างสายไฟ (Type A) หรือช่างสายตรวจเช็ก (Type C)'
-        },
-        C: {
-          title: 'ช่างสายตรวจเช็ก & PM (Reliability & PM)',
-          badgeClass: 'bg-emerald-100 text-emerald-900 border-2 border-emerald-300',
-          icon: 'fa-solid fa-clipboard-check text-emerald-600',
-          bannerBg: 'from-emerald-950 to-slate-950',
-          desc: 'มีความละเอียดรอบคอบสูงมาก ไม่ปล่อยผ่านความผิดปกติเล็กๆ มีวินัยในการบำรุงรักษาเชิงป้องกัน (PM) จดบันทึกและดูแลเครื่องตามมาตรฐาน WI ได้อย่างไร้ที่ติ',
-          roleFit: 'หัวหน้ารับผิดชอบงาน Preventive Maintenance, ทำเอกสาร WI, คุมระบบ 5ส, สต๊อกอะไหล่ และงาน Condition Monitoring',
-          training: 'การวิเคราะห์การสั่นสะเทือน (Vibration Analysis Category I), การถ่ายภาพความร้อนอินฟราเรด (Thermography), TPM',
-          buddyFit: 'ทำงานได้ดีกับทุกสาย คอยช่วยเตรียมความพร้อมให้อะไหล่และเครื่องมือไม่ขาด'
-        },
-        D: {
-          title: 'ช่างสายกู้ภัย & นักสืบสาเหตุ (Breakdown Hunter)',
-          badgeClass: 'bg-rose-100 text-rose-900 border-2 border-rose-300',
-          icon: 'fa-solid fa-fire-extinguisher text-rose-600',
-          bannerBg: 'from-rose-950 to-slate-950',
-          desc: 'มีไหวพริบยอดเยี่ยม คิดเร็วทำเร็ว ไม่ลนลานในภาวะคับขัน กล้าตัดสินใจหน้างาน และมีความเป็นนักสืบในการวิเคราะห์หาสาเหตุรากเหง้า (RCA)',
-          roleFit: 'มือหนึ่งรับแจ้งเหตุ Breakdown ฉุกเฉิน, สแตนด์บายกะดึก, เป็นคนนำการประชุมสรุปบทเรียนหลังซ่อม (AAR)',
-          training: 'เทคนิค Root Cause Failure Analysis (RCFA), Why-Why Analysis, การบริหารความกดดันและการสื่อสารหน้างาน',
-          buddyFit: 'ประกบคู่กับช่างใหม่เพื่อถ่ายทอดเทคนิค หรือประกบกับช่างสายไฟเพื่อให้ตัดสินใจได้เฉียบคม'
-        }
-      };
-
-      const result = archetypes[topType];
-      const selectedId = document.getElementById('quizSelectTech').value;
-      const tech = technicians.find(t => t.id === selectedId);
-
-      const resultCard = document.getElementById('quizResultCard');
-      resultCard.classList.remove('hidden');
-
-      resultCard.innerHTML = `
-        <div class="bg-gradient-to-r ${result.bannerBg} text-white p-6 rounded-2xl flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-          <div>
-            <span class="text-xs uppercase tracking-wider text-amber-300 font-bold flex items-center gap-1.5">
-              <i class="fa-solid fa-award"></i> สรุปผลความถนัดเด่นของพนักงาน
-            </span>
-            <h3 class="text-xl sm:text-2xl font-bold mt-1 text-white flex items-center gap-2">
-              ${tech ? tech.name : 'พนักงานช่าง'}
-              ${tech?.nickname ? `<span class="text-sm bg-white/20 text-white px-2 py-0.5 rounded-full font-normal">(${tech.nickname})</span>` : ''}
-            </h3>
-            <p class="text-base text-amber-300 font-semibold mt-1">
-              <i class="${result.icon}"></i> ${result.title}
-            </p>
-          </div>
-          <div class="flex items-center gap-2">
-            <button onclick="window.print()" class="px-3.5 py-2 text-xs bg-white/10 hover:bg-white/20 text-white rounded-xl border border-white/20 transition flex items-center gap-1.5 no-print">
-              <i class="fa-solid fa-print"></i> พิมพ์ผลทดสอบ
-            </button>
-            <button onclick="saveAptitudeToTech('${tech?.id}', '${topType}')" class="px-4 py-2 text-xs bg-amber-400 hover:bg-amber-300 text-slate-900 font-bold rounded-xl shadow-md transition flex items-center gap-1.5 no-print">
-              <i class="fa-solid fa-floppy-disk"></i> บันทึกลงในโปรไฟล์ช่าง
-            </button>
-          </div>
-        </div>
-
-        <!-- Scores Breakdown & Chart -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200">
-            <h4 class="font-bold text-slate-800 text-sm mb-3 flex items-center gap-2">
-              <i class="fa-solid fa-chart-column text-amber-500"></i> สัดส่วนคะแนนความถนัด 4 ด้าน
-            </h4>
-            <div class="h-56">
-              <canvas id="quizBarChart"></canvas>
-            </div>
-          </div>
-
-          <div class="space-y-3 text-xs">
-            <h4 class="font-bold text-slate-800 text-sm">การกระจายคะแนน (เต็ม 12 คะแนน):</h4>
-            <div class="p-3 rounded-xl border bg-white flex items-center justify-between">
-              <span class="font-medium text-slate-800">⚡ สายไฟ & สมองกล [A]:</span>
-              <span class="font-bold text-sky-700 bg-sky-50 px-2 py-0.5 rounded-full">${counts.A} คะแนน (${Math.round((counts.A/12)*100)}%)</span>
-            </div>
-            <div class="p-3 rounded-xl border bg-white flex items-center justify-between">
-              <span class="font-medium text-slate-800">⚙️ สายพลังกล & ไฮดรอลิก [B]:</span>
-              <span class="font-bold text-amber-700 bg-amber-50 px-2 py-0.5 rounded-full">${counts.B} คะแนน (${Math.round((counts.B/12)*100)}%)</span>
-            </div>
-            <div class="p-3 rounded-xl border bg-white flex items-center justify-between">
-              <span class="font-medium text-slate-800">📋 สายตรวจเช็ก & PM [C]:</span>
-              <span class="font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full">${counts.C} คะแนน (${Math.round((counts.C/12)*100)}%)</span>
-            </div>
-            <div class="p-3 rounded-xl border bg-white flex items-center justify-between">
-              <span class="font-medium text-slate-800">🚨 สายกู้ภัย & นักสืบสาเหตุ [D]:</span>
-              <span class="font-bold text-rose-700 bg-rose-50 px-2 py-0.5 rounded-full">${counts.D} คะแนน (${Math.round((counts.D/12)*100)}%)</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Recommendations for Supervisor -->
-        <div class="p-5 rounded-2xl bg-amber-50/60 border border-amber-200 space-y-3 text-xs">
-          <h4 class="font-bold text-amber-900 text-sm flex items-center gap-2">
-            <i class="fa-solid fa-lightbulb text-amber-500"></i> ข้อแนะนำสำหรับหัวหน้าช่างในการบริหารและมอบหมายงาน:
-          </h4>
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-3 pt-2">
-            <div class="bg-white p-3.5 rounded-xl border border-amber-200">
-              <span class="font-bold text-slate-900 block mb-1">🎯 งานที่ควรส่งให้ทำ:</span>
-              <p class="text-slate-600">${result.roleFit}</p>
-            </div>
-            <div class="bg-white p-3.5 rounded-xl border border-amber-200">
-              <span class="font-bold text-slate-900 block mb-1">📚 คอร์สที่ควรส่งไปเรียน:</span>
-              <p class="text-slate-600">${result.training}</p>
-            </div>
-            <div class="bg-white p-3.5 rounded-xl border border-amber-200">
-              <span class="font-bold text-slate-900 block mb-1">🤝 คู่บัดดี้ที่เหมาะสม:</span>
-              <p class="text-slate-600">${result.buddyFit}</p>
-            </div>
-          </div>
-        </div>
-      `;
-
-      // Render Bar Chart
-      setTimeout(() => {
-        const barCtx = document.getElementById('quizBarChart')?.getContext('2d');
-        if (barCtx) {
-          if (quizChartInstance) quizChartInstance.destroy();
-          quizChartInstance = new Chart(barCtx, {
-            type: 'bar',
-            data: {
-              labels: ['สายไฟ (A)', 'สายกล (B)', 'ตรวจเช็ก (C)', 'กู้ภัย (D)'],
-              datasets: [{
-                label: 'คะแนนที่ได้',
-                data: [counts.A, counts.B, counts.C, counts.D],
-                backgroundColor: ['#0284c7', '#f59e0b', '#10b981', '#f43f5e'],
-                borderRadius: 8
-              }]
-            },
-            options: {
-              responsive: true,
-              maintainAspectRatio: false,
-              scales: {
-                y: { beginAtZero: true, max: 12, ticks: { stepSize: 2 } }
-              },
-              plugins: { legend: { display: false } }
-            }
-          });
-        }
-      }, 100);
-
-      // Scroll smoothly to result
-      resultCard.scrollIntoView({ behavior: 'smooth' });
-    }
-
-    function saveAptitudeToTech(techId, topType) {
-      const tech = technicians.find(t => t.id === techId);
-      if (!tech) return;
-
-      const archetypes = {
-        A: {
-          type: 'A',
-          title: 'ช่างสายไฟ & สมองกล (Electrical & Automation)',
-          icon: 'fa-solid fa-bolt text-sky-500',
-          badgeClass: 'bg-sky-50 text-sky-800 border border-sky-300'
-        },
-        B: {
-          type: 'B',
-          title: 'ช่างสายพลังกล & ไฮดรอลิก (Mechanical & Power)',
-          icon: 'fa-solid fa-gears text-amber-500',
-          badgeClass: 'bg-amber-50 text-amber-800 border border-amber-300'
-        },
-        C: {
-          type: 'C',
-          title: 'ช่างสายตรวจเช็ก & PM (Reliability & PM)',
-          icon: 'fa-solid fa-clipboard-check text-emerald-500',
-          badgeClass: 'bg-emerald-50 text-emerald-800 border border-emerald-300'
-        },
-        D: {
-          type: 'D',
-          title: 'ช่างสายกู้ภัย & นักสืบสาเหตุ (Breakdown Hunter)',
-          icon: 'fa-solid fa-fire-extinguisher text-rose-500',
-          badgeClass: 'bg-rose-50 text-rose-800 border border-rose-300'
-        }
-      };
-
-      tech.aptitude = archetypes[topType];
-      saveData();
-      renderTechList();
-      populateQuizDropdown();
-      alert(`บันทึกผลความถนัดของ ${tech.name} เรียบร้อยแล้ว! ข้อมูลจะแสดงในการ์ดช่างทันที`);
-    }
-
-    // -------------------------------------------------------------
     // MODAL & CRUD
     // -------------------------------------------------------------
+    function setPresetRole(roleName) {
+      document.getElementById('techRole').value = roleName;
+    }
+
     function openAddModal() {
       document.getElementById('techId').value = '';
-      document.getElementById('modalTitle').innerText = 'ลงทะเบียนสมัครสมาชิกช่างใหม่';
+      document.getElementById('modalTitle').innerText = 'สมัครสมาชิกช่างใหม่';
       document.getElementById('techForm').reset();
       document.getElementById('techCode').value = `TC-00${technicians.length + 1}`;
       document.getElementById('techStartDate').value = new Date().toISOString().slice(0, 10);
       document.getElementById('techModal').classList.remove('hidden');
+      setTimeout(() => document.getElementById('techNickname').focus(), 100);
     }
 
     function editTechnician(id) {
@@ -2023,14 +1973,6 @@
       document.getElementById('techModal').classList.add('hidden');
     }
 
-    function openHowToRegisterModal() {
-      document.getElementById('howToRegisterModal').classList.remove('hidden');
-    }
-
-    function closeHowToRegisterModal() {
-      document.getElementById('howToRegisterModal').classList.add('hidden');
-    }
-
     function saveTechnician(e) {
       e.preventDefault();
       const id = document.getElementById('techId').value;
@@ -2047,7 +1989,6 @@
       const target = document.getElementById('techTarget').value;
 
       if (id) {
-        // Edit existing
         const tech = technicians.find(t => t.id === id);
         if (tech) {
           tech.code = code;
@@ -2063,7 +2004,6 @@
           tech.target = target;
         }
       } else {
-        // Add new
         const newTech = {
           id: Date.now().toString(),
           code: code,
@@ -2110,7 +2050,7 @@
     }
 
     // -------------------------------------------------------------
-    // EXPORT & IMPORT UTILITIES
+    // EXPORT & IMPORT
     // -------------------------------------------------------------
     function openExportModal() {
       document.getElementById('exportModal').classList.remove('hidden');
@@ -2200,7 +2140,7 @@
     }
 
     function resetToSampleData() {
-      if (confirm('คุณต้องการรีเซ็ตข้อมูลเป็นชุดตัวอย่างเริ่มต้นใช่หรือไม่? (ข้อมูลที่บันทึกไว้จะถูกเขียนทับ)')) {
+      if (confirm('คุณต้องการรีเซ็ตข้อมูลเป็นชุดตัวอย่างเริ่มต้นใช่หรือไม่?')) {
         technicians = JSON.parse(JSON.stringify(SAMPLE_DATA));
         saveData();
         renderDashboard();
@@ -2212,7 +2152,7 @@
     }
 
     // -------------------------------------------------------------
-    // INIT ON LOAD
+    // INIT
     // -------------------------------------------------------------
     window.addEventListener('DOMContentLoaded', () => {
       initData();
