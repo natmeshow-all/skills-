@@ -598,125 +598,167 @@
     </div>
   </footer>
 
-  <!-- MODAL: ADD / EDIT / REGISTER TECHNICIAN (ฟอร์มสมัครช่างแบบง่ายสุดๆ) -->
-  <div id="techModal" class="fixed inset-0 bg-slate-950/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4 overflow-y-auto no-print">
-    <div class="bg-white rounded-2xl shadow-2xl max-w-xl w-full overflow-hidden border border-slate-200 transform transition-all my-8">
-      <div class="bg-slate-900 text-white px-6 py-4 flex items-center justify-between">
-        <div class="flex items-center gap-2.5">
-          <div class="w-8 h-8 rounded-lg bg-emerald-500 flex items-center justify-center text-slate-950 text-sm font-bold">
-            <i class="fa-solid fa-id-card"></i>
+  <!-- MODAL: ADD / EDIT / REGISTER TECHNICIAN (ฟอร์มสมัครช่างแบบง่ายที่สุดในโลก) -->
+  <div id="techModal" class="fixed inset-0 bg-slate-950/65 backdrop-blur-sm z-50 hidden flex items-center justify-center p-3 sm:p-4 overflow-y-auto no-print">
+    <div class="bg-white rounded-3xl shadow-2xl max-w-lg w-full overflow-hidden border border-slate-200 transform transition-all my-6">
+      
+      <!-- Modal Header -->
+      <div class="bg-gradient-to-r from-emerald-600 to-teal-700 text-white px-5 sm:px-6 py-4 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-2xl bg-white/20 flex items-center justify-center text-white text-lg font-bold shadow-inner">
+            <i class="fa-solid fa-user-plus"></i>
           </div>
           <div>
-            <h3 class="font-bold text-base text-white" id="modalTitle">สมัครสมาชิกช่างใหม่</h3>
-            <p class="text-[11px] text-slate-400">กรอกข้อมูลง่ายๆ เพียงไม่กี่ช่อง</p>
+            <h3 class="font-bold text-base sm:text-lg text-white flex items-center gap-2" id="modalTitle">
+              สมัครสมาชิกช่างใหม่
+              <span class="text-[11px] bg-white/20 text-emerald-100 px-2 py-0.5 rounded-full font-normal">โหมดสมัครง่าย</span>
+            </h3>
+            <p class="text-xs text-emerald-100">กรอกแค่ชื่อเล่น + ชื่อจริง แล้วกดบันทึกได้ทันที!</p>
           </div>
         </div>
-        <button onclick="closeModal()" class="text-slate-400 hover:text-white text-lg"><i class="fa-solid fa-xmark"></i></button>
+        <button onclick="closeModal()" class="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white transition text-base">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
       </div>
 
-      <form id="techForm" onsubmit="saveTechnician(event)" class="p-6 space-y-4">
+      <!-- Quick Fill Sample Bar -->
+      <div class="bg-emerald-50/70 border-b border-emerald-100 px-5 sm:px-6 py-2.5 flex items-center justify-between text-xs">
+        <span class="text-emerald-800 font-medium">💡 รีบไหม? กดปุ่มนี้เพื่อลองใส่ตัวอย่าง:</span>
+        <button type="button" onclick="quickFillSampleTechnician()" class="text-emerald-700 bg-white hover:bg-emerald-100 px-3 py-1 rounded-lg border border-emerald-300 font-bold transition shadow-2xs">
+          ✨ ลองกรอกตัวอย่างให้ดู
+        </button>
+      </div>
+
+      <form id="techForm" onsubmit="saveTechnician(event)" class="p-5 sm:p-6 space-y-4">
         <input type="hidden" id="techId">
+        <input type="hidden" id="techRole" value="ช่างไฟฟ้าซ่อมบำรุง">
+        <input type="hidden" id="techShift" value="กะเช้า (A)">
 
-        <!-- Nickname & Fullname Row (ชื่อเล่นเด่นสุด) -->
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-          <div class="sm:col-span-1">
-            <label class="block text-xs font-bold text-sky-800 mb-1">
-              🏷️ ชื่อเล่น (เรียกหน้างาน) *
-            </label>
-            <input type="text" id="techNickname" required placeholder="เช่น ช่างบอล, โต้ง, เอก"
-              class="w-full px-3 py-2.5 border-2 border-sky-400 bg-sky-50/40 rounded-xl text-xs sm:text-sm font-bold focus:ring-2 focus:ring-sky-500 focus:outline-none">
-          </div>
-          <div class="sm:col-span-2">
-            <label class="block text-xs font-semibold text-slate-700 mb-1">ชื่อ - นามสกุลจริง *</label>
-            <input type="text" id="techName" required placeholder="เช่น นายสมชาย สายฟ้า"
-              class="w-full px-3 py-2.5 border border-slate-300 rounded-xl text-xs sm:text-sm focus:ring-2 focus:ring-sky-500 focus:outline-none">
-          </div>
+        <!-- 1. ช่องชื่อเล่น (ใหญ่สะดุดตาที่สุด) -->
+        <div class="bg-sky-50/70 p-3.5 rounded-2xl border-2 border-sky-300">
+          <label class="block text-xs font-bold text-sky-900 mb-1 flex items-center justify-between">
+            <span>🏷️ 1. ชื่อเล่น (เรียกหน้างาน) *</span>
+            <span class="text-[11px] font-normal text-sky-700">เรียกง่าย ติดปาก</span>
+          </label>
+          <input type="text" id="techNickname" required placeholder="เช่น ช่างบอล, โต้ง, เอก, ก้อง"
+            class="w-full px-3.5 py-2.5 bg-white border border-sky-300 rounded-xl text-sm sm:text-base font-bold text-slate-800 focus:ring-2 focus:ring-sky-500 focus:outline-none">
         </div>
 
-        <!-- Role with Quick Preset Chips (กดเลือกได้เลย ไม่ต้องพิมพ์) -->
+        <!-- 2. ช่องชื่อจริง - นามสกุล -->
         <div>
-          <label class="block text-xs font-semibold text-slate-700 mb-1">ตำแหน่งงาน * (พิมพ์เอง หรือกดเลือกด้านล่าง)</label>
-          <input type="text" id="techRole" required placeholder="เช่น ช่างไฟฟ้าซ่อมบำรุง, ช่างเครื่องกล"
-            class="w-full px-3 py-2 border border-slate-300 rounded-xl text-xs sm:text-sm focus:ring-2 focus:ring-sky-500 focus:outline-none">
-          <!-- Preset Chips -->
-          <div class="flex flex-wrap gap-1.5 mt-2">
-            <button type="button" onclick="setPresetRole('ช่างไฟฟ้าซ่อมบำรุง')" class="px-2.5 py-1 text-[11px] bg-slate-100 hover:bg-sky-100 hover:text-sky-800 text-slate-700 rounded-lg border border-slate-200 transition font-medium">⚡ ช่างไฟฟ้า</button>
-            <button type="button" onclick="setPresetRole('ช่างเครื่องกล')" class="px-2.5 py-1 text-[11px] bg-slate-100 hover:bg-amber-100 hover:text-amber-800 text-slate-700 rounded-lg border border-slate-200 transition font-medium">⚙️ ช่างเครื่องกล</button>
-            <button type="button" onclick="setPresetRole('ช่างบำรุงรักษา (PM)')" class="px-2.5 py-1 text-[11px] bg-slate-100 hover:bg-emerald-100 hover:text-emerald-800 text-slate-700 rounded-lg border border-slate-200 transition font-medium">📋 ช่าง PM</button>
-            <button type="button" onclick="setPresetRole('ช่างแอร์และระบบอาคาร')" class="px-2.5 py-1 text-[11px] bg-slate-100 hover:bg-indigo-100 hover:text-indigo-800 text-slate-700 rounded-lg border border-slate-200 transition font-medium">❄️ ช่างแอร์/อาคาร</button>
-            <button type="button" onclick="setPresetRole('ช่างซ่อมบำรุงทั่วไป')" class="px-2.5 py-1 text-[11px] bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg border border-slate-200 transition font-medium">🛠️ ช่างทั่วไป</button>
+          <label class="block text-xs font-bold text-slate-700 mb-1">
+            👤 2. ชื่อจริง - นามสกุล *
+          </label>
+          <input type="text" id="techName" required placeholder="เช่น นายสมหมาย มั่นคง"
+            class="w-full px-3.5 py-2.5 border border-slate-300 rounded-xl text-xs sm:text-sm font-medium focus:ring-2 focus:ring-sky-500 focus:outline-none">
+        </div>
+
+        <!-- 3. แตะเลือกตำแหน่งงาน (ปุ่มกดขนาดใหญ่ แตะทีเดียวเปลี่ยนเลย) -->
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1.5">
+            🛠️ 3. แตะเลือกตำแหน่งงาน:
+          </label>
+          <div class="grid grid-cols-2 sm:grid-cols-3 gap-2" id="roleBtnGroup">
+            <button type="button" onclick="selectRoleEasy('ช่างไฟฟ้าซ่อมบำรุง', this)" class="role-chip py-2 px-3 rounded-xl border text-xs font-bold transition flex items-center justify-center gap-1.5 bg-sky-500 text-white border-sky-600 shadow-xs">
+              <span>⚡</span> ช่างไฟฟ้า
+            </button>
+            <button type="button" onclick="selectRoleEasy('ช่างเครื่องกล', this)" class="role-chip py-2 px-3 rounded-xl border text-xs font-semibold transition flex items-center justify-center gap-1.5 bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100">
+              <span>⚙️</span> ช่างกล
+            </button>
+            <button type="button" onclick="selectRoleEasy('ช่างบำรุงรักษา (PM)', this)" class="role-chip py-2 px-3 rounded-xl border text-xs font-semibold transition flex items-center justify-center gap-1.5 bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100">
+              <span>📋</span> ช่าง PM
+            </button>
+            <button type="button" onclick="selectRoleEasy('ช่างแอร์และระบบอาคาร', this)" class="role-chip py-2 px-3 rounded-xl border text-xs font-semibold transition flex items-center justify-center gap-1.5 bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100">
+              <span>❄️</span> ช่างแอร์
+            </button>
+            <button type="button" onclick="selectRoleEasy('ช่างซ่อมบำรุงทั่วไป', this)" class="role-chip py-2 px-3 rounded-xl border text-xs font-semibold transition flex items-center justify-center gap-1.5 bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100 col-span-2 sm:col-span-1">
+              <span>🛠️</span> ช่างทั่วไป
+            </button>
           </div>
         </div>
 
-        <!-- Shift & Status -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div>
-            <label class="block text-xs font-semibold text-slate-700 mb-1">กะการทำงาน (Shift) *</label>
-            <select id="techShift" required class="w-full px-3 py-2.5 border border-slate-300 rounded-xl text-xs sm:text-sm focus:ring-2 focus:ring-sky-500 focus:outline-none bg-white font-medium">
-              <option value="กะเช้า (A)">กะเช้า (A)</option>
-              <option value="กะบ่าย (B)">กะบ่าย (B)</option>
-              <option value="กะดึก (C)">กะดึก (C)</option>
-              <option value="กะปกติ (Day)">กะปกติ (Day)</option>
-            </select>
-          </div>
-          <div>
-            <label class="block text-xs font-semibold text-slate-700 mb-1">สถานะสมาชิกช่าง *</label>
-            <select id="techStatus" required class="w-full px-3 py-2.5 border border-slate-300 rounded-xl text-xs sm:text-sm focus:ring-2 focus:ring-sky-500 focus:outline-none bg-white font-medium">
-              <option value="ฝึกงาน OJT (30-90 วัน)">ฝึกงาน OJT (30-90 วัน)</option>
-              <option value="ประจำ (ผ่านโปร)">ประจำ (ผ่านโปร)</option>
-              <option value="ทดลองงาน">ทดลองงาน</option>
-            </select>
-          </div>
-        </div>
-
-        <!-- Code & Phone -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div>
-            <label class="block text-xs font-semibold text-slate-700 mb-1">รหัสพนักงาน (ระบบสร้างให้อัตโนมัติ)</label>
-            <input type="text" id="techCode" required placeholder="เช่น TC-001"
-              class="w-full px-3 py-2 bg-slate-50 border border-slate-300 rounded-xl text-xs sm:text-sm font-mono focus:outline-none">
-          </div>
-          <div>
-            <label class="block text-xs font-semibold text-slate-700 mb-1">เบอร์โทรศัพท์ (สำหรับโทรตามหน้างาน)</label>
-            <input type="tel" id="techPhone" placeholder="08x-xxx-xxxx"
-              class="w-full px-3 py-2 border border-slate-300 rounded-xl text-xs sm:text-sm focus:ring-2 focus:ring-sky-500 focus:outline-none">
+        <!-- 4. แตะเลือกกะทำงาน (ปุ่มกด 4 ปุ่มชัดเจน) -->
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1.5">
+            ⏰ 4. แตะเลือกกะทำงาน:
+          </label>
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-2" id="shiftBtnGroup">
+            <button type="button" onclick="selectShiftEasy('กะเช้า (A)', this)" class="shift-chip py-2 px-2.5 rounded-xl border text-xs font-bold transition flex items-center justify-center gap-1 bg-amber-500 text-white border-amber-600 shadow-xs">
+              <span>☀️</span> กะเช้า A
+            </button>
+            <button type="button" onclick="selectShiftEasy('กะบ่าย (B)', this)" class="shift-chip py-2 px-2.5 rounded-xl border text-xs font-semibold transition flex items-center justify-center gap-1 bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100">
+              <span>⛅</span> กะบ่าย B
+            </button>
+            <button type="button" onclick="selectShiftEasy('กะดึก (C)', this)" class="shift-chip py-2 px-2.5 rounded-xl border text-xs font-semibold transition flex items-center justify-center gap-1 bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100">
+              <span>🌙</span> กะดึก C
+            </button>
+            <button type="button" onclick="selectShiftEasy('กะปกติ (Day)', this)" class="shift-chip py-2 px-2.5 rounded-xl border text-xs font-semibold transition flex items-center justify-center gap-1 bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100">
+              <span>🏢</span> กะปกติ
+            </button>
           </div>
         </div>
 
-        <!-- Department & Mentor -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div>
-            <label class="block text-xs font-semibold text-slate-700 mb-1">แผนก / โซนรับผิดชอบ</label>
-            <input type="text" id="techDept" placeholder="เช่น ซ่อมบำรุง / ไลน์ A"
-              class="w-full px-3 py-2 border border-slate-300 rounded-xl text-xs sm:text-sm focus:ring-2 focus:ring-sky-500 focus:outline-none">
-          </div>
-          <div>
-            <label class="block text-xs font-semibold text-slate-700 mb-1">ช่างพี่เลี้ยง (Buddy/Mentor)</label>
-            <input type="text" id="techMentor" placeholder="เช่น ช่างสมชาย (ช่างชาย L4)"
-              class="w-full px-3 py-2 border border-slate-300 rounded-xl text-xs sm:text-sm focus:ring-2 focus:ring-sky-500 focus:outline-none">
-          </div>
+        <!-- 5. เบอร์โทรศัพท์ (มีปุ่มโทรทันที) -->
+        <div>
+          <label class="block text-xs font-bold text-slate-700 mb-1">
+            📞 5. เบอร์โทรศัพท์ (ใส่เพื่อให้กดโทรตามตัวจากหน้าจอได้)
+          </label>
+          <input type="tel" id="techPhone" placeholder="เช่น 081-234-5678 (เว้นว่างไว้ก่อนได้)"
+            class="w-full px-3.5 py-2.5 border border-slate-300 rounded-xl text-xs sm:text-sm focus:ring-2 focus:ring-sky-500 focus:outline-none">
         </div>
 
-        <!-- Start Date & Target -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div>
-            <label class="block text-xs font-semibold text-slate-700 mb-1">วันที่เริ่มงาน</label>
-            <input type="date" id="techStartDate"
-              class="w-full px-3 py-2 border border-slate-300 rounded-xl text-xs sm:text-sm focus:ring-2 focus:ring-sky-500 focus:outline-none">
+        <!-- ตัวเลือกเพิ่มเติม (พับซ่อนไว้ เพื่อไม่ให้รกตา) -->
+        <details class="bg-slate-50 rounded-2xl border border-slate-200 overflow-hidden text-xs">
+          <summary class="px-4 py-2.5 font-bold text-slate-600 cursor-pointer select-none hover:text-slate-900 transition flex items-center justify-between">
+            <span>⚙️ ข้อมูลเพิ่มเติม (ระบบตั้งค่าเริ่มต้นให้อัตโนมัติแล้ว ไม่ต้องกรอกก็ได้)</span>
+            <i class="fa-solid fa-chevron-down text-[10px]"></i>
+          </summary>
+          <div class="p-4 pt-2 space-y-3 border-t border-slate-200 bg-white">
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <label class="block text-[11px] font-semibold text-slate-600 mb-1">รหัสพนักงาน</label>
+                <input type="text" id="techCode" class="w-full px-3 py-1.5 bg-slate-50 border border-slate-300 rounded-lg text-xs font-mono">
+              </div>
+              <div>
+                <label class="block text-[11px] font-semibold text-slate-600 mb-1">สถานะสมาชิก</label>
+                <select id="techStatus" class="w-full px-3 py-1.5 border border-slate-300 rounded-lg text-xs bg-white">
+                  <option value="ประจำ (ผ่านโปร)">ประจำ (ผ่านโปร)</option>
+                  <option value="ฝึกงาน OJT (30-90 วัน)">ฝึกงาน OJT (30-90 วัน)</option>
+                  <option value="ทดลองงาน">ทดลองงาน</option>
+                </select>
+              </div>
+            </div>
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <label class="block text-[11px] font-semibold text-slate-600 mb-1">แผนก / โซน</label>
+                <input type="text" id="techDept" placeholder="เช่น ซ่อมบำรุง / ไลน์ A" class="w-full px-3 py-1.5 border border-slate-300 rounded-lg text-xs">
+              </div>
+              <div>
+                <label class="block text-[11px] font-semibold text-slate-600 mb-1">ช่างพี่เลี้ยง (Mentor)</label>
+                <input type="text" id="techMentor" placeholder="เช่น ช่างสมชาย (ช่างชาย L4)" class="w-full px-3 py-1.5 border border-slate-300 rounded-lg text-xs">
+              </div>
+            </div>
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <label class="block text-[11px] font-semibold text-slate-600 mb-1">วันที่เริ่มงาน</label>
+                <input type="date" id="techStartDate" class="w-full px-3 py-1.5 border border-slate-300 rounded-lg text-xs">
+              </div>
+              <div>
+                <label class="block text-[11px] font-semibold text-slate-600 mb-1">เป้าหมายพัฒนา</label>
+                <input type="text" id="techTarget" placeholder="เช่น อบรม PLC" class="w-full px-3 py-1.5 border border-slate-300 rounded-lg text-xs">
+              </div>
+            </div>
           </div>
-          <div>
-            <label class="block text-xs font-semibold text-slate-700 mb-1">เป้าหมายพัฒนาถัดไป</label>
-            <input type="text" id="techTarget" placeholder="เช่น อบรม PLC, ซ่อมไฮดรอลิก"
-              class="w-full px-3 py-2 border border-slate-300 rounded-xl text-xs sm:text-sm focus:ring-2 focus:ring-sky-500 focus:outline-none">
-          </div>
-        </div>
+        </details>
 
-        <div class="pt-4 border-t border-slate-200 flex items-center justify-end gap-3">
-          <button type="button" onclick="closeModal()" class="px-4 py-2.5 text-xs font-semibold text-slate-600 hover:bg-slate-100 rounded-xl transition">
+        <!-- ปุ่มกดบันทึกใหญ่สะดุดตา (กดปุ๊บเสร็จปั๊บ) -->
+        <div class="pt-2 flex items-center justify-end gap-3">
+          <button type="button" onclick="closeModal()" class="px-4 py-3 text-xs font-semibold text-slate-500 hover:bg-slate-100 rounded-xl transition">
             ยกเลิก
           </button>
-          <button type="submit" class="px-6 py-2.5 text-xs font-bold text-slate-950 bg-emerald-500 hover:bg-emerald-400 rounded-xl shadow-md transition flex items-center gap-1.5">
-            <i class="fa-solid fa-floppy-disk"></i> บันทึกข้อมูลช่างทันที
+          <button type="submit" class="flex-1 py-3 px-5 text-sm font-bold text-slate-950 bg-emerald-400 hover:bg-emerald-300 active:scale-[0.98] rounded-2xl shadow-lg shadow-emerald-500/30 transition flex items-center justify-center gap-2 border-2 border-emerald-500">
+            <i class="fa-solid fa-circle-check text-base"></i>
+            <span>บันทึกช่างเข้าทีมทันที (กดปุ่มนี้เสร็จเลย!)</span>
           </button>
         </div>
       </form>
@@ -1940,10 +1982,61 @@
       document.getElementById('techRole').value = roleName;
     }
 
+    function selectRoleEasy(roleName, btn) {
+      document.getElementById('techRole').value = roleName;
+      document.querySelectorAll('.role-chip').forEach(b => {
+        b.className = 'role-chip py-2 px-3 rounded-xl border text-xs font-semibold transition flex items-center justify-center gap-1.5 bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100';
+      });
+      if (btn) {
+        btn.className = 'role-chip py-2 px-3 rounded-xl border text-xs font-bold transition flex items-center justify-center gap-1.5 bg-sky-500 text-white border-sky-600 shadow-xs';
+      }
+    }
+
+    function selectShiftEasy(shiftName, btn) {
+      document.getElementById('techShift').value = shiftName;
+      document.querySelectorAll('.shift-chip').forEach(b => {
+        b.className = 'shift-chip py-2 px-2.5 rounded-xl border text-xs font-semibold transition flex items-center justify-center gap-1 bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100';
+      });
+      if (btn) {
+        btn.className = 'shift-chip py-2 px-2.5 rounded-xl border text-xs font-bold transition flex items-center justify-center gap-1 bg-amber-500 text-white border-amber-600 shadow-xs';
+      }
+    }
+
+    function quickFillSampleTechnician() {
+      const samples = [
+        { nick: 'ช่างบอล', name: 'นายวรวุฒิ กล้าหาญ', role: 'ช่างไฟฟ้าซ่อมบำรุง', shift: 'กะเช้า (A)', phone: '081-999-1234' },
+        { nick: 'ช่างเอก', name: 'นายเอกชัย ใจเพชร', role: 'ช่างเครื่องกล', shift: 'กะบ่าย (B)', phone: '089-777-5678' },
+        { nick: 'ช่างโต้ง', name: 'นายธีระพล มุ่งมั่น', role: 'ช่างบำรุงรักษา (PM)', shift: 'กะปกติ (Day)', phone: '085-333-8899' },
+        { nick: 'ช่างก้อง', name: 'นายก้องเกียรติ ยิ่งยง', role: 'ช่างแอร์และระบบอาคาร', shift: 'กะดึก (C)', phone: '082-444-6789' }
+      ];
+      const s = samples[Math.floor(Math.random() * samples.length)];
+      document.getElementById('techNickname').value = s.nick;
+      document.getElementById('techName').value = s.name;
+      document.getElementById('techPhone').value = s.phone;
+      
+      const roleBtns = document.querySelectorAll('.role-chip');
+      roleBtns.forEach(b => {
+        if (b.innerText.includes('ช่างไฟฟ้า') && s.role.includes('ไฟฟ้า')) selectRoleEasy(s.role, b);
+        else if (b.innerText.includes('ช่างกล') && s.role.includes('กล')) selectRoleEasy(s.role, b);
+        else if (b.innerText.includes('ช่าง PM') && s.role.includes('PM')) selectRoleEasy(s.role, b);
+        else if (b.innerText.includes('ช่างแอร์') && s.role.includes('แอร์')) selectRoleEasy(s.role, b);
+      });
+      
+      const shiftBtns = document.querySelectorAll('.shift-chip');
+      shiftBtns.forEach(b => {
+        if (b.innerText.includes('กะเช้า') && s.shift.includes('เช้า')) selectShiftEasy(s.shift, b);
+        else if (b.innerText.includes('กะบ่าย') && s.shift.includes('บ่าย')) selectShiftEasy(s.shift, b);
+        else if (b.innerText.includes('กะดึก') && s.shift.includes('ดึก')) selectShiftEasy(s.shift, b);
+        else if (b.innerText.includes('กะปกติ') && s.shift.includes('ปกติ')) selectShiftEasy(s.shift, b);
+      });
+    }
+
     function openAddModal() {
       document.getElementById('techId').value = '';
       document.getElementById('modalTitle').innerText = 'สมัครสมาชิกช่างใหม่';
       document.getElementById('techForm').reset();
+      document.getElementById('techRole').value = 'ช่างไฟฟ้าซ่อมบำรุง';
+      document.getElementById('techShift').value = 'กะเช้า (A)';
       document.getElementById('techCode').value = `TC-00${technicians.length + 1}`;
       document.getElementById('techStartDate').value = new Date().toISOString().slice(0, 10);
       document.getElementById('techModal').classList.remove('hidden');
@@ -1966,6 +2059,26 @@
       document.getElementById('techMentor').value = tech.mentor || '';
       document.getElementById('techPhone').value = tech.phone || '';
       document.getElementById('techTarget').value = tech.target || '';
+
+      // Highlight active role chip
+      document.querySelectorAll('.role-chip').forEach(b => {
+        b.className = 'role-chip py-2 px-3 rounded-xl border text-xs font-semibold transition flex items-center justify-center gap-1.5 bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100';
+        if (b.innerText.includes('ช่างไฟฟ้า') && tech.role?.includes('ไฟฟ้า')) b.className = 'role-chip py-2 px-3 rounded-xl border text-xs font-bold transition flex items-center justify-center gap-1.5 bg-sky-500 text-white border-sky-600 shadow-xs';
+        else if (b.innerText.includes('ช่างกล') && tech.role?.includes('กล')) b.className = 'role-chip py-2 px-3 rounded-xl border text-xs font-bold transition flex items-center justify-center gap-1.5 bg-sky-500 text-white border-sky-600 shadow-xs';
+        else if (b.innerText.includes('ช่าง PM') && tech.role?.includes('PM')) b.className = 'role-chip py-2 px-3 rounded-xl border text-xs font-bold transition flex items-center justify-center gap-1.5 bg-sky-500 text-white border-sky-600 shadow-xs';
+        else if (b.innerText.includes('ช่างแอร์') && tech.role?.includes('แอร์')) b.className = 'role-chip py-2 px-3 rounded-xl border text-xs font-bold transition flex items-center justify-center gap-1.5 bg-sky-500 text-white border-sky-600 shadow-xs';
+        else if (b.innerText.includes('ช่างทั่วไป') && tech.role?.includes('ทั่วไป')) b.className = 'role-chip py-2 px-3 rounded-xl border text-xs font-bold transition flex items-center justify-center gap-1.5 bg-sky-500 text-white border-sky-600 shadow-xs';
+      });
+
+      // Highlight active shift chip
+      document.querySelectorAll('.shift-chip').forEach(b => {
+        b.className = 'shift-chip py-2 px-2.5 rounded-xl border text-xs font-semibold transition flex items-center justify-center gap-1 bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100';
+        if (b.innerText.includes('กะเช้า') && tech.shift?.includes('เช้า')) b.className = 'shift-chip py-2 px-2.5 rounded-xl border text-xs font-bold transition flex items-center justify-center gap-1 bg-amber-500 text-white border-amber-600 shadow-xs';
+        else if (b.innerText.includes('กะบ่าย') && tech.shift?.includes('บ่าย')) b.className = 'shift-chip py-2 px-2.5 rounded-xl border text-xs font-bold transition flex items-center justify-center gap-1 bg-amber-500 text-white border-amber-600 shadow-xs';
+        else if (b.innerText.includes('กะดึก') && tech.shift?.includes('ดึก')) b.className = 'shift-chip py-2 px-2.5 rounded-xl border text-xs font-bold transition flex items-center justify-center gap-1 bg-amber-500 text-white border-amber-600 shadow-xs';
+        else if (b.innerText.includes('กะปกติ') && tech.shift?.includes('ปกติ')) b.className = 'shift-chip py-2 px-2.5 rounded-xl border text-xs font-bold transition flex items-center justify-center gap-1 bg-amber-500 text-white border-amber-600 shadow-xs';
+      });
+
       document.getElementById('techModal').classList.remove('hidden');
     }
 
