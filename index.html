@@ -593,7 +593,7 @@
       </div>
       <div class="flex items-center gap-4 text-[11px] text-slate-500">
         <span>ข้อมูลเซฟในเครื่องอัตโนมัติ</span>
-        <button onclick="resetToSampleData()" class="hover:text-amber-400 underline">โหลดข้อมูลตัวอย่างเริ่มต้น</button>
+        <button onclick="clearAllData()" class="hover:text-rose-400 text-slate-400 underline flex items-center gap-1 transition"><i class="fa-solid fa-trash-can text-[10px]"></i> ล้างข้อมูลทั้งหมด</button>
       </div>
     </div>
   </footer>
@@ -795,6 +795,12 @@
             กู้คืนข้อมูล (Restore)
           </button>
         </div>
+
+        <div class="pt-3 border-t border-slate-200">
+          <button onclick="clearAllData()" class="w-full py-2.5 px-4 bg-rose-50 hover:bg-rose-100 text-rose-700 rounded-xl border border-rose-300 font-bold flex items-center justify-center gap-2 transition text-xs">
+            <i class="fa-solid fa-trash-can text-rose-500"></i> ล้างข้อมูลช่างทั้งหมดในระบบ (เริ่มใหม่ว่างเปล่า)
+          </button>
+        </div>
       </div>
     </div>
   </div>
@@ -804,145 +810,10 @@
     // -------------------------------------------------------------
     // DATA STRUCTURE & SAMPLE DATA (พร้อมชื่อเล่น & ความถนัดช่าง)
     // -------------------------------------------------------------
-    const STORAGE_KEY = 'TECH_COMPETENCY_SYSTEM_DATA_V4';
+    const STORAGE_KEY = 'TECH_COMPETENCY_SYSTEM_DATA_V5_CLEAN';
 
-    const SAMPLE_DATA = [
-      {
-        id: '1',
-        code: 'TC-001',
-        name: 'นายสมชาย ชาญวิทย์',
-        nickname: 'ช่างชาย',
-        role: 'หัวหน้าทีมช่างซ่อมบำรุง (Foreman)',
-        department: 'ซ่อมบำรุงกลาง',
-        shift: 'กะปกติ (Day)',
-        status: 'ประจำ (ผ่านโปร)',
-        startDate: '2019-03-01',
-        mentor: 'ผู้จัดการฝ่ายวิศวกรรม',
-        phone: '081-234-5678',
-        target: 'การบริหารงานซ่อมบำรุง TPM',
-        skills: { electrical: 4, mechanical: 4, pm: 4, rca: 4, safety: 4, comm: 4 },
-        aptitude: {
-          type: 'A',
-          title: 'ช่างสายไฟ & สมองกล (Electrical)',
-          icon: 'fa-solid fa-bolt text-sky-500',
-          badgeClass: 'bg-sky-50 text-sky-800 border border-sky-300'
-        },
-        ojt: {
-          p30: [true, true, true, true, true],
-          p60: [true, true, true, true],
-          p90: [true, true, true, true],
-          notes: 'ระดับ 4 พร้อมเป็นพี่เลี้ยง'
-        }
-      },
-      {
-        id: '2',
-        code: 'TC-002',
-        name: 'นายประสิทธิ์ มั่นคง',
-        nickname: 'ช่างสิทธิ์',
-        role: 'ช่างเครื่องกลอาวุโส',
-        department: 'สายการผลิต A',
-        shift: 'กะเช้า (A)',
-        status: 'ประจำ (ผ่านโปร)',
-        startDate: '2021-06-15',
-        mentor: 'นายสมชาย (ช่างชาย L4)',
-        phone: '089-876-5432',
-        target: 'ระบบไฮดรอลิกแรงดันสูง',
-        skills: { electrical: 3, mechanical: 4, pm: 4, rca: 3, safety: 4, comm: 3 },
-        aptitude: {
-          type: 'B',
-          title: 'ช่างสายพลังกล & ลม (Mechanical)',
-          icon: 'fa-solid fa-gears text-amber-500',
-          badgeClass: 'bg-amber-50 text-amber-800 border border-amber-300'
-        },
-        ojt: {
-          p30: [true, true, true, true, true],
-          p60: [true, true, true, true],
-          p90: [true, true, true, true],
-          notes: 'ฝีมือช่างกลยอดเยี่ยม'
-        }
-      },
-      {
-        id: '3',
-        code: 'TC-003',
-        name: 'นายกิตติศักดิ์ ไฟแรง',
-        nickname: 'ช่างอาร์ท',
-        role: 'ช่างไฟฟ้าและควบคุมอัตโนมัติ',
-        department: 'สายการผลิต B',
-        shift: 'กะบ่าย (B)',
-        status: 'ประจำ (ผ่านโปร)',
-        startDate: '2022-11-01',
-        mentor: 'นายสมชาย (ช่างชาย L4)',
-        phone: '086-555-1234',
-        target: 'เขียนโปรแกรม PLC Siemens',
-        skills: { electrical: 4, mechanical: 2, pm: 3, rca: 3, safety: 3, comm: 3 },
-        aptitude: {
-          type: 'A',
-          title: 'ช่างสายไฟ & สมองกล (Electrical)',
-          icon: 'fa-solid fa-bolt text-sky-500',
-          badgeClass: 'bg-sky-50 text-sky-800 border border-sky-300'
-        },
-        ojt: {
-          p30: [true, true, true, true, true],
-          p60: [true, true, true, true],
-          p90: [true, true, true, true],
-          notes: 'วิเคราะห์วงจรควบคุมได้รวดเร็ว'
-        }
-      },
-      {
-        id: '4',
-        code: 'TC-004',
-        name: 'นายธีรพงษ์ ใจสู้',
-        nickname: 'ช่างพงษ์',
-        role: 'ช่างบำรุงรักษา (PM)',
-        department: 'ระบบสาธารณูปโภค',
-        shift: 'กะดึก (C)',
-        status: 'ประจำ (ผ่านโปร)',
-        startDate: '2023-08-20',
-        mentor: 'นายประสิทธิ์ (ช่างสิทธิ์ L4)',
-        phone: '084-111-2233',
-        target: 'วิเคราะห์การสั่นสะเทือนปั๊มน้ำ',
-        skills: { electrical: 2, mechanical: 3, pm: 3, rca: 2, safety: 3, comm: 2 },
-        aptitude: {
-          type: 'C',
-          title: 'ช่างสายตรวจเช็ก & PM (Reliability)',
-          icon: 'fa-solid fa-clipboard-check text-emerald-500',
-          badgeClass: 'bg-emerald-50 text-emerald-800 border border-emerald-300'
-        },
-        ojt: {
-          p30: [true, true, true, true, true],
-          p60: [true, true, true, true],
-          p90: [true, true, true, true],
-          notes: 'ทำงาน PM ละเอียด รอบคอบ'
-        }
-      },
-      {
-        id: '5',
-        code: 'TC-005',
-        name: 'นายวรเมธ เริ่มต้นดี',
-        nickname: 'ช่างเมธ',
-        role: 'ช่างฝึกหัด (Trainee)',
-        department: 'สายการผลิต A',
-        shift: 'กะเช้า (A)',
-        status: 'ฝึกงาน OJT (30-90 วัน)',
-        startDate: '2026-08-15',
-        mentor: 'นายประสิทธิ์ (ช่างสิทธิ์ L4)',
-        phone: '095-777-8899',
-        target: 'คุ้นเคยเครื่องจักร & ระบบตัดไฟ LOTO',
-        skills: { electrical: 1, mechanical: 2, pm: 2, rca: 1, safety: 3, comm: 2 },
-        aptitude: {
-          type: 'D',
-          title: 'ช่างสายกู้ภัยเครื่องดับ (Troubleshooter)',
-          icon: 'fa-solid fa-fire-extinguisher text-rose-500',
-          badgeClass: 'bg-rose-50 text-rose-800 border border-rose-300'
-        },
-        ojt: {
-          p30: [true, true, true, true, true],
-          p60: [true, true, false, false],
-          p90: [false, false, false, false],
-          notes: 'ผ่าน 30 วันแรกเรียบร้อย'
-        }
-      }
-    ];
+    // ระบบเริ่มต้นเป็นข้อมูลว่างเปล่า (ไม่มีข้อมูลสำรองหรือข้อมูลตัวอย่างค้างในระบบ)
+    const SAMPLE_DATA = [];
 
     // OJT Phase Descriptions
     const OJT_PHASES = {
@@ -1099,15 +970,21 @@
 
     // Load initial data
     function initData() {
+      // ลบ cache ข้อมูลจำลอง/ตัวอย่างเวอร์ชันเก่าในเครื่องออกให้หมด
+      localStorage.removeItem('TECH_COMPETENCY_SYSTEM_DATA_V4');
+      localStorage.removeItem('TECH_COMPETENCY_SYSTEM_DATA_V3');
+      localStorage.removeItem('TECH_COMPETENCY_SYSTEM_DATA_V2');
+      localStorage.removeItem('TECH_COMPETENCY_SYSTEM_DATA_V1');
+
       const stored = localStorage.getItem(STORAGE_KEY);
       if (stored) {
         try {
           technicians = JSON.parse(stored);
         } catch (e) {
-          technicians = [...SAMPLE_DATA];
+          technicians = [];
         }
       } else {
-        technicians = [...SAMPLE_DATA];
+        technicians = [];
         saveData();
       }
     }
@@ -1311,12 +1188,29 @@
       grid.innerHTML = '';
 
       if (filtered.length === 0) {
-        grid.innerHTML = `
-          <div class="col-span-full py-12 text-center text-slate-400 bg-white rounded-2xl border border-slate-200">
-            <i class="fa-solid fa-user-slash text-4xl mb-2 text-slate-300"></i>
-            <p class="font-medium text-sm">ไม่พบข้อมูลช่างที่ค้นหา</p>
-          </div>
-        `;
+        if (technicians.length === 0) {
+          grid.innerHTML = `
+            <div class="col-span-full py-16 text-center text-slate-400 bg-white rounded-3xl border border-slate-200 shadow-sm p-6">
+              <div class="w-16 h-16 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-3xl mx-auto mb-4 border border-emerald-100">
+                <i class="fa-solid fa-user-plus"></i>
+              </div>
+              <h3 class="font-bold text-slate-800 text-lg">ยังไม่มีข้อมูลช่างในระบบ</h3>
+              <p class="text-xs text-slate-500 max-w-md mx-auto mt-1 mb-5">
+                ระบบเริ่มต้นเป็นฐานข้อมูลว่างเปล่า พร้อมสำหรับบันทึกข้อมูลทีมช่างจริงของคุณแล้วครับ
+              </p>
+              <button onclick="openAddModal()" class="inline-flex items-center gap-2 px-5 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl shadow transition text-xs">
+                <i class="fa-solid fa-plus"></i> สมัครช่างคนแรกเข้าสู่ระบบ
+              </button>
+            </div>
+          `;
+        } else {
+          grid.innerHTML = `
+            <div class="col-span-full py-12 text-center text-slate-400 bg-white rounded-2xl border border-slate-200">
+              <i class="fa-solid fa-user-slash text-4xl mb-2 text-slate-300"></i>
+              <p class="font-medium text-sm">ไม่พบข้อมูลช่างตามเงื่อนไขที่ค้นหา</p>
+            </div>
+          `;
+        }
         return;
       }
 
@@ -1424,7 +1318,16 @@
 
       if (technicians.length === 0) {
         tbody.innerHTML = `
-          <tr><td colspan="10" class="text-center py-8 text-slate-400">ยังไม่มีข้อมูลช่างในระบบ</td></tr>
+          <tr>
+            <td colspan="10" class="text-center py-12 text-slate-400 bg-slate-50/50">
+              <i class="fa-solid fa-table-list text-3xl mb-2 text-slate-300 block"></i>
+              <p class="font-bold text-slate-700 text-sm">ยังไม่มีข้อมูลช่างในตารางทักษะ</p>
+              <p class="text-xs text-slate-400 mt-1 mb-3">เมื่อสมัครช่างเข้าทีมแล้ว รายชื่อจะปรากฏที่นี่เพื่อคลิกประเมินระดับฝีมือ L1 - L4 ได้ทันที</p>
+              <button onclick="openAddModal()" class="inline-flex items-center gap-1.5 px-3.5 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl text-xs transition">
+                <i class="fa-solid fa-plus"></i> สมัครช่างใหม่
+              </button>
+            </td>
+          </tr>
         `;
         return;
       }
@@ -1499,6 +1402,13 @@
     function populateOjtDropdown() {
       const select = document.getElementById('ojtSelectTech');
       select.innerHTML = '';
+      if (technicians.length === 0) {
+        const opt = document.createElement('option');
+        opt.value = '';
+        opt.innerText = '-- ยังไม่มีรายชื่อช่างในระบบ (กรุณาสมัครช่างก่อน) --';
+        select.appendChild(opt);
+        return;
+      }
       technicians.forEach(t => {
         const opt = document.createElement('option');
         opt.value = t.id;
@@ -1511,7 +1421,32 @@
     function renderOjtChecklist() {
       const select = document.getElementById('ojtSelectTech');
       const selectedId = select.value || (technicians[0] ? technicians[0].id : null);
-      if (!selectedId) return;
+      const headerCard = document.getElementById('ojtTechHeaderCard');
+
+      if (!selectedId || technicians.length === 0) {
+        if (headerCard) {
+          headerCard.innerHTML = `
+            <div class="py-8 text-center text-slate-400">
+              <i class="fa-solid fa-clipboard-user text-3xl mb-2 text-slate-300 block"></i>
+              <h4 class="font-bold text-slate-700 text-sm">ยังไม่มีรายชื่อช่างสำหรับติดตามผล OJT</h4>
+              <p class="text-xs text-slate-400 mt-1 mb-4">กรุณาสมัครช่างใหม่เพื่อเริ่มประเมินและติดตามผลการทดลองงาน 30 - 60 - 90 วัน</p>
+              <button onclick="openAddModal()" class="inline-flex items-center gap-1.5 px-4 py-2 bg-amber-500 hover:bg-amber-600 text-white font-bold rounded-xl text-xs transition">
+                <i class="fa-solid fa-plus"></i> สมัครช่างใหม่
+              </button>
+            </div>
+          `;
+        }
+        document.getElementById('phase30Items').innerHTML = '<p class="text-xs text-slate-400 py-4 text-center">ไม่มีข้อมูลช่าง</p>';
+        document.getElementById('phase60Items').innerHTML = '<p class="text-xs text-slate-400 py-4 text-center">ไม่มีข้อมูลช่าง</p>';
+        document.getElementById('phase90Items').innerHTML = '<p class="text-xs text-slate-400 py-4 text-center">ไม่มีข้อมูลช่าง</p>';
+        document.getElementById('p30ProgressBadge').innerText = '0/5';
+        document.getElementById('p60ProgressBadge').innerText = '0/4';
+        document.getElementById('p90ProgressBadge').innerText = '0/4';
+        document.getElementById('p30StatusLabel').innerText = 'รอข้อมูลช่าง';
+        document.getElementById('p60StatusLabel').innerText = 'รอข้อมูลช่าง';
+        document.getElementById('p90StatusLabel').innerText = 'รอข้อมูลช่าง';
+        return;
+      }
 
       const tech = technicians.find(t => t.id === selectedId);
       if (!tech) return;
@@ -1611,6 +1546,13 @@
     function populateQuizDropdown() {
       const select = document.getElementById('quizSelectTech');
       select.innerHTML = '';
+      if (technicians.length === 0) {
+        const opt = document.createElement('option');
+        opt.value = '';
+        opt.innerText = '-- ยังไม่มีรายชื่อช่างในระบบ (กรุณาสมัครช่างก่อน) --';
+        select.appendChild(opt);
+        return;
+      }
       technicians.forEach(t => {
         const opt = document.createElement('option');
         opt.value = t.id;
@@ -1871,8 +1813,15 @@
     }
 
     function saveAptitudeToTech(techId, topType) {
+      if (!techId) {
+        alert('กรุณาเลือกหรือสมัครสมาชิกช่างที่ต้องการบันทึกผลความถนัดก่อนครับ');
+        return;
+      }
       const tech = technicians.find(t => t.id === techId);
-      if (!tech) return;
+      if (!tech) {
+        alert('ไม่พบข้อมูลช่างในระบบ กรุณาสมัครช่างก่อนครับ');
+        return;
+      }
 
       const archetypes = {
         A: {
@@ -2252,16 +2201,24 @@
       reader.readAsText(file);
     }
 
-    function resetToSampleData() {
-      if (confirm('คุณต้องการรีเซ็ตข้อมูลเป็นชุดตัวอย่างเริ่มต้นใช่หรือไม่?')) {
-        technicians = JSON.parse(JSON.stringify(SAMPLE_DATA));
+    function clearAllData() {
+      if (confirm('คุณต้องการล้างข้อมูลช่างทั้งหมดในระบบให้เป็นระบบว่างเปล่าใช่หรือไม่? (ข้อมูลที่เคยบันทึกจะถูกลบทั้งหมด)')) {
+        technicians = [];
         saveData();
+        closeExportModal();
         renderDashboard();
         renderTechList();
         renderSkillMatrix();
         populateOjtDropdown();
+        renderOjtChecklist();
         populateQuizDropdown();
+        renderShiftBalance();
+        alert('ล้างข้อมูลเรียบร้อยแล้ว ระบบพร้อมสำหรับการเริ่มบันทึกข้อมูลทีมช่างจริงครับ');
       }
+    }
+
+    function resetToSampleData() {
+      clearAllData();
     }
 
     // -------------------------------------------------------------
@@ -2273,7 +2230,9 @@
       renderTechList();
       renderSkillMatrix();
       populateOjtDropdown();
+      renderOjtChecklist();
       populateQuizDropdown();
+      renderShiftBalance();
     });
   </script>
 </body>
