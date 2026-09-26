@@ -43,6 +43,7 @@
       .no-print { display: none !important; }
       .print-only { display: block !important; }
       body { background: white !important; }
+      #tab-quiz { display: block !important; }
     }
   </style>
 </head>
@@ -82,6 +83,9 @@
           <button onclick="switchTab('shiftBalance')" id="btn-shiftBalance" class="tab-btn px-3 py-2 rounded-lg text-sm font-medium transition-all text-slate-300 hover:text-white hover:bg-slate-800">
             <i class="fa-solid fa-shield-halved mr-1.5 text-slate-400"></i> สมดุลกะทำงาน
           </button>
+          <button onclick="switchTab('quiz')" id="btn-quiz" class="tab-btn px-3 py-2 rounded-lg text-sm font-medium transition-all text-slate-300 hover:text-white hover:bg-slate-800">
+            <i class="fa-solid fa-compass-drafting mr-1.5 text-amber-400"></i> แบบทดสอบความถนัด
+          </button>
         </nav>
 
         <!-- Right Tools -->
@@ -107,6 +111,7 @@
         <button onclick="switchTab('skillMatrix')" class="px-2.5 py-1.5 rounded text-slate-300 whitespace-nowrap">Skill Matrix</button>
         <button onclick="switchTab('ojtTracking')" class="px-2.5 py-1.5 rounded text-slate-300 whitespace-nowrap">OJT 30-60-90</button>
         <button onclick="switchTab('shiftBalance')" class="px-2.5 py-1.5 rounded text-slate-300 whitespace-nowrap">สมดุลกะ</button>
+        <button onclick="switchTab('quiz')" class="px-2.5 py-1.5 rounded text-amber-300 whitespace-nowrap">ทดสอบความถนัด</button>
       </div>
     </div>
   </header>
@@ -466,6 +471,100 @@
       </div>
     </section>
 
+    <!-- TAB 6: SKILL APTITUDE QUIZ (แบบทดสอบค้นหาความถนัดของลูกน้อง) -->
+    <section id="tab-quiz" class="space-y-6 hidden">
+      <!-- Selector & Intro Banner -->
+      <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200/80 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+        <div class="flex items-center gap-3.5">
+          <div class="w-12 h-12 rounded-xl bg-amber-500/10 text-amber-600 border border-amber-300 flex items-center justify-center text-2xl flex-shrink-0">
+            <i class="fa-solid fa-brain"></i>
+          </div>
+          <div>
+            <h2 class="text-base font-bold text-slate-900 flex items-center gap-2">
+              แบบทดสอบค้นหาความถนัดเฉพาะตัวช่าง (Technician Aptitude Assessment)
+              <span class="text-xs bg-amber-100 text-amber-800 px-2 py-0.5 rounded-full font-medium">12 ข้อสถานการณ์จริง</span>
+            </h2>
+            <p class="text-xs text-slate-500 mt-0.5">
+              ช่วยให้หัวหน้าช่างรู้ว่าลูกน้องแต่ละคนเด่นด้านไหน ส่งงานถูกคน และวางแผนพัฒนาได้ตรงจุด
+            </p>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-2 w-full md:w-auto">
+          <label class="text-xs font-semibold text-slate-700 whitespace-nowrap">เลือกลูกน้องที่ทำแบบทดสอบ:</label>
+          <select id="quizSelectTech" onchange="onQuizTechChanged()" class="bg-slate-50 border border-slate-300 rounded-xl px-3 py-2 text-xs sm:text-sm font-medium focus:ring-2 focus:ring-amber-500 flex-1 md:flex-none">
+            <!-- Populated by JS -->
+          </select>
+        </div>
+      </div>
+
+      <!-- Archetypes Legend -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-xs">
+        <div class="p-3.5 rounded-2xl bg-white border border-sky-200 shadow-sm flex items-start gap-3">
+          <div class="w-8 h-8 rounded-lg bg-sky-500 text-white flex items-center justify-center text-sm font-bold flex-shrink-0">⚡</div>
+          <div>
+            <h4 class="font-bold text-sky-900">สายไฟ & สมองกล [A]</h4>
+            <p class="text-[11px] text-slate-500 mt-0.5">ถนัดวงจรไฟ, ตู้คอนโทรล, PLC, เซนเซอร์ และระบบอัตโนมัติ</p>
+          </div>
+        </div>
+
+        <div class="p-3.5 rounded-2xl bg-white border border-amber-200 shadow-sm flex items-start gap-3">
+          <div class="w-8 h-8 rounded-lg bg-amber-500 text-white flex items-center justify-center text-sm font-bold flex-shrink-0">⚙️</div>
+          <div>
+            <h4 class="font-bold text-amber-900">สายพลังกล & ไฮดรอลิก [B]</h4>
+            <p class="text-[11px] text-slate-500 mt-0.5">ถนัดรื้อประกอบเครื่องกล, ปั๊ม, Alignment, สายพาน และระบบลม</p>
+          </div>
+        </div>
+
+        <div class="p-3.5 rounded-2xl bg-white border border-emerald-200 shadow-sm flex items-start gap-3">
+          <div class="w-8 h-8 rounded-lg bg-emerald-500 text-white flex items-center justify-center text-sm font-bold flex-shrink-0">📋</div>
+          <div>
+            <h4 class="font-bold text-emerald-900">สายตรวจเช็ก & PM [C]</h4>
+            <p class="text-[11px] text-slate-500 mt-0.5">ละเอียด รอบคอบ งานบำรุงรักษาเชิงป้องกัน ตรวจความสั่น/ความร้อน</p>
+          </div>
+        </div>
+
+        <div class="p-3.5 rounded-2xl bg-white border border-rose-200 shadow-sm flex items-start gap-3">
+          <div class="w-8 h-8 rounded-lg bg-rose-500 text-white flex items-center justify-center text-sm font-bold flex-shrink-0">🚨</div>
+          <div>
+            <h4 class="font-bold text-rose-900">สายกู้ภัย & นักสืบสาเหตุ [D]</h4>
+            <p class="text-[11px] text-slate-500 mt-0.5">ไหวพริบดี งานด่วนเครื่องดับ นิ่งใต้แรงกดดัน และหาสาเหตุรากเหง้า (RCA)</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quiz Form Container -->
+      <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200/80 space-y-6">
+        <div class="border-b border-slate-200 pb-3 flex items-center justify-between">
+          <h3 class="font-bold text-slate-900 text-sm">คำถามสถานการณ์จำลอง (เลือกข้อที่ตรงกับตัวลูกน้องมากที่สุด)</h3>
+          <span class="text-xs text-slate-500 font-medium" id="quizAnsweredCount">ตอบแล้ว 0/12 ข้อ</span>
+        </div>
+
+        <form id="quizForm" onsubmit="evaluateQuiz(event)" class="space-y-6">
+          <div id="quizQuestionsContainer" class="space-y-6">
+            <!-- Questions rendered by JS -->
+          </div>
+
+          <div class="pt-4 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-3">
+            <span class="text-xs text-slate-500">ตอบให้ครบทุกข้อเพื่อให้การประเมินมีความแม่นยำสูงสุด</span>
+            <div class="flex items-center gap-2 w-full sm:w-auto">
+              <button type="button" onclick="autoFillRandomQuiz()" class="px-3 py-2 text-xs bg-slate-100 hover:bg-slate-200 text-slate-600 rounded-xl transition">
+                <i class="fa-solid fa-dice mr-1"></i> สุ่มตัวอย่าง
+              </button>
+              <button type="submit" class="flex-1 sm:flex-none px-6 py-2.5 text-xs font-bold text-white bg-amber-500 hover:bg-amber-600 rounded-xl shadow-md transition flex items-center justify-center gap-2">
+                <i class="fa-solid fa-magnifying-glass-chart"></i> ตรวจคำตอบ & วิเคราะห์ผลความถนัด
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <!-- Result Card (Initially Hidden) -->
+      <div id="quizResultCard" class="hidden bg-white p-6 rounded-2xl shadow-lg border-2 border-amber-300 space-y-6">
+        <!-- Rendered by JS -->
+      </div>
+    </section>
+
   </main>
 
   <!-- Footer -->
@@ -681,7 +780,7 @@
       </div>
       <div class="p-6 space-y-4 text-xs sm:text-sm">
         <p class="text-slate-600 text-xs">
-          คุณสามารถดาวน์โหลดข้อมูลทั้งหมดเก็บไว้เป็นไฟล์สำรอง (JSON) หรือส่งออกเป็นไฟล์สำหรับเปิดใน Excel (CSV) พร้อมชื่อเล่นได้ตลอดเวลา
+          คุณสามารถดาวน์โหลดข้อมูลทั้งหมดเก็บไว้เป็นไฟล์สำรอง (JSON) หรือส่งออกเป็นไฟล์สำหรับเปิดใน Excel (CSV) พร้อมชื่อเล่นและความถนัดได้ตลอดเวลา
         </p>
         
         <div class="space-y-2">
@@ -707,9 +806,9 @@
   <!-- APPLICATION JAVASCRIPT -->
   <script>
     // -------------------------------------------------------------
-    // DATA STRUCTURE & SAMPLE DATA (พร้อมชื่อเล่นช่าง)
+    // DATA STRUCTURE & SAMPLE DATA (พร้อมชื่อเล่น & ความถนัดช่าง)
     // -------------------------------------------------------------
-    const STORAGE_KEY = 'TECH_COMPETENCY_SYSTEM_DATA_V2';
+    const STORAGE_KEY = 'TECH_COMPETENCY_SYSTEM_DATA_V3';
 
     const SAMPLE_DATA = [
       {
@@ -726,6 +825,12 @@
         phone: '081-234-5678',
         target: 'การบริหารงานซ่อมบำรุง TPM & Autonomous Maint.',
         skills: { electrical: 4, mechanical: 4, pm: 4, rca: 4, safety: 4, comm: 4 },
+        aptitude: {
+          type: 'A',
+          title: 'ช่างสายไฟ & สมองกล (Electrical & Automation)',
+          icon: 'fa-solid fa-bolt text-sky-500',
+          badgeClass: 'bg-sky-50 text-sky-800 border border-sky-300'
+        },
         ojt: {
           p30: [true, true, true, true, true],
           p60: [true, true, true, true],
@@ -747,6 +852,12 @@
         phone: '089-876-5432',
         target: 'เรียนรู้ระบบไฮดรอลิกแรงดันสูงและนิวแมติกส์วาล์วสัดส่วน',
         skills: { electrical: 3, mechanical: 4, pm: 4, rca: 3, safety: 4, comm: 3 },
+        aptitude: {
+          type: 'B',
+          title: 'ช่างสายพลังกล & ไฮดรอลิก (Mechanical & Power)',
+          icon: 'fa-solid fa-gears text-amber-500',
+          badgeClass: 'bg-amber-50 text-amber-800 border border-amber-300'
+        },
         ojt: {
           p30: [true, true, true, true, true],
           p60: [true, true, true, true],
@@ -768,6 +879,12 @@
         phone: '086-555-1234',
         target: 'เขียนโปรแกรม PLC Siemens และอินเวอร์เตอร์ VFD',
         skills: { electrical: 4, mechanical: 2, pm: 3, rca: 3, safety: 3, comm: 3 },
+        aptitude: {
+          type: 'A',
+          title: 'ช่างสายไฟ & สมองกล (Electrical & Automation)',
+          icon: 'fa-solid fa-bolt text-sky-500',
+          badgeClass: 'bg-sky-50 text-sky-800 border border-sky-300'
+        },
         ojt: {
           p30: [true, true, true, true, true],
           p60: [true, true, true, true],
@@ -789,6 +906,12 @@
         phone: '084-111-2233',
         target: 'ฝึกวิเคราะห์การสั่นสะเทือนของปั๊มน้ำและชิลเลอร์',
         skills: { electrical: 2, mechanical: 3, pm: 3, rca: 2, safety: 3, comm: 2 },
+        aptitude: {
+          type: 'C',
+          title: 'ช่างสายตรวจเช็ก & PM (Reliability & PM)',
+          icon: 'fa-solid fa-clipboard-check text-emerald-500',
+          badgeClass: 'bg-emerald-50 text-emerald-800 border border-emerald-300'
+        },
         ojt: {
           p30: [true, true, true, true, true],
           p60: [true, true, true, true],
@@ -810,6 +933,12 @@
         phone: '095-777-8899',
         target: 'ทำความคุ้นเคยเครื่องจักรและระบบตัดไฟ LOTO',
         skills: { electrical: 1, mechanical: 2, pm: 2, rca: 1, safety: 3, comm: 2 },
+        aptitude: {
+          type: 'D',
+          title: 'ช่างสายกู้ภัย & นักสืบสาเหตุ (Breakdown Hunter)',
+          icon: 'fa-solid fa-fire-extinguisher text-rose-500',
+          badgeClass: 'bg-rose-50 text-rose-800 border border-rose-300'
+        },
         ojt: {
           p30: [true, true, true, true, true],
           p60: [true, true, false, false],
@@ -842,9 +971,135 @@
       ]
     };
 
+    // 12 Situational Quiz Questions
+    const QUIZ_QUESTIONS = [
+      {
+        id: 1,
+        q: "1. เมื่อเห็นเครื่องจักรใหม่เพิ่งถูกนำมาติดตั้งในโรงงาน สิ่งแรกที่คุณอยากเข้าไปดูหรือศึกษาคืออะไร?",
+        options: [
+          { type: "A", text: "แผงตู้ควบคุมไฟฟ้า, PLC, อินเวอร์เตอร์ และสายสัญญาณเซนเซอร์" },
+          { type: "B", text: "ชุดขับเคลื่อนมอเตอร์, เฟืองเกียร์, สายพาน, ปั๊ม และกระบอกสูบ" },
+          { type: "C", text: "คู่มือการบำรุงรักษา (Manual), แผนการอัดจารบี และจุดตรวจเช็กประจำวัน" },
+          { type: "D", text: "ขั้นตอนการทำงานจริงของเครื่อง และจุดที่มีโอกาสจะติดขัดหรือพังง่ายที่สุด" }
+        ]
+      },
+      {
+        id: 2,
+        q: "2. เวลาว่างที่ไม่มีงานซ่อมด่วน คุณชอบใช้เวลาไปกับเรื่องไหนมากที่สุด?",
+        options: [
+          { type: "A", text: "ศึกษาวงจรไฟฟ้า (Wiring Diagram) หรือหัดเขียนโค้ด PLC/ดูค่าพารามิเตอร์" },
+          { type: "B", text: "ถอดล้างทำความสะอาดอะไหล่เก่า, หัดตั้งศูนย์ Alignment หรือฝึกรื้อปั๊ม/กระบอกลม" },
+          { type: "C", text: "เดินตรวจเช็กเครื่องตามไลน์, สังเกตเสียงผิดปกติ, วัดความร้อน และจดบันทึกค่า" },
+          { type: "D", text: "คิดค้นเครื่องมือพิเศษ หรือหาวิธีดัดแปลงจุดที่พังบ่อยให้แข็งแรงขึ้น" }
+        ]
+      },
+      {
+        id: 3,
+        q: "3. เมื่อไลน์ผลิตหยุดกะทันหัน ไฟเตือนสีแดงกะพริบ เครื่องนิ่งสนิท คุณจะเริ่มลงมืออย่างไร?",
+        options: [
+          { type: "A", text: "ไปเปิดตู้ไฟ เช็กไฟสถานะของ PLC/รีเลย์ และเอาโอห์มมิเตอร์มาวัดสัญญาณ" },
+          { type: "B", text: "เข้าไปดูส่วนที่มีการเคลื่อนไหว ลองขยับเพลา ตรวจดูว่ามีชิ้นส่วนกลไกติดขัดหรือไม่" },
+          { type: "C", text: "ตรวจสอบประวัติการบำรุงรักษาครั้งล่าสุด เช็กระดับน้ำมันหล่อลื่นและแรงดันลม" },
+          { type: "D", text: "สอบถามพนักงานคุมเครื่องทันทีว่า 'ก่อนเครื่องหยุดเกิดอาการอะไร มีเสียงหรือกลิ่นไหม'" }
+        ]
+      },
+      {
+        id: 4,
+        q: "4. เครื่องมือชิ้นโปรดที่คุณหยิบใช้บ่อยและมั่นใจที่สุดคืออะไร?",
+        options: [
+          { type: "A", text: "มัลติมิเตอร์ (Digital Multimeter), คีมแอมป์, ไขควงเช็กไฟ" },
+          { type: "B", text: "ประแจทอร์ค, ตัวดึงมู่เล่ย์/ลูกปืน (Puller), เวอร์เนียร์คาลิปเปอร์, ฟิลเลอร์เกจ" },
+          { type: "C", text: "ปืนยิงอุณหภูมิอินฟราเรด, เครื่องวัดความสั่นสะเทือน, กระบอกอัดจารบี" },
+          { type: "D", text: "ไฟฉายคาดหัว, ประแจรวมครบชุด, เครื่องมือดัดแปลงเฉพาะตัว" }
+        ]
+      },
+      {
+        id: 5,
+        q: "5. ถ้าหัวหน้ามอบหมายโปรเจกต์พิเศษให้ งานแบบไหนที่คุณทำแล้วมีความสุขที่สุด?",
+        options: [
+          { type: "A", text: "ปรับปรุงระบบควบคุมเครื่องเก่าให้เป็นอัตโนมัติ ติดตั้งเซนเซอร์กันคนเข้าจุดอันตราย" },
+          { type: "B", text: "โอเวอร์ฮอล (Overhaul) เครื่องจักรเก่าทั้งตัว รื้อลูกปืน ล้างเกียร์ ประกอบใหม่ให้เหมือนของใหม่" },
+          { type: "C", text: "ออกแบบแผนและขั้นตอนมาตรฐานการบำรุงรักษา (WI) ของโรงงานใหม่ให้มีระเบียบ" },
+          { type: "D", text: "ตั้งทีมเฉพาะกิจแก้ปัญหาเครื่องจักรอันดับหนึ่งที่ชอบเสียบ่อยให้ลดเวลาหยุดลงให้ได้" }
+        ]
+      },
+      {
+        id: 6,
+        q: "6. จุดแข็งที่คุณคิดว่าตัวเองโดดเด่นกว่าเพื่อนในทีมคืออะไร?",
+        options: [
+          { type: "A", text: "ความจำเรื่องวงจร อ่านแบบลายวงจรเข้าใจได้เร็วกว่าคนอื่น" },
+          { type: "B", text: "ทักษะงานช่างกล การใช้ค้อน สกัด ตะไบ และจับฟีลลิ่งระยะหลวมคลอนได้แม่นยำ" },
+          { type: "C", text: "ความละเอียดรอบคอบ ไม่ปล่อยผ่านจุดเล็กๆ มีวินัยทำตามขั้นตอนสม่ำเสมอ" },
+          { type: "D", text: "ความกล้าตัดสินใจในสถานการณ์คับขัน ไม่ตื่นตระหนกเวลามีคนมายืนกดดัน" }
+        ]
+      },
+      {
+        id: 7,
+        q: "7. เวลาที่เครื่องจักรส่งเสียงดัง 'ผิดปกติ' สิ่งแรกที่คุณคิดถึงคืออะไร?",
+        options: [
+          { type: "A", text: "มอเตอร์กินกระแสเกิน หรือไฟตก/ขับเฟสไม่สมบูรณ์" },
+          { type: "B", text: "ตลับลูกปืนเริ่มแตก, สายพานหย่อน, หรือฟันเฟืองสึกหรอ" },
+          { type: "C", text: "ขาดสารหล่อลื่น หรือไม่ได้อัดจารบีตามระยะเวลาที่กำหนด" },
+          { type: "D", text: "ต้องรีบเข้าไปฟังจุดกำเนิดเสียงเพื่อล็อกเป้าหมายให้เร็วที่สุดก่อนจะลาม" }
+        ]
+      },
+      {
+        id: 8,
+        q: "8. ถ้าต้องไปอบรมเพิ่มทักษะ 1 หลักสูตร คุณอยากเลือกเรียนเรื่องอะไร?",
+        options: [
+          { type: "A", text: "การโปรแกรม PLC ขั้นสูง และการแก้ปัญหาระบบเซอร์โวมอเตอร์ (Servo Drives)" },
+          { type: "B", text: "การบำรุงรักษาระบบไฮดรอลิกเชิงลึก และการตั้งศูนย์เพลาด้วยเลเซอร์ (Laser Alignment)" },
+          { type: "C", text: "การวิเคราะห์ความสั่นสะเทือนและการวิเคราะห์สารหล่อลื่น (Condition Monitoring & PdM)" },
+          { type: "D", text: "เทคนิคการวิเคราะห์หาสาเหตุรากเหง้าแห่งความล้มเหลว (Root Cause Analysis - RCA)" }
+        ]
+      },
+      {
+        id: 9,
+        q: "9. ในการทำงานเป็นทีม คุณมักจะรับบทบาทไหนโดยธรรมชาติ?",
+        options: [
+          { type: "A", text: "ผู้เชี่ยวชาญด้านระบบไฟฟ้า คอยดูเรื่องความปลอดภัยทางไฟและตั้งค่ากล่องควบคุม" },
+          { type: "B", text: "กำลังหลักด้านแรงและทักษะช่างกล รื้อ-ยก-ขัน-ประกอบชิ้นงานหนัก" },
+          { type: "C", text: "คนเตรียมอะไหล่ เช็กลิสต์เครื่องมือ และบันทึกสิ่งที่ต้องตรวจเช็กซ้ำ" },
+          { type: "D", text: "คนบัญชาการวิเคราะห์สถานการณ์หน้างาน วางแผนว่าจะเริ่มแกะจากจุดไหนก่อน" }
+        ]
+      },
+      {
+        id: 10,
+        q: "10. เวลาเห็นน้ำมันไฮดรอลิกหรือลมรั่วซึม คุณจะรู้สึกอย่างไร?",
+        options: [
+          { type: "A", text: "กลัวน้ำมันจะกระเด็นไปโดนตู้ไฟหรือบอร์ดวงจรอิเล็กทรอนิกส์" },
+          { type: "B", text: "อยากรีบถอดเปลี่ยนซีลและขันข้อต่อให้แน่นสนิททันที" },
+          { type: "C", text: "ต้องจดบันทึกลงสมุดตรวจเช็กว่าจุดนี้มีอัตราการรั่วเท่าไร และวางแผนรอบถัดไป" },
+          { type: "D", text: "รีบประเมินว่าแรงดันจะตกจนเครื่องหยุดเดินในกะนี้หรือไม่" }
+        ]
+      },
+      {
+        id: 11,
+        q: "11. คำชมแบบไหนจากหัวหน้าช่างที่ทำให้คุณภูมิใจที่สุด?",
+        options: [
+          { type: "A", text: "'เก่งมาก ไล่วงจรไฟยากๆ หาจุดสายขาดในได้ในเวลาแป๊บเดียว'" },
+          { type: "B", text: "'ฝีมือประกอบเครื่องแน่นหนามาก เสียงเครื่องเดินเงียบสนิทเหมือนใหม่'" },
+          { type: "C", text: "'ดูแลเครื่องได้ดีมาก แทบไม่มีประวัติเครื่องน็อกเลยเพราะตรวจเช็กละเอียด'" },
+          { type: "D", text: "'สุดยอดมาก ไหวพริบดี หน้าสิ่วหน้าขวานช่วยให้ไลน์เดินต่อได้ทันเวลา'" }
+        ]
+      },
+      {
+        id: 12,
+        q: "12. คุณคิดว่าอะไรคือสิ่งที่ทำให้ทีมช่างประสบความสำเร็จสูงสุด?",
+        options: [
+          { type: "A", text: "ความรู้เชิงเทคโนโลยีและการควบคุมอัตโนมัติที่ทันสมัย" },
+          { type: "B", text: "ฝีมือช่างกลที่ประณีต ชิ้นงานมีความเที่ยงตรงสูง" },
+          { type: "C", text: "การบำรุงรักษาเชิงป้องกันอย่างมีวินัย เครื่องจักรพร้อมใช้งานเสมอ" },
+          { type: "D", text: "ความเร็วและการร่วมมือกันแก้ปัญหาเมื่อเกิดเหตุฉุกเฉิน" }
+        ]
+      }
+    ];
+
     let technicians = [];
     let radarChartInstance = null;
     let doughnutChartInstance = null;
+    let quizChartInstance = null;
+    let currentQuizAnswers = {};
 
     // Load initial data
     function initData() {
@@ -869,7 +1124,7 @@
     // NAVIGATION
     // -------------------------------------------------------------
     function switchTab(tabId) {
-      const tabs = ['dashboard', 'technicians', 'skillMatrix', 'ojtTracking', 'shiftBalance'];
+      const tabs = ['dashboard', 'technicians', 'skillMatrix', 'ojtTracking', 'shiftBalance', 'quiz'];
       tabs.forEach(t => {
         const section = document.getElementById(`tab-${t}`);
         const btn = document.getElementById(`btn-${t}`);
@@ -892,6 +1147,10 @@
         renderOjtChecklist();
       }
       if (tabId === 'shiftBalance') renderShiftBalance();
+      if (tabId === 'quiz') {
+        populateQuizDropdown();
+        renderQuizQuestions();
+      }
     }
 
     // -------------------------------------------------------------
@@ -1045,7 +1304,8 @@
           (t.code || '').toLowerCase().includes(search) ||
           (t.role || '').toLowerCase().includes(search) ||
           (t.department || '').toLowerCase().includes(search) ||
-          (t.shift || '').toLowerCase().includes(search)
+          (t.shift || '').toLowerCase().includes(search) ||
+          (t.aptitude?.title || '').toLowerCase().includes(search)
         );
 
         return matchLevel && matchShift && matchSearch;
@@ -1099,6 +1359,19 @@
                 ${avg} (${cat.label.split('(')[0].trim()})
               </span>
             </div>
+
+            ${t.aptitude ? `
+              <div class="mt-3 flex items-center gap-1.5 px-2.5 py-1 rounded-xl text-xs font-semibold ${t.aptitude.badgeClass}">
+                <i class="${t.aptitude.icon}"></i>
+                <span class="truncate">${t.aptitude.title}</span>
+              </div>
+            ` : `
+              <div class="mt-3">
+                <button onclick="takeQuizForTech('${t.id}')" class="text-[11px] text-amber-700 bg-amber-50 hover:bg-amber-100 border border-amber-200 px-2 py-1 rounded-lg transition flex items-center gap-1">
+                  <i class="fa-solid fa-brain text-amber-500"></i> ยังไม่ได้ทำแบบทดสอบความถนัด (กดทำเลย)
+                </button>
+              </div>
+            `}
 
             <div class="mt-4 pt-3 border-t border-slate-100 grid grid-cols-2 gap-2 text-xs text-slate-600">
               <div>
@@ -1404,6 +1677,318 @@
     }
 
     // -------------------------------------------------------------
+    // TAB 6: SKILL APTITUDE QUIZ (แบบทดสอบความถนัด)
+    // -------------------------------------------------------------
+    function populateQuizDropdown() {
+      const select = document.getElementById('quizSelectTech');
+      select.innerHTML = '';
+      technicians.forEach(t => {
+        const opt = document.createElement('option');
+        opt.value = t.id;
+        const nickDisplay = t.nickname ? ` (${t.nickname})` : '';
+        const aptDisplay = t.aptitude ? ` • [${t.aptitude.title.split('(')[0].trim()}]` : ' • [ยังไม่ทดสอบ]';
+        opt.innerText = `${t.name}${nickDisplay}${aptDisplay}`;
+        select.appendChild(opt);
+      });
+    }
+
+    function onQuizTechChanged() {
+      currentQuizAnswers = {};
+      document.getElementById('quizForm').reset();
+      updateQuizProgress();
+      document.getElementById('quizResultCard').classList.add('hidden');
+    }
+
+    function takeQuizForTech(techId) {
+      switchTab('quiz');
+      const select = document.getElementById('quizSelectTech');
+      select.value = techId;
+      onQuizTechChanged();
+    }
+
+    function renderQuizQuestions() {
+      const container = document.getElementById('quizQuestionsContainer');
+      container.innerHTML = '';
+
+      QUIZ_QUESTIONS.forEach(item => {
+        const qCard = document.createElement('div');
+        qCard.className = 'p-4 rounded-xl border border-slate-200 bg-slate-50/50 hover:bg-slate-50 transition space-y-3';
+        
+        let optionsHtml = item.options.map(opt => `
+          <label class="flex items-start gap-3 p-3 rounded-xl border border-slate-200 bg-white hover:border-amber-400 hover:bg-amber-50/30 cursor-pointer transition text-xs sm:text-sm">
+            <input type="radio" name="q_${item.id}" value="${opt.type}" onchange="recordQuizAnswer(${item.id}, '${opt.type}')" 
+              class="mt-0.5 text-amber-500 focus:ring-amber-400 h-4 w-4">
+            <div class="leading-relaxed">
+              <span class="font-bold text-amber-700 mr-1">[ข้อ ${opt.type}]</span>
+              <span class="text-slate-700">${opt.text}</span>
+            </div>
+          </label>
+        `).join('');
+
+        qCard.innerHTML = `
+          <h4 class="font-bold text-slate-900 text-xs sm:text-sm">${item.q}</h4>
+          <div class="space-y-2 mt-2">
+            ${optionsHtml}
+          </div>
+        `;
+        container.appendChild(qCard);
+      });
+
+      updateQuizProgress();
+    }
+
+    function recordQuizAnswer(questionId, choiceType) {
+      currentQuizAnswers[questionId] = choiceType;
+      updateQuizProgress();
+    }
+
+    function updateQuizProgress() {
+      const answered = Object.keys(currentQuizAnswers).length;
+      document.getElementById('quizAnsweredCount').innerText = `ตอบแล้ว ${answered}/12 ข้อ`;
+      if (answered === 12) {
+        document.getElementById('quizAnsweredCount').className = 'text-xs text-emerald-600 font-bold';
+      } else {
+        document.getElementById('quizAnsweredCount').className = 'text-xs text-slate-500 font-medium';
+      }
+    }
+
+    function autoFillRandomQuiz() {
+      const types = ['A', 'B', 'C', 'D'];
+      QUIZ_QUESTIONS.forEach(item => {
+        const chosen = types[Math.floor(Math.random() * types.length)];
+        const input = document.querySelector(`input[name="q_${item.id}"][value="${chosen}"]`);
+        if (input) {
+          input.checked = true;
+          currentQuizAnswers[item.id] = chosen;
+        }
+      });
+      updateQuizProgress();
+    }
+
+    function evaluateQuiz(e) {
+      e.preventDefault();
+      const answered = Object.keys(currentQuizAnswers).length;
+      if (answered < 12) {
+        alert(`คุณตอบไปแล้ว ${answered}/12 ข้อ กรุณาตอบให้ครบทั้ง 12 ข้อเพื่อความแม่นยำครับ`);
+        return;
+      }
+
+      // Count scores
+      let counts = { A: 0, B: 0, C: 0, D: 0 };
+      Object.values(currentQuizAnswers).forEach(val => {
+        if (counts[val] !== undefined) counts[val]++;
+      });
+
+      // Find highest archetype
+      let topType = 'A';
+      let maxScore = counts.A;
+      ['B', 'C', 'D'].forEach(t => {
+        if (counts[t] > maxScore) {
+          maxScore = counts[t];
+          topType = t;
+        }
+      });
+
+      // Archetype definitions
+      const archetypes = {
+        A: {
+          title: 'ช่างสายไฟ & สมองกล (Electrical & Automation)',
+          badgeClass: 'bg-sky-100 text-sky-900 border-2 border-sky-300',
+          icon: 'fa-solid fa-bolt text-sky-600',
+          bannerBg: 'from-sky-900 to-indigo-950',
+          desc: 'มีจุดเด่นด้านตรรกะและการควบคุม เข้าใจวงจรไฟฟ้า อ่านแบบ Wiring Diagram ได้แม่นยำ วิเคราะห์ระบบเซนเซอร์ อินเวอร์เตอร์ และ PLC ได้รวดเร็ว',
+          roleFit: 'ช่างไฟฟ้าประจำกะ, ผู้รับผิดชอบตู้คอนโทรล MDB/MCC, ซ่อมบำรุงระบบอัตโนมัติ และงานเครื่องมือวัด',
+          training: 'การโปรแกรม PLC Siemens/Mitsubishi, ระบบ Servo Drive, SCADA และมาตรฐานความปลอดภัยทางไฟฟ้า NFPA 70E',
+          buddyFit: 'ประกบคู่กับช่างสายพลังกล (Type B) เพื่อให้กะมีความสมบูรณ์แบบทั้งกลและไฟฟ้า'
+        },
+        B: {
+          title: 'ช่างสายพลังกล & ไฮดรอลิก (Mechanical & Power)',
+          badgeClass: 'bg-amber-100 text-amber-900 border-2 border-amber-300',
+          icon: 'fa-solid fa-gears text-amber-600',
+          bannerBg: 'from-amber-900 to-slate-950',
+          desc: 'มีทักษะช่างกลสูง งานรื้อ-ประกอบแม่นยำ มีความรู้สึกสัมผัสเรื่องระยะหลวมคลอน (Tolerance) เชี่ยวชาญระบบส่งกำลัง เกียร์ ปั๊ม สายพาน และระบบไฮดรอลิก/นิวแมติกส์',
+          roleFit: 'ช่าง Overhaul เครื่องจักร, ซ่อมโครงสร้างกลไก, ซ่อมบำรุงระบบขับเคลื่อน, ปั๊ม วาล์ว และการติดตั้งเครื่องจักรใหม่',
+          training: 'ระบบไฮดรอลิกเชิงลึก (Electro-Hydraulics), การตั้งศูนย์เพลาด้วยเลเซอร์ (Laser Alignment), งานเชื่อมซ่อมบำรุงเฉพาะทาง',
+          buddyFit: 'ประกบคู่กับช่างสายไฟ (Type A) หรือช่างสายตรวจเช็ก (Type C)'
+        },
+        C: {
+          title: 'ช่างสายตรวจเช็ก & PM (Reliability & PM)',
+          badgeClass: 'bg-emerald-100 text-emerald-900 border-2 border-emerald-300',
+          icon: 'fa-solid fa-clipboard-check text-emerald-600',
+          bannerBg: 'from-emerald-950 to-slate-950',
+          desc: 'มีความละเอียดรอบคอบสูงมาก ไม่ปล่อยผ่านความผิดปกติเล็กๆ มีวินัยในการบำรุงรักษาเชิงป้องกัน (PM) จดบันทึกและดูแลเครื่องตามมาตรฐาน WI ได้อย่างไร้ที่ติ',
+          roleFit: 'หัวหน้ารับผิดชอบงาน Preventive Maintenance, ทำเอกสาร WI, คุมระบบ 5ส, สต๊อกอะไหล่ และงาน Condition Monitoring',
+          training: 'การวิเคราะห์การสั่นสะเทือน (Vibration Analysis Category I), การถ่ายภาพความร้อนอินฟราเรด (Thermography), TPM',
+          buddyFit: 'ทำงานได้ดีกับทุกสาย คอยช่วยเตรียมความพร้อมให้อะไหล่และเครื่องมือไม่ขาด'
+        },
+        D: {
+          title: 'ช่างสายกู้ภัย & นักสืบสาเหตุ (Breakdown Hunter)',
+          badgeClass: 'bg-rose-100 text-rose-900 border-2 border-rose-300',
+          icon: 'fa-solid fa-fire-extinguisher text-rose-600',
+          bannerBg: 'from-rose-950 to-slate-950',
+          desc: 'มีไหวพริบยอดเยี่ยม คิดเร็วทำเร็ว ไม่ลนลานในภาวะคับขัน กล้าตัดสินใจหน้างาน และมีความเป็นนักสืบในการวิเคราะห์หาสาเหตุรากเหง้า (RCA)',
+          roleFit: 'มือหนึ่งรับแจ้งเหตุ Breakdown ฉุกเฉิน, สแตนด์บายกะดึก, เป็นคนนำการประชุมสรุปบทเรียนหลังซ่อม (AAR)',
+          training: 'เทคนิค Root Cause Failure Analysis (RCFA), Why-Why Analysis, การบริหารความกดดันและการสื่อสารหน้างาน',
+          buddyFit: 'ประกบคู่กับช่างใหม่เพื่อถ่ายทอดเทคนิค หรือประกบกับช่างสายไฟเพื่อให้ตัดสินใจได้เฉียบคม'
+        }
+      };
+
+      const result = archetypes[topType];
+      const selectedId = document.getElementById('quizSelectTech').value;
+      const tech = technicians.find(t => t.id === selectedId);
+
+      const resultCard = document.getElementById('quizResultCard');
+      resultCard.classList.remove('hidden');
+
+      resultCard.innerHTML = `
+        <div class="bg-gradient-to-r ${result.bannerBg} text-white p-6 rounded-2xl flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+          <div>
+            <span class="text-xs uppercase tracking-wider text-amber-300 font-bold flex items-center gap-1.5">
+              <i class="fa-solid fa-award"></i> สรุปผลความถนัดเด่นของพนักงาน
+            </span>
+            <h3 class="text-xl sm:text-2xl font-bold mt-1 text-white flex items-center gap-2">
+              ${tech ? tech.name : 'พนักงานช่าง'}
+              ${tech?.nickname ? `<span class="text-sm bg-white/20 text-white px-2 py-0.5 rounded-full font-normal">(${tech.nickname})</span>` : ''}
+            </h3>
+            <p class="text-base text-amber-300 font-semibold mt-1">
+              <i class="${result.icon}"></i> ${result.title}
+            </p>
+          </div>
+          <div class="flex items-center gap-2">
+            <button onclick="window.print()" class="px-3.5 py-2 text-xs bg-white/10 hover:bg-white/20 text-white rounded-xl border border-white/20 transition flex items-center gap-1.5 no-print">
+              <i class="fa-solid fa-print"></i> พิมพ์ผลทดสอบ
+            </button>
+            <button onclick="saveAptitudeToTech('${tech?.id}', '${topType}')" class="px-4 py-2 text-xs bg-amber-400 hover:bg-amber-300 text-slate-900 font-bold rounded-xl shadow-md transition flex items-center gap-1.5 no-print">
+              <i class="fa-solid fa-floppy-disk"></i> บันทึกลงในโปรไฟล์ช่าง
+            </button>
+          </div>
+        </div>
+
+        <!-- Scores Breakdown & Chart -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="bg-slate-50 p-4 rounded-2xl border border-slate-200">
+            <h4 class="font-bold text-slate-800 text-sm mb-3 flex items-center gap-2">
+              <i class="fa-solid fa-chart-column text-amber-500"></i> สัดส่วนคะแนนความถนัด 4 ด้าน
+            </h4>
+            <div class="h-56">
+              <canvas id="quizBarChart"></canvas>
+            </div>
+          </div>
+
+          <div class="space-y-3 text-xs">
+            <h4 class="font-bold text-slate-800 text-sm">การกระจายคะแนน (เต็ม 12 คะแนน):</h4>
+            <div class="p-3 rounded-xl border bg-white flex items-center justify-between">
+              <span class="font-medium text-slate-800">⚡ สายไฟ & สมองกล [A]:</span>
+              <span class="font-bold text-sky-700 bg-sky-50 px-2 py-0.5 rounded-full">${counts.A} คะแนน (${Math.round((counts.A/12)*100)}%)</span>
+            </div>
+            <div class="p-3 rounded-xl border bg-white flex items-center justify-between">
+              <span class="font-medium text-slate-800">⚙️ สายพลังกล & ไฮดรอลิก [B]:</span>
+              <span class="font-bold text-amber-700 bg-amber-50 px-2 py-0.5 rounded-full">${counts.B} คะแนน (${Math.round((counts.B/12)*100)}%)</span>
+            </div>
+            <div class="p-3 rounded-xl border bg-white flex items-center justify-between">
+              <span class="font-medium text-slate-800">📋 สายตรวจเช็ก & PM [C]:</span>
+              <span class="font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full">${counts.C} คะแนน (${Math.round((counts.C/12)*100)}%)</span>
+            </div>
+            <div class="p-3 rounded-xl border bg-white flex items-center justify-between">
+              <span class="font-medium text-slate-800">🚨 สายกู้ภัย & นักสืบสาเหตุ [D]:</span>
+              <span class="font-bold text-rose-700 bg-rose-50 px-2 py-0.5 rounded-full">${counts.D} คะแนน (${Math.round((counts.D/12)*100)}%)</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recommendations for Supervisor -->
+        <div class="p-5 rounded-2xl bg-amber-50/60 border border-amber-200 space-y-3 text-xs">
+          <h4 class="font-bold text-amber-900 text-sm flex items-center gap-2">
+            <i class="fa-solid fa-lightbulb text-amber-500"></i> ข้อแนะนำสำหรับหัวหน้าช่างในการบริหารและมอบหมายงาน:
+          </h4>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-3 pt-2">
+            <div class="bg-white p-3.5 rounded-xl border border-amber-200">
+              <span class="font-bold text-slate-900 block mb-1">🎯 งานที่ควรส่งให้ทำ:</span>
+              <p class="text-slate-600">${result.roleFit}</p>
+            </div>
+            <div class="bg-white p-3.5 rounded-xl border border-amber-200">
+              <span class="font-bold text-slate-900 block mb-1">📚 คอร์สที่ควรส่งไปเรียน:</span>
+              <p class="text-slate-600">${result.training}</p>
+            </div>
+            <div class="bg-white p-3.5 rounded-xl border border-amber-200">
+              <span class="font-bold text-slate-900 block mb-1">🤝 คู่บัดดี้ที่เหมาะสม:</span>
+              <p class="text-slate-600">${result.buddyFit}</p>
+            </div>
+          </div>
+        </div>
+      `;
+
+      // Render Bar Chart
+      setTimeout(() => {
+        const barCtx = document.getElementById('quizBarChart')?.getContext('2d');
+        if (barCtx) {
+          if (quizChartInstance) quizChartInstance.destroy();
+          quizChartInstance = new Chart(barCtx, {
+            type: 'bar',
+            data: {
+              labels: ['สายไฟ (A)', 'สายกล (B)', 'ตรวจเช็ก (C)', 'กู้ภัย (D)'],
+              datasets: [{
+                label: 'คะแนนที่ได้',
+                data: [counts.A, counts.B, counts.C, counts.D],
+                backgroundColor: ['#0284c7', '#f59e0b', '#10b981', '#f43f5e'],
+                borderRadius: 8
+              }]
+            },
+            options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              scales: {
+                y: { beginAtZero: true, max: 12, ticks: { stepSize: 2 } }
+              },
+              plugins: { legend: { display: false } }
+            }
+          });
+        }
+      }, 100);
+
+      // Scroll smoothly to result
+      resultCard.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function saveAptitudeToTech(techId, topType) {
+      const tech = technicians.find(t => t.id === techId);
+      if (!tech) return;
+
+      const archetypes = {
+        A: {
+          type: 'A',
+          title: 'ช่างสายไฟ & สมองกล (Electrical & Automation)',
+          icon: 'fa-solid fa-bolt text-sky-500',
+          badgeClass: 'bg-sky-50 text-sky-800 border border-sky-300'
+        },
+        B: {
+          type: 'B',
+          title: 'ช่างสายพลังกล & ไฮดรอลิก (Mechanical & Power)',
+          icon: 'fa-solid fa-gears text-amber-500',
+          badgeClass: 'bg-amber-50 text-amber-800 border border-amber-300'
+        },
+        C: {
+          type: 'C',
+          title: 'ช่างสายตรวจเช็ก & PM (Reliability & PM)',
+          icon: 'fa-solid fa-clipboard-check text-emerald-500',
+          badgeClass: 'bg-emerald-50 text-emerald-800 border border-emerald-300'
+        },
+        D: {
+          type: 'D',
+          title: 'ช่างสายกู้ภัย & นักสืบสาเหตุ (Breakdown Hunter)',
+          icon: 'fa-solid fa-fire-extinguisher text-rose-500',
+          badgeClass: 'bg-rose-50 text-rose-800 border border-rose-300'
+        }
+      };
+
+      tech.aptitude = archetypes[topType];
+      saveData();
+      renderTechList();
+      populateQuizDropdown();
+      alert(`บันทึกผลความถนัดของ ${tech.name} เรียบร้อยแล้ว! ข้อมูลจะแสดงในการ์ดช่างทันที`);
+    }
+
+    // -------------------------------------------------------------
     // MODAL & CRUD
     // -------------------------------------------------------------
     function openAddModal() {
@@ -1509,6 +2094,7 @@
       renderTechList();
       renderSkillMatrix();
       populateOjtDropdown();
+      populateQuizDropdown();
     }
 
     function deleteTechnician(id) {
@@ -1519,6 +2105,7 @@
         renderTechList();
         renderSkillMatrix();
         populateOjtDropdown();
+        populateQuizDropdown();
       }
     }
 
@@ -1544,7 +2131,7 @@
     }
 
     function exportToCSV() {
-      let csvContent = "\uFEFFลำดับ,รหัสพนักงาน,ชื่อ-นามสกุล,ชื่อเล่น,ตำแหน่ง,แผนก,กะทำงาน,สถานะ,ไฟฟ้า&คอนโทรล,เครื่องกล&ลม,งานPM,วิเคราะห์ปัญหา,ความปลอดภัย,การส่งกะ,คะแนนเฉลี่ย,พี่เลี้ยง,เบอร์โทร\n";
+      let csvContent = "\uFEFFลำดับ,รหัสพนักงาน,ชื่อ-นามสกุล,ชื่อเล่น,ตำแหน่ง,แผนก,กะทำงาน,สถานะ,ความถนัดเด่น,ไฟฟ้า&คอนโทรล,เครื่องกล&ลม,งานPM,วิเคราะห์ปัญหา,ความปลอดภัย,การส่งกะ,คะแนนเฉลี่ย,พี่เลี้ยง,เบอร์โทร\n";
 
       technicians.forEach((t, i) => {
         const avg = calculateAvg(t.skills);
@@ -1557,6 +2144,7 @@
           `"${t.department || ''}"`,
           `"${t.shift || ''}"`,
           `"${t.status || ''}"`,
+          `"${t.aptitude?.title || 'ยังไม่ทดสอบ'}"`,
           t.skills?.electrical || 1,
           t.skills?.mechanical || 1,
           t.skills?.pm || 1,
@@ -1599,6 +2187,7 @@
             renderTechList();
             renderSkillMatrix();
             populateOjtDropdown();
+            populateQuizDropdown();
             alert('นำเข้าและกู้คืนข้อมูลสำเร็จเรียบร้อย!');
           } else {
             alert('รูปแบบไฟล์ไม่ถูกต้อง');
@@ -1618,6 +2207,7 @@
         renderTechList();
         renderSkillMatrix();
         populateOjtDropdown();
+        populateQuizDropdown();
       }
     }
 
@@ -1630,6 +2220,7 @@
       renderTechList();
       renderSkillMatrix();
       populateOjtDropdown();
+      populateQuizDropdown();
     });
   </script>
 </body>
